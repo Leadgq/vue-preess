@@ -2,6 +2,7 @@ module.exports = {
   title: '我的文档地址',
   description: '在线文档地址',
   themeConfig: {
+    sidebarDepth:2,
     smoothScroll: true,
     nav: [
       {text: '主页', link: '/'},
