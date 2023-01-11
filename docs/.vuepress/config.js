@@ -14,16 +14,17 @@ module.exports = {
         ],
       },
       {
-        text: '基础知识', 
+        text: '基础知识',
         items: [
           {text: '正则', link: '/base/reg'},
           {text: '数组', link: '/base/arr'},
+          {text: '对象', link: '/base/object'},
         ]
       }
     ],
     sidebar: {
       '/config/': ['vite-config', 'tailwindcss'],
-      '/base/': ['reg','arr'],
+      '/base/': ['reg','arr','object'],
     }
   },
 }
