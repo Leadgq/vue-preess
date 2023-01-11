@@ -23,7 +23,7 @@ JavaScript 数组复制操作创建浅拷贝。（所有 JavaScript 对象的标
 Array.prototype.forEach(); // 不可打断。因为迭代器
 // for ... of
 // for
-```
+``` 
 
 ## 数组取
 
