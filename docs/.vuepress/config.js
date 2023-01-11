@@ -14,6 +14,7 @@ module.exports = {
           {text: '对象', link: '/base/object'},
         ]
       },
+      {text: '常用插件', link: '/plugin/plugin'},
       {
         text: '常用配置',
         items: [
@@ -25,6 +26,7 @@ module.exports = {
     sidebar: {
       '/config/': ['vite-config', 'tailwindcss'],
       '/base/': ['reg', 'arr', 'object'],
+      '/plugin/': ['plugin'],
     }
   },
 }
