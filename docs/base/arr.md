@@ -146,9 +146,12 @@ Array.prototype.groupToMap();
 ## 数组this
 
 ```js
+// 传递数组参数
 Function.prototype.apply(this, Array);
+// 返回一个函数
 Function.prototype.bind(this);
-Function.prototype.call();
+// 传递多个参数
+Function.prototype.call(this, a, b);
 ```
 
 ## 数组杂项
@@ -166,12 +169,12 @@ entries();
 
 ```ts
 const flattenArray = (arr: TreeData[]): TreeData[] => {
-  return arr.reduce((prev: TreeData[], cur: TreeData) => {
-    const { children } = cur;
-    return isAvailableArray(children)
-      ? prev.concat(flattenArray(children))
-      : prev.concat(cur);
-  }, []);
+    return arr.reduce((prev: TreeData[], cur: TreeData) => {
+        const {children} = cur;
+        return isAvailableArray(children)
+            ? prev.concat(flattenArray(children))
+            : prev.concat(cur);
+    }, []);
 };
 ```
 
@@ -179,14 +182,14 @@ const flattenArray = (arr: TreeData[]): TreeData[] => {
 
 ```ts
 const toFlatArray = (tree: TreeData[], parentId?: string): TreeData[] => {
-  return tree.reduce((treeArray: TreeData[], cur) => {
-    const child = cur.children;
-    return [
-      ...treeArray,
-      parentId ? Object.assign(cur, { parentId }) : cur,
-      ...(isAvailableArray(child) ? toFlatArray(child, cur.key) : []),
-    ];
-  }, []);
+    return tree.reduce((treeArray: TreeData[], cur) => {
+        const child = cur.children;
+        return [
+            ...treeArray,
+            parentId ? Object.assign(cur, {parentId}) : cur,
+            ...(isAvailableArray(child) ? toFlatArray(child, cur.key) : []),
+        ];
+    }, []);
 };
 ```
 
@@ -194,15 +197,15 @@ const toFlatArray = (tree: TreeData[], parentId?: string): TreeData[] => {
 
 ```ts
 const findTreeChildrenNode = (arr: TreeData[], id: string): TreeData[] => {
-  const nodeId = id;
-  const flattenList = flattenArray(arr);
-  const nodeList = flattenArray(
-    flattenList.filter((item) => item.key === nodeId)
-  );
-  // 不包括当前节点
-  return isAvailableArray(nodeList)
-    ? nodeList.filter((item) => item.key !== nodeId)
-    : [];
+    const nodeId = id;
+    const flattenList = flattenArray(arr);
+    const nodeList = flattenArray(
+        flattenList.filter((item) => item.key === nodeId)
+    );
+    // 不包括当前节点
+    return isAvailableArray(nodeList)
+        ? nodeList.filter((item) => item.key !== nodeId)
+        : [];
 };
 ```
 
@@ -216,42 +219,42 @@ const findTreeChildrenNode = (arr: TreeData[], id: string): TreeData[] => {
  * @return { TreeData[] }
  */
 const getParentObjectByKeys = (
-  flatArray: TreeData[] | Ref<TreeData[]>,
-  nodeId: string,
-  linealNode: boolean,
-  pass = false
-): TreeData[] => {
-  let parentArray: TreeData[] = [];
-  let child = flatArray.find((tree) => tree.key === nodeId);
-  // 寻找全部父节点，递归
-  if (!linealNode) {
-    while (child) {
-      parentArray = parentArray.concat(child);
-      child = flatArray.find((tree) => tree.key === child?.parentId);
-    } 
-  } else {
-    // 寻找直系节点
-    if (child) {
-      let linealParentNode = flatArray.find(
-        (tree) => tree.key === child?.parentId
-      );
-      if (linealParentNode) parentArray = parentArray.concat(linealParentNode);
-    }
-  }
-  if (pass) {
-    return parentArray;
-  } else {
-    return parentArray.filter((item) => item.key !== nodeId);
-  }
-};
+        flatArray: TreeData[] | Ref<TreeData[]>,
+        nodeId: string,
+        linealNode: boolean,
+        pass = false
+    ): TreeData[] => {
+        let parentArray: TreeData[] = [];
+        let child = flatArray.find((tree) => tree.key === nodeId);
+        // 寻找全部父节点，递归
+        if (!linealNode) {
+            while (child) {
+                parentArray = parentArray.concat(child);
+                child = flatArray.find((tree) => tree.key === child?.parentId);
+            }
+        } else {
+            // 寻找直系节点
+            if (child) {
+                let linealParentNode = flatArray.find(
+                    (tree) => tree.key === child?.parentId
+                );
+                if (linealParentNode) parentArray = parentArray.concat(linealParentNode);
+            }
+        }
+        if (pass) {
+            return parentArray;
+        } else {
+            return parentArray.filter((item) => item.key !== nodeId);
+        }
+    };
 ```
 
 ## 获取当前节点所有兄弟节点
 
 ```ts
-const findAllBrotherNode = (tree: TreeData[],  nodeId: string): TreeData[] | [] => {
+const findAllBrotherNode = (tree: TreeData[], nodeId: string): TreeData[] | [] => {
     // 获取直系父节点
-    const parentNode = getParentObjectByKeys(tree, nodeId,true);
+    const parentNode = getParentObjectByKeys(tree, nodeId, true);
     const key = parentNode.at(0)?.key;
     if (parentNode && key) {
         // 获取当前父节点所有子节点
