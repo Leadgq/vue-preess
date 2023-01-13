@@ -14,6 +14,12 @@ module.exports = {
           {text: '对象', link: '/base/object'},
         ]
       },
+      {
+        text: '题库',
+        items: [
+          {text: '三星难度', link: '/question/max'}
+        ]
+      },
       {text: '常用插件', link: '/plugin/plugin'},
       {
         text: '常用配置',
@@ -27,6 +33,7 @@ module.exports = {
       '/config/': ['vite-config', 'tailwindcss'],
       '/base/': ['reg', 'arr', 'object'],
       '/plugin/': ['plugin'],
+      '/question/': ['max']
     }
   },
 }

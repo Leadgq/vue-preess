@@ -172,7 +172,7 @@ const flattenArray = (arr: TreeData[]): TreeData[] => {
     return arr.reduce((prev: TreeData[], cur: TreeData) => {
         const {children} = cur;
         return isAvailableArray(children)
-            ? prev.concat(flattenArray(children))
+            ? prev.concat(flattenArray(children),cur)
             : prev.concat(cur);
     }, []);
 };
