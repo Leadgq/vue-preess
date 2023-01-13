@@ -5,7 +5,7 @@
 ```js
 import FileSaver from "file-saver";
 
-FileSaver.saveAs(blod对象 | 地址, 它的名字是什么);
+FileSaver.saveAs(blob对象 | 地址, 它的名字是什么);
 ```
 
 ## 富文本编译器
