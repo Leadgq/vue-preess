@@ -17,7 +17,7 @@ module.exports = {
       {
         text: '题库',
         items: [
-          {text: '三星难度', link: '/question/max'}
+          {text: '树', link: '/question/tree'}
         ]
       },
       {text: '常用插件', link: '/plugin/plugin'},
@@ -33,7 +33,7 @@ module.exports = {
       '/config/': ['vite-config', 'tailwindcss'],
       '/base/': ['reg', 'arr', 'object'],
       '/plugin/': ['plugin'],
-      '/question/': ['max']
+      '/question/': ['tree']
     }
   },
 }
