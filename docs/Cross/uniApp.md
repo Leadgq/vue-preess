@@ -110,6 +110,7 @@ npm install uview-plus
 ```
 
 ```js
+// 来到main.js
 import uviewPlus from 'uview-plus'
 
 app.use(uviewPlus)
@@ -138,4 +139,30 @@ uni.$u.config.unit = 'rpx'
         }
     }
 }
+```
+## 页面级上拉加载、下拉刷新
+
+```handlebars
+    {
+        "path": "pages/index/test",
+        "style": {
+        "navigationBarTitleText": "测试",
+        "onReachBottomDistance": 0,
+        "enablePullDownRefresh": true
+        }
+    }
+```
+
+```vue
+<script setup>
+import {onPullDownRefresh, onReachBottom} from '@dcloudio/uni-app';
+import {ref} from "vue";
+let data = ref([])
+onPullDownRefresh(() => {
+  setTimeout(() => uni.stopPullDownRefresh(), 200)
+})
+onReachBottom(() => {
+  console.log("12345")
+})
+</script>
 ```
