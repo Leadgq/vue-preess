@@ -164,13 +164,15 @@ function findNode(obj, target) {
 ```
 
 ## 对象字符串转化成树形结构
+
 ```js
-let strArr = {  
-  'a-b-c-d':1,  
-  'a-b-c-e':2,  
-  'a-b-f':3,  
-  'a-j':4  
-}  
+let strArr = {
+  'a-b-c-d': 1,
+  'a-b-c-e': 2,
+  'a-b-f': 3,
+  'a-j': 4
+}
+
 function transformation(obj) {
   return Object.keys(obj).reduce((acc, cur) => {
     const keys = cur.split("-");
@@ -187,67 +189,67 @@ function transformation(obj) {
   }, {});
 }
 ```
+
 ## 获取树结构中的name
 
 ```js
 let data = [
+  {
+    "name": "1-1",
+    "kind": "oo",
+    "children": [
       {
-          "name": "1-1",
-          "kind": "oo",
-          "children": [
-              {
-                  "name": "2-2",
-                  "kind": "ii",
+        "name": "2-2",
+        "kind": "ii",
 
-              },
+      },
+      {
+        "name": "3-3",
+        "children": [
+          {
+            "name": "4-4",
+            "children": [
               {
-                  "name": "3-3",
-                  "children": [
-                      {
-                          "name": "4-4",
-                          "children": [
-                              {
-                                  "name": '707'
-                              }
-                          ]
-                      }
-                  ]
+                "name": '707'
               }
-          ]
-      },
-      {
-          "name": "5-5",
-      },
-      {
-          "name": "6-6"
+            ]
+          }
+        ]
       }
-  ]
+    ]
+  },
+  {
+    "name": "5-5",
+  },
+  {
+    "name": "6-6"
+  }
+]
+
 function getName(data, key = "name") {
   let result = [];
+
   function dfs(data, key) {
     data.forEach((item) => {
       if (item[key]) result.push(item[key]);
       if (item.children && item.children.length > 0) dfs(item.children, key);
     });
   }
+
   dfs(data, key);
   return result;
 }
 
-function getName2(data,key = 'name'){
-  let  result = [];
-  if(Array.isArray(data)){
-    for(let item of  data){
-      if(item[key]){
-        result.push(item[key])
-      }
-      if(item.children && item.children.length > 0){
-        result =  result.concat(item.children);
-      }
+function getName2(data, key = 'name') {
+  let result = [];
+  if (Array.isArray(data)) {
+    for (let item of data) {
+      if (item[key]) result.push(item[key])
+      if (item.children && item.children.length > 0) result = result.concat(item.children);
     }
     return result;
   } else {
-    return  result;
+    return result;
   }
 }
 ```

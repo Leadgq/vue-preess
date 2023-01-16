@@ -15,6 +15,12 @@ module.exports = {
         ]
       },
       {
+        text: '跨端',
+        items: [
+          {text: 'uniApp', link: '/Cross/uniApp'}
+        ]
+      },
+      {
         text: '题库',
         items: [
           {text: '树', link: '/question/tree'}
@@ -33,7 +39,8 @@ module.exports = {
       '/config/': ['vite-config', 'tailwindcss'],
       '/base/': ['reg', 'arr', 'object'],
       '/plugin/': ['plugin'],
-      '/question/': ['tree']
+      '/question/': ['tree'],
+      '/Cross/': ['uniApp'],
     }
   },
 }
