@@ -1,5 +1,37 @@
 # 常用插件
 
+## vue数据缓存
+
+```shell
+pnpm i pinia-plugin-persistedstate
+```
+
+```js  
+// 来到main.js
+import {createPinia} from 'pinia'
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+
+const pinia = createPinia()
+pinia.use(piniaPluginPersistedstate)
+```
+
+```js 
+// 来到你的store、之后不在需要由你控制、自动帮你缓存
+import {defineStore} from 'pinia'
+
+export const useStore = defineStore('store', {
+  state: () => {
+    return {
+      someState: 'hello pinia',
+    }
+  },
+  persist: {
+    storage: sessionStorage,
+    paths: ['someState'],
+  },
+})
+```
+
 ## h5文件下载
 
 ```js
