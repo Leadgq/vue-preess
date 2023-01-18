@@ -258,3 +258,23 @@ npm install dayjs --save
 ```
 
 [gitHub中文地址](https://github.com/iamkun/dayjs/)
+
+
+## 西瓜视频
+
+```shell
+npm install xgplayer
+```
+
+```html
+<div id="mse"></div>
+```
+
+```js
+import Player from 'xgplayer';
+let player = new Player({
+  id: 'mse',
+  url: '//abc.com/**/*.mp4',
+  lang: 'zh-cn'
+});
+```

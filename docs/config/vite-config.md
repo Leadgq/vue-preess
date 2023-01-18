@@ -31,17 +31,19 @@ server: {
 
 <p>导入<i style="color: red">hook</i>可以让你节省对方法的导入比如ref,reactive</p>
 
-```vue3
+```js
  import {ref} from  "vue"
 ```
 
-```
+```js
 import AutoImport from "unplugin-auto-import/vite";
 plugins:[
        AutoImport({
                 imports: ['vue', 'vue-router', '@vueuse/core', {
                     '@vueuse/math': ['useSum']
                 }],
+                // 什么地方可以使用自动导入 
+                include: [/\.vue$/, /\.vue\?vue/, /\.md$/,/\.nvue$/],
                 dts: "src/auto-import.d.ts"
             })
 ]
@@ -55,7 +57,7 @@ plugins:[
 <el-button>按钮</el-button> 在页面中就可以直接使用
 ```
 
-```handlebars
+```js
 import Components from "unplugin-vue-components/vite";
 import { AntDesignVueResolver, ElementPlusResolver } from "unplugin-vue-components/resolvers";
 Components({
@@ -65,18 +67,18 @@ dts: true,
 include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
 exclude: [/[\\/]node_modules[\\/]/, /[\\/]\.git[\\/]/, /[\\/]\.nuxt[\\/]/],
 deep: true
-})],
+})
 ```
 
 ## 别名配置
 
-```handlebars
+```js
 import path from "path";
 resolve: {
-alias: {
-'@': path.resolve(__dirname, 'src')
+    alias: {
+    '@': path.resolve(__dirname, 'src')
+    }
 }
-},
 ```
 
 ## mock数据
