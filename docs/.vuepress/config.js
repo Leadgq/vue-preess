@@ -1,3 +1,4 @@
+const base = require('./base');
 module.exports = {
   title: '我的文档地址',
   description: '在线文档地址',
@@ -7,12 +8,8 @@ module.exports = {
     nav: [
       {text: '主页', link: '/'},
       {
-        text: '基础知识',
-        items: [
-          {text: '正则', link: '/base/reg'},
-          {text: '数组', link: '/base/arr'},
-          {text: '对象', link: '/base/object'},
-        ]
+        text: base.text,
+        items: base.items
       },
       {
         text: '跨端',
