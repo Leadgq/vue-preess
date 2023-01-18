@@ -1,4 +1,6 @@
 const base = require('./base');
+const sidebar = require("./sidebar")
+
 module.exports = {
   title: '我的文档地址',
   description: '在线文档地址',
@@ -32,12 +34,6 @@ module.exports = {
         ],
       }
     ],
-    sidebar: {
-      '/config/': ['vite-config', 'tailwindcss'],
-      '/base/': ['reg', 'arr', 'object'],
-      '/plugin/': ['plugin'],
-      '/question/': ['tree'],
-      '/Cross/': ['uniApp'],
-    }
+    sidebar: sidebar
   },
 }
