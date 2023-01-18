@@ -10,13 +10,13 @@ module.exports = {
     nav: [
       {text: '主页', link: '/'},
       {
-        text: base.text,
+        text: '基础知识',
         items: base.items
       },
       {
         text: '跨端',
         items: [
-          {text: 'uniApp', link: '/Cross/uniApp'}
+          {text: 'uniApp', link: '/cross/uniApp'}
         ]
       },
       {

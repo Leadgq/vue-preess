@@ -3,5 +3,5 @@ module.exports = {
   '/base/': ['reg', 'arr', 'object'],
   '/plugin/': ['plugin'],
   '/question/': ['tree'],
-  '/Cross/': ['uniApp'],
+  '/cross/': ['uniApp'],
 }
