@@ -271,12 +271,12 @@ findLastIndexFn(22) ==> 3
 findLastIndexFn(66) ==> 0
 ```
 ```ts
-const findLastIndexFn = (arr:number[],data:number):number => {
-  return (arr.indexOf(item => item === data) + 1 ) % arr.length;
+const findLastIndexFn = (data:number[],value:number):number => {
+  return (arr.indexOf(item => item === value) + 1 ) % arr.length;
  }
 ```
 ```js
-const  findLastIndexFn = (arr,data) => {
-  return (arr.findIndex(item => item.id === data) + 1 ) % arr.length;
+function findIndexFn(data, key, value) {
+  return (arr.findIndex(item => item[key] === value) + 1) % arr.length
 }
 ```
