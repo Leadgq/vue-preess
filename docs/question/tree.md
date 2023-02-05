@@ -1,4 +1,4 @@
-# 树
+# 题库
 
 ## 树形结构获取路径名
 
@@ -251,5 +251,32 @@ function getName2(data, key = 'name') {
   } else {
     return result;
   }
+}
+```
+## 获取url中的参数
+```
+描述: 需要获取url中的参数 '?type=host&id=192331255'
+```
+```js
+const params = window.URLSearchParams(window.location.search); 
+// params是可迭代对象、具体查看mdn
+for(const [key,value] of params)
+```
+
+## 获取下标
+```
+描述：请你写出一个当前数组的下一个index是什么的函数
+let  arr = [15,22,66];
+findLastIndexFn(22) ==> 3
+findLastIndexFn(66) ==> 0
+```
+```ts
+const findLastIndexFn = (arr:number[],data:number):number => {
+  return (arr.indexOf(item => item === data) + 1 ) % arr.length;
+ }
+```
+```js
+const  findLastIndexFn = (arr,data) => {
+  return (arr.findIndex(item => item.id === data) + 1 ) % arr.length;
 }
 ```

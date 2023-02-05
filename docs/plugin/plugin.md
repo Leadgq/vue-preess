@@ -278,3 +278,29 @@ let player = new Player({
   lang: 'zh-cn'
 });
 ```
+
+## peer.js
+
+```
+peer.js 基于webRTC实现即时通信
+允许网页应用不通过中间服务器就能互相直接传输任意数据，比如视频流、音频流、文件流、普通数据等
+```
+```shell
+npm install peer.js
+```
+[gitHub中文地址](https://peerjs.com/)
+
+```js
+// 如果需要使用call先获取设备授权
+var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+getUserMedia({video: true, audio: true}, function(stream) {
+  const  call = peer.call('another-peers-id', stream);
+  call.on('stream', function(remoteStream) {
+    const video = document.querySelector('video');
+    video.srcObject = remoteStream;
+    video.onloadedmetadata = (()=> video.play())
+  });
+}, function(err) {
+  console.log('Failed to get local stream' ,err);
+});
+```
