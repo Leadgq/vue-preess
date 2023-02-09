@@ -22,7 +22,8 @@ module.exports = {
       {
         text: '题库',
         items: [
-          {text: '树', link: '/question/tree'}
+          {text: '高难度', link: '/question/height'},
+          {text: '中难度', link: '/question/middle'},
         ]
       },
       {text: '常用插件', link: '/plugin/plugin'},

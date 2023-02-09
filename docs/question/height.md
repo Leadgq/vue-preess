@@ -1,4 +1,4 @@
-# 题库
+# 高难度
 
 ## 树形结构获取路径名
 
@@ -253,30 +253,126 @@ function getName2(data, key = 'name') {
   }
 }
 ```
+
 ## 获取url中的参数
+
 ```
 描述: 需要获取url中的参数 '?type=host&id=192331255'
 ```
+
 ```js
-const params = window.URLSearchParams(window.location.search); 
+const params = window.URLSearchParams(window.location.search);
 // params是可迭代对象、具体查看mdn
-for(const [key,value] of params)
+for (const [key, value] of params)
 ```
 
 ## 获取下标
+
 ```
 描述：请你写出一个当前数组的下一个index是什么的函数
 let  arr = [15,22,66];
 findLastIndexFn(22) ==> 3
 findLastIndexFn(66) ==> 0
 ```
+
 ```ts
-const findLastIndexFn = (data:number[],value:number):number => {
-  return (arr.indexOf(item => item === value) + 1 ) % arr.length;
- }
+const findLastIndexFn = (data: number[], value: number): number => {
+    return (arr.indexOf(item => item === value) + 1) % arr.length;
+}
 ```
+
 ```js
 function findIndexFn(data, key, value) {
   return (arr.findIndex(item => item[key] === value) + 1) % arr.length
 }
+```
+
+## 红绿灯
+
+```
+描述：红绿灯，红灯3秒亮一次，绿灯1秒亮一次，黄灯2秒亮一次；如何让三个灯不断交替重复亮灯？ (发布订阅模式)
+```
+
+```js 
+class eventEmitter {
+  // 延迟函数
+  delay(time) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve()
+      }, time * 1000);
+    })
+  }
+
+  constructor(options) {
+    this.sing = options.init;
+    this.time = options.time;
+    this.light = options.light;
+    this.enventMap = new Map();
+    this.enventMap.set('trick', new Set());
+    this.enventMap.set('exchange', new Set());
+    this.setTime();
+    this.exchange();
+  }
+
+  //  订阅
+  on(event, handler) {
+    this.enventMap.get(event).add(handler);
+  }
+
+  // 取消订阅
+  off(event, handler) {
+    this.enventMap.get(event).delete(handler);
+  }
+
+  // 发布
+  emit(event) {
+    this.enventMap.get(event).forEach(handler => handler.call(this, this))
+  }
+
+
+  get next() {
+    return this.light[(this.light.findIndex(item => item === this.sing) + 1) % this.light.length];
+  }
+
+  get remain() {
+    let diff = this.endTime - new Date().getTime();
+    if (diff < 0) diff = 0;
+    return diff / 1000;
+  }
+
+  // 切换
+  async exchange() {
+    await 1;
+    if (this.remain > 0) {
+      await this.delay(1);
+      this.emit("trick")
+    } else {
+      this.sing = this.next;
+      this.setTime();
+      this.emit("exchange")
+    }
+    await this.exchange();
+  }
+
+  // 记录时间
+  setTime() {
+    this.startTime = new Date().getTime();
+    const index = this.light.findIndex(item => item === this.sing);
+    this.endTime = this.startTime + this.time[index] * 1000;
+  }
+}
+
+const event = new eventEmitter({
+  init: 'red',
+  light: ['red', 'yellow', 'green'],
+  // 时间
+  time: [10, 5, 3],
+})
+
+event.on("trick", (event) => {
+  console.log(event, '我是1')
+})
+
+event.off('trick')
 ```

@@ -2,6 +2,6 @@ module.exports = {
   '/config/': ['vite-config', 'tailwindcss'],
   '/base/': ['reg', 'arr', 'object'],
   '/plugin/': ['plugin'],
-  '/question/': ['tree'],
+  '/question/': ['height','middle'],
   '/cross/': ['uniApp'],
 }
