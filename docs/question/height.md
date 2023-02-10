@@ -250,7 +250,7 @@ function breadthFirstSearch(treeData, key) {
       result.push(item);
       break;
     }
-    const len = Array.isArray(node.children) && node.children.length > 0;
+    const len = node.children && node.children.length;
     for (let i = 0; i < len; i++) {
       // 将当前节点的children都放到后面、下一次执行将走同层
       stack.push(node.children[i])
