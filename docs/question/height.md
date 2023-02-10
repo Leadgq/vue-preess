@@ -190,6 +190,76 @@ function transformation(obj) {
 }
 ```
 
+## 非递归实现树的遍历(深度优先)
+
+```js
+let treeData = [{
+  key: '1',
+  title: 'Parent 1',
+  check: false,
+  children: [{
+    key: '1-1',
+    title: 'child 1',
+    check: false,
+  }, {
+    key: '1-2',
+    title: 'child 2',
+    check: false,
+    children: [{
+      key: '1-2-1',
+      title: 'grandchild 1',
+      check: false,
+    }, {
+      key: '1-2-2',
+      title: 'grandchild 2',
+      check: false,
+    },]
+  },]
+}];
+
+function findKey(treeData, key) {
+  const stack = [...treeData];
+  let nodes = [];
+  while (Array.isArray(stack) && stack.length > 0) {
+    const item = stack.pop();
+    const children = item.children || [];
+    if (item.key === key) {
+      nodes.push(item);
+      break;
+    }
+    for (let i = children.length - 1; i >= 0; i--) {
+      // 下一次循环将会执行当前item的children 
+      stack.push(children[i]);
+    }
+  }
+  return nodes;
+}
+```
+
+## 非递归广度优先
+
+```js
+// 先进先出
+function breadthFirstSearch(treeData, key) {
+  const stack = [...treeData];
+  const result = [];
+  while (Array.isArray(stack) && stack.length > 0) {
+    // 弹出头部
+    const node = stack.shift();
+    if (node.key === key) {
+      result.push(item);
+      break;
+    }
+    const len = Array.isArray(node.children) && node.children.length > 0;
+    for (let i = 0; i < len; i++) {
+      // 将当前节点的children都放到后面、下一次执行将走同层
+      stack.push(node.children[i])
+    }
+  }
+  return result;
+}
+```
+
 ## 获取树结构中的name
 
 ```js
@@ -375,4 +445,49 @@ event.on("trick", (event) => {
 })
 
 event.off('trick')
+```
+
+## 扁平对象
+
+```js
+  const obj = {
+  a: 1,
+  b: [1, 2, {c: true}],
+  c: {e: 2, f: 3},
+  g: null,
+};
+// 转换成这样
+let objRes = {
+  a: 1,
+  "b[0]": 1,
+  "b[1]": 2,
+  "b[2].c": true,
+  "c.e": 2,
+  "c.f": 3,
+  g: null,
+};
+```
+
+```js
+function flatenObject(obj) {
+  let result = {};
+  const process = (key, value) => {
+    if (Object(value) !== value) {
+      if (key) result[key] = value;
+    } else if (Array.isArray(value)) {
+      for (let i = 0; i < value.length; i++) {
+        process(`${key}[${i}]`, value[i])
+      }
+      if (value.length === 0) result[key] = []
+    } else {
+      const keys = Object.keys(value);
+      key.forEach((item) => {
+        process(key ? `${key}.${item}` : item, value[item])
+      })
+      if (keys.length === 0 && key) result[key] = {};
+    }
+  }
+  process('', obj);
+  return result;
+}
 ```
