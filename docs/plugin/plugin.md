@@ -304,3 +304,9 @@ getUserMedia({video: true, audio: true}, function(stream) {
   console.log('Failed to get local stream' ,err);
 });
 ```
+
+## PPT插件
+```shell
+npm init slidev@latest
+```
+[gitHub中文地址](https://cn.sli.dev/guide/install.html#starter-template)
