@@ -32,9 +32,10 @@ module.exports = {
         items: [
           {text: 'vite常用配置', link: '/config/vite-config'},
           {text: 'tailwindcss的配置', link: '/config/tailwindcss'},
+          {text:'nodemon配置',link: '/config/nodemon' }
         ],
       }
     ],
-    sidebar: sidebar
+    sidebar
   },
 }
