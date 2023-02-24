@@ -16,7 +16,8 @@ module.exports = {
       {
         text: '跨端',
         items: [
-          {text: 'uniApp', link: '/cross/uniApp'}
+          {text: 'uniApp', link: '/cross/uniApp'},
+          {text: 'electron', link: '/cross/electron'},
         ]
       },
       {
@@ -32,7 +33,7 @@ module.exports = {
         items: [
           {text: 'vite常用配置', link: '/config/vite-config'},
           {text: 'tailwindcss的配置', link: '/config/tailwindcss'},
-          {text:'nodemon配置',link: '/config/nodemon' }
+          {text: 'nodemon配置', link: '/config/nodemon'}
         ],
       }
     ],
