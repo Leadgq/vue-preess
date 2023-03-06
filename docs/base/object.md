@@ -83,3 +83,10 @@ Object.defineProperty(obj, null, {
   enumerable: false
 })
 ```
+
+## 结构化克隆
+
+```js
+let  anyTypeData = {a:1,b:2};
+let  result = StructuredClone(anyTypeData);
+```
