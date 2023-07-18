@@ -310,3 +310,92 @@ getUserMedia({video: true, audio: true}, function(stream) {
 npm init slidev@latest
 ```
 [gitHub中文地址](https://cn.sli.dev/guide/install.html#starter-template)
+
+
+
+## 二维码生成
+
+```shell
+npm install vue-qr
+```
+
+```vue
+  <vue-qr
+    :size="180"
+    :margin="0"
+    :auto-color="true"
+    :dot-scale="1"
+    :text="'二维码信息'"
+    class="qrImage"
+/>
+```
+[gitHub中文地址](https://github.com/Binaryify/vue-qr)
+
+
+## html转换为canvas
+
+```shell
+npm install html2canvas
+```
+
+```js
+const tansferHtmlToBlob =  ()=>{
+  return new Promise(async (resolve)=>{
+    const canvas = await html2canvas(qrContainer, {
+      dpi: window.devicePixelRatio * 2,
+      width: qrContainerWidth,
+      height: qrContainerHeight,
+      scale: 0.75,
+      useCORS: false,
+      ignoreElements: (element) => {
+        const classNameList = ['qrImage', 'qr-header-text', 'qr-footer-desc'];
+        if (classNameList.includes(element.className)) return true;
+      }
+    });
+    canvas.id = 'myCanvas';
+    // 将canvas转换为blob
+    canvas.toBlob((contentDataURL)=>{
+      resolve(contentDataURL)
+    });
+  })
+}
+```
+[gitHub中文地址](https://github.com/niklasvh/html2canvas)
+
+
+## 组织树
+
+```shell
+npm i vue2-org-tree
+```
+
+```vue
+    <vue2-org-tree :data="item" 
+                   :renderContent="renderContent"
+                   @on-node-click="onNodeClick"
+                   :horizontal="false"
+                   collapsable 
+                   @on-expand="onExpand"
+    />
+```
+```js
+// ---> renderContent使用是h函数返回vNode就可
+// ---> 固定写法
+onExpand(_, data){
+  if ('expand' in data) {
+    data.expand = !data.expand;
+    if (!data.expand && data.children) {
+      this.collapse(data.children);
+    }
+  } else {
+    this.$set(data, 'expand', true);
+  }
+}
+collapse(list){
+  list.forEach((child) => {
+    if (child.expand) child.expand = false;
+    child.children && this.collapse(child.children);
+  });
+}
+```
+[gitHub中文地址](github.com/hukaibaihu/vue-org-tree)
