@@ -398,4 +398,4 @@ collapse(list){
   });
 }
 ```
-[gitHub中文地址](github.com/hukaibaihu/vue-org-tree)
+[gitHub中文地址](https://github.com/hukaibaihu/vue-org-tree)
