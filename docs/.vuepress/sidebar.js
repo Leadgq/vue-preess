@@ -4,4 +4,5 @@ module.exports = {
   '/plugin/': ['plugin'],
   '/question/': ['height','middle'],
   '/cross/': ['uniApp','electron'],
+  '/node/': ['node'],
 }

@@ -35,6 +35,12 @@ module.exports = {
           {text: 'tailwindcss的配置', link: '/config/tailwindcss'},
           {text: 'nodemon配置', link: '/config/nodemon'}
         ],
+      },
+      {
+        text: 'node',
+        items: [
+            {text: 'node知识', link: '/node/node'}
+        ]
       }
     ],
     sidebar
