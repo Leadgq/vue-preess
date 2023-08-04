@@ -3,6 +3,7 @@
 ```bash
  npm config list
  node -v
+ npm ls -g 
 ```
 
 ```
@@ -78,4 +79,37 @@ npm会检查该依赖的版本号是否符合依赖树中其他依赖的版本�
  如果不存在，就会根据package.json文件中的依赖版本号进行安装。
  有冲突的时候，会根据package.json中的依赖版本号进行安装
  没有冲突的时候，下载完毕进行缓存检查，如果缓存中存在，直接将文件解压到node_modules中。
+```
+
+## node_modules .bin
+
+```
+node_modules中的.bin文件夹会存放可执行文件，这些文件只需要你在
+scripts中提供、其他平台的所有跨端命令都会被制作好
+```
+
+
+## npx 命令
+
+```
+  npm 5.2.0版本之后，就有了npx命令，
+  npx可运行.bin文件夹下中可执行文件
+  npx专注于命令 
+  npm专注于包管理
+```
+## npx 使用方式
+
+```bash
+  npx create-react-app my-app
+  npx webpack
+  npx webpack --config webpack.config.js
+  npx webpack-dev-server
+```
+
+## npx 原理
+
+```
+  npx会首先检查本地是否存在该命令，如果存在就执行本地命令，
+  如果不存在就会去远程仓库下载该命令并执行，执行完毕后删除。
+  它是一次性的，不占用空间。
 ```
