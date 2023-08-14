@@ -399,3 +399,47 @@ collapse(list){
 }
 ```
 [gitHub中文地址](https://github.com/hukaibaihu/vue-org-tree)
+
+
+## 文件预览（pdf、excel、world）
+
+
+```shell
+#docx文档预览组件
+npm install @vue-office/docx vue-demi
+
+#excel文档预览组件
+npm install @vue-office/excel vue-demi
+
+#pdf文档预览组件
+npm install @vue-office/pdf vue-demi
+```
+
+```shell
+如果是vue2.6版本或以下还需要额外安装 @vue/composition-api
+npm install @vue/composition-api
+```
+```vue
+<template>
+  <VueOfficeDocx :src="docx" style="height: 100vh;"/>
+</template>
+
+<script>
+//引入VueOfficeDocx组件
+import VueOfficeDocx from '@vue-office/docx'
+//引入相关样式
+import '@vue-office/docx/lib/index.css'
+
+export default {
+  components:{
+    VueOfficeDocx
+  },
+  data(){
+    return {
+      docx: 'http://static.shanhuxueyuan.com/test6.docx' //设置文档网络地址，可以是相对地址
+    }
+  }
+}
+</script>
+```
+[gitHub中文地址](https://github.com/501351981/vue-office)
