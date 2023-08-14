@@ -171,4 +171,28 @@ scripts中提供、其他平台的所有跨端命令都会被制作好
     common.js 是运行时加载 esm是编译时加载（也就说当你引入的时候我就知道你要用那个模块的内容）
 ```
 
+## node全局变量
+    
+```
+    __dirname 当前文件所在的目录
+    __filename 当前文件的绝对路径
+    process 进程对象
+    module 当前模块对象
+    exports 导出对象
+    require 引入模块
+    globalThis 全局对象(代替global)
+```
 
+
+## CSR SSR SEO
+
+```
+    CSR: 客户端渲染  vue react angular
+    SSR: 服务端渲染 (可选 nuxt.js react-ssr)
+    SEO: 搜索引擎优化
+```
+
+```
+  ssr 对seo更加友好
+  csr 对seo不友好，但是对服务器压力更小， 初始化加载js比较多，首屏渲染时间长
+```
