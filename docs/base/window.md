@@ -1,4 +1,4 @@
-# window新增api记录
+# 新增api记录
 
 ## 1. window.showSaveFilePicker 实验性api
 
