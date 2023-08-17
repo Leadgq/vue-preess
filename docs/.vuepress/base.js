@@ -4,5 +4,6 @@ module.exports = {
     {text: '数组', link: '/base/arr'},
     {text: '对象', link: '/base/object'},
     {text:'字符串',link: '/base/str'},
+    {text:'window',link: '/base/window'},
   ]
 }
