@@ -35,7 +35,6 @@ Array[index];
 ## 数组增
 
 ```js
-// ***
 Array.prototype.push();
 Array.prototype.unshift();
 Array.prototype.splice(index, 1, item);
@@ -53,7 +52,6 @@ Array.prototype.shift();
 ## 数组查
 
 ```js
-// ***
 Array.prototype.find();
 Array.prototype.findLast();
 Array.prototype.findIndex();
@@ -66,32 +64,32 @@ Array.prototype.includes();
 ## 数组切割
 
 ```js
-Array.prototype.slice(); // ***
+Array.prototype.slice(); 
 ```
 
 ## 数组连接
 
 ```js
-Array.prototype.concat(); // **
-[...arr1, ...arr2]; // ***
+Array.prototype.concat(); 
+[...arr1, ...arr2];
 ```
 
 ## 数组判断
 
 ```js
-Array.prototype.isArray(); // ***
+Array.prototype.isArray(); 
 ```
 
 ## 数组过滤
 
 ```js
-Array.prototype.filter(); // ***
+Array.prototype.filter(); 
 ```
 
 ## 数组重做
 
 ```js
-Array.prototype.map(); // ***
+Array.prototype.map(); 
 Array.prototype.flatMap(); // 实用性一般
 Array.prototype.flat(); //  这个没用，压平数组不适合使用提供的方法
 ```
@@ -99,7 +97,7 @@ Array.prototype.flat(); //  这个没用，压平数组不适合使用提供的�
 ## 数组翻转
 
 ```js
-Array.prototype.reverse(); // *
+Array.prototype.reverse();
 ```
 
 ## 数组存在
@@ -125,7 +123,7 @@ Array.prototype.reduceRight();
 ## 数组转换为字符串
 
 ```js
-Array.prototype.join(); // ***
+Array.prototype.join(); 
 Array.prototype.toString(); //力推
 ```
 
@@ -163,104 +161,34 @@ values();
 entries();
 ```
 
-## 压平对象(树状)数组
+## 数组新增
 
-### 方式 1
-
-```ts
-const flattenArray = (arr: TreeData[]): TreeData[] => {
-    return arr.reduce((prev: TreeData[], cur: TreeData) => {
-        const {children} = cur;
-        return isAvailableArray(children)
-            ? prev.concat(flattenArray(children),cur)
-            : prev.concat(cur);
-    }, []);
-};
+### 返回一个元素顺序相反的新数组
+    
+```js
+Array.prototype.toReversed();
 ```
 
-### 方式 2
+### 返回一个新数组，其元素按升序排列
 
-```ts
-const toFlatArray = (tree: TreeData[], parentId?: string): TreeData[] => {
-    return tree.reduce((treeArray: TreeData[], cur) => {
-        const child = cur.children;
-        return [
-            ...treeArray,
-            parentId ? Object.assign(cur, {parentId}) : cur,
-            ...(isAvailableArray(child) ? toFlatArray(child, cur.key) : []),
-        ];
-    }, []);
-};
+```js
+Array.prototype.toSorted();
 ```
 
-## 寻找某个节点下所有的子节点
+### 返回个新数组，并在给定的索引处删除和/或替换了一些元素
 
-```ts
-const findTreeChildrenNode = (arr: TreeData[], id: string): TreeData[] => {
-    const nodeId = id;
-    const flattenList = flattenArray(arr);
-    const nodeList = flattenArray(
-        flattenList.filter((item) => item.key === nodeId)
-    );
-    // 不包括当前节点
-    return isAvailableArray(nodeList)
-        ? nodeList.filter((item) => item.key !== nodeId)
-        : [];
-};
+```js
+Array.prototype.toSpliced();
 ```
 
-## 获取所有父亲节点对象
-
-```ts
-/**
- * @flatArray { TreeData[] } 扁平数组
- * nodeId { string }
- * @linealNode { boolean }  是否只需要直系节点
- * @return { TreeData[] }
- */
-const getParentObjectByKeys = (
-        flatArray: TreeData[] | Ref<TreeData[]>,
-        nodeId: string,
-        linealNode: boolean,
-        pass = false
-    ): TreeData[] => {
-        let parentArray: TreeData[] = [];
-        let child = flatArray.find((tree) => tree.key === nodeId);
-        // 寻找全部父节点，递归
-        if (!linealNode) {
-            while (child) {
-                parentArray = parentArray.concat(child);
-                child = flatArray.find((tree) => tree.key === child?.parentId);
-            }
-        } else {
-            // 寻找直系节点
-            if (child) {
-                let linealParentNode = flatArray.find(
-                    (tree) => tree.key === child?.parentId
-                );
-                if (linealParentNode) parentArray = parentArray.concat(linealParentNode);
-            }
-        }
-        if (pass) {
-            return parentArray;
-        } else {
-            return parentArray.filter((item) => item.key !== nodeId);
-        }
-    };
+### 返回一个新数组，其指定索引处的值会被新值替换
+```js
+Array.prototype.width(index, value);
 ```
 
-## 获取当前节点所有兄弟节点
+## 树状数据的操作
 
-```ts
-const findAllBrotherNode = (tree: TreeData[], nodeId: string): TreeData[] | [] => {
-    // 获取直系父节点
-    const parentNode = getParentObjectByKeys(tree, nodeId, true);
-    const key = parentNode.at(0)?.key;
-    if (parentNode && key) {
-        // 获取当前父节点所有子节点
-        return findTreeChildrenNode(parentNode, key).filter(item => item.key !== nodeId);
-    } else {
-        return [];
-    }
-}
+```shell
+npm install swc-lib
 ```
+[gitHub中文地址](https://www.npmjs.com/package/swc-lib)
