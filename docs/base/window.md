@@ -1,6 +1,6 @@
 # 新增api记录
 
-## 1. window.showSaveFilePicker 实验性api
+## showSaveFilePicker(实验性)
 
 ```
 可进行文件的保存、但是前提是需要用户进行选择 手动调用无用
@@ -15,3 +15,42 @@ async function getNewFileHandle (blob) {
 const boundsBlob = new Blob([JSON.stringify(bounds)], {type: 'text/plain'});
 getNewFileHandle(boundsBlob);
 ```
+
+## showOpenFilePicker(实验性)
+
+```
+可打开文件
+```
+```js
+async function getFileHandle() {
+  const [handle] = await window.showOpenFilePicker();
+  return handle;
+}
+async function getFile() {
+  const handle = await getFileHandle();
+  const file = await handle.getFile();
+  return file;
+}
+```
+
+## showDirectoryPicker(实验性)
+
+```
+可打开文件夹
+```
+```js
+async function getDirectoryHandle() {
+  const handle = await window.showDirectoryPicker();
+  return handle;
+}
+async function getDirectory() {
+  const handle = await getDirectoryHandle();
+  const files = [];
+  for await (const entry of handle.values()) {
+    files.push(entry);
+  }
+  return files;
+}
+```
+
+
