@@ -28,14 +28,13 @@
     git checkout 分支名
 ```
 
-
 ## 创建分支
 
 ```
     git branch 分支名
 ```
 
-## 删除分支
+## 删除本地分支
 
 ```
     git branch -d 分支名
@@ -44,5 +43,57 @@
 ## 创建远端分支
 
 ```
-    git push origin 分支名
+    git checkout -b dev   //创建本地分支
+    git push origin dev   //将本地分支推送到远端
+    git branch  --set-upstream-to=origin/dev  //将本地分支与远端分支关联
+    git branch  -a //查看所有分支
+```
+
+## 删除远端分支
+
+```
+    git push origin --delete dev
+```
+
+## 缓存修改
+
+```
+    git stash save "message"
+```
+
+## 查看缓存
+
+```
+    git stash list
+```
+
+## 恢复缓存
+
+```
+    git stash apply stash@{0}
+    git stash pop stash@{0}
+```
+
+## 删除缓存
+
+```
+    git stash drop stash@{0}
+```
+
+## 清空缓存
+
+```
+    git stash clear
+```
+
+## cherry-pick
+
+```
+    git cherry-pick [<options>] <commit-ish>...
+        常用options:
+        --quit                退出当前的chery-pick序列
+        --continue            继续当前的chery-pick序列
+        --abort               取消当前的chery-pick序列，恢复当前分支
+        -n, --no-commit       不自动提交
+        -e, --edit            编辑提交信息
 ```
