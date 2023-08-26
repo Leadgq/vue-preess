@@ -196,3 +196,44 @@ scripts中提供、其他平台的所有跨端命令都会被制作好
   ssr 对seo更加友好
   csr 对seo不友好，但是对服务器压力更小， 初始化加载js比较多，首屏渲染时间长
 ```
+
+## path
+
+``` 
+  path模块主要是处理路径,不需要引入就可直接应用
+```
+
+```js
+  resolve返回绝对路径
+  最常用方法 path.resolve(__direname,'./index.js')返回绝对路径
+  path.join() 用于拼接路径使用
+  path.basename('c://a.html') 返回路径的最后一部分   返回 a.html
+  path.extname('a.html')  返回扩展名   返回.html
+```
+
+## os
+
+```
+  Nodejs os 模块可以跟操作系统进行交互
+```
+
+```
+   例如判断系统类型，当前cpu的架构等,实际例子
+```
+
+```js
+const os =  require('os');
+const { exec } = require('child_process');
+function  openBrowser(url){
+    // mac
+    if(os.platform() === 'darwin'){
+       exec(`open ${url}`)
+    } else if(os.platform() === 'win32'){
+      exec(`start ${url}`)
+    } else {  // Linux, Unix-like
+     exec(`xdg-open ${url}`); //执行shell脚本
+    }
+}
+openBrowser('http://www.baidu.com');
+```
+
