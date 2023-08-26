@@ -16,6 +16,19 @@
     git branch
 ```
 
+## 提交本地
+
+```
+    git add .
+    git commit -m "message"
+```
+
+## 修改远端
+
+```
+    git push origin dev
+```
+
 ## 查看所有分支
 
 ```
