@@ -41,7 +41,7 @@
     git checkout 分支名
 ```
 
-## 创建分支
+## 创建本地分支
 
 ```
     git branch 分支名
@@ -51,6 +51,12 @@
 
 ```
     git branch -d 分支名
+```
+
+## 删除远端分支
+
+```
+   git push origin --delete   分支名
 ```
 
 ## 创建远端分支
