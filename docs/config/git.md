@@ -124,7 +124,7 @@
 ## 重置提交
 <span> 重置提交<span style='color:red'>三</span>种模式</span>
  <ul>
-     <li>soft: 只改变提交信息，不改变提交记录</li>
-     <li>mixed:只改变提交信息，不改变提交记录，并且不改变工作区</li>
-     <li>hard: 改变提交信息，不改变提交记录，并且不改变工作区</li>
+     <li>soft: 重置到本次位置,差异保存</li>
+     <li>mixed:重置到本次位置,差异保存,但是会影响变更状态记录</li>
+     <li>hard: 工作区的内容完全重置成本次commitHash的文件内容</li>
  </ul>
