@@ -62,7 +62,7 @@
 ## 创建远端分支
 
 ```
-    git checkout -b dev   //创建本地分支
+    git branch  dev   //创建本地分支
     git push origin dev   //将本地分支推送到远端
     git branch  --set-upstream-to=origin/dev  //将本地分支与远端分支关联
     git branch  -a //查看所有分支
