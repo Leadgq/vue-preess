@@ -120,3 +120,11 @@
     git cherry-pick  -n  commitHash^..commitHash  pick 多个包含左侧
     git cherry-pick  -n  commitHash..commitHash   pick 多个不包含左侧
 ```
+
+## 重置提交
+<span> 重置提交<span style='color:red'>三</span>种模式</span>
+ <ul>
+     <li>soft: 只改变提交信息，不改变提交记录</li>
+     <li>mixed:只改变提交信息，不改变提交记录，并且不改变工作区</li>
+     <li>hard: 改变提交信息，不改变提交记录，并且不改变工作区</li>
+ </ul>
