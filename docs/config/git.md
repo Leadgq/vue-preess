@@ -121,10 +121,22 @@
     git cherry-pick  -n  commitHash..commitHash   pick 多个不包含左侧
 ```
 
-## 重置提交
+## 重置提交  
 <span> 重置提交<span style='color:red'>三</span>种模式</span>
  <ul>
      <li>soft: 重置到本次位置,差异保存</li>
      <li>mixed:重置到本次位置,差异保存,但是会影响变更状态记录</li>
      <li>hard: 工作区的内容完全重置成本次commitHash的文件内容</li>
  </ul>
+
+## git 错误
+
+```
+fatal: Unable to create 'E:/project/vuepress-starter/.git/index.lock': File exists.
+Another git process seems to be running in this repository, e.g.
+```
+<ul>
+    <li>你在其他地方打开了 Git 仓库的编辑器（如 Visual Studio Code）</li>
+    <li>你在命令行中运行了另一个 Git 命令，但尚未完成</li>
+    <li>你的计算机上有多个 Git 进程正在运行</li>
+</ul>
