@@ -89,7 +89,7 @@
 ## 恢复缓存
 
 ```
-    git stash apply stash@{0}
+    git stash apply stash@{0} 这里是标号
     git stash pop stash@{0}
 ```
 
