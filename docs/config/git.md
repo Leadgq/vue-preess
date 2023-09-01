@@ -115,4 +115,8 @@
         --abort               取消当前的chery-pick序列，恢复当前分支
         -n, --no-commit       不自动提交
         -e, --edit            编辑提交信息
+        
+    git cherry-pick  -n  <commitHash> pick 一个
+    git cherry-pick  -n  commitHash^..commitHash  pick 多个包含左侧
+    git cherry-pick  -n  commitHash..commitHash   pick 多个不包含左侧
 ```
