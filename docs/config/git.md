@@ -129,6 +129,16 @@
      <li>hard: 工作区的内容完全重置成本次commitHash的文件内容</li>
  </ul>
 
+## 重置命令
+
+
+```
+git reset [<mode>] [<commit>]
+git rest --soft [<commit>]
+git rest --mixed [<commit>]
+git rest --hard [<commit>]
+```
+
 ## git 错误
 
 ```
