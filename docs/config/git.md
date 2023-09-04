@@ -121,6 +121,15 @@
     git cherry-pick  -n  commitHash..commitHash   pick 多个不包含左侧
 ```
 
+## git 创建补丁
+
+```
+
+
+
+
+```
+
 ## 重置提交  
 <span> 重置提交<span style='color:red'>三</span>种模式</span>
  <ul>
