@@ -41,6 +41,13 @@
     git checkout 分支名
 ```
 
+## 迁出远端分支
+
+```
+    git checkout -b 分支名 origin/分支名
+```
+
+
 ## 创建本地分支
 
 ```
@@ -124,9 +131,18 @@
 ## git 创建补丁
 
 ```
+注意：windows11 如果是用powerShell 创建补丁，会出现乱码，你必须打开git自己的可视化界面
+注意: 无论是cherry-pick还是git diff 在不写^的情况下都是左闭右开, 而且你必须保证分支的干净
 
+// 比较 master 分支与 dev 分支之间的差异，并将差异写入到 0001-master-dev.patch 文件中
+git diff --no-prefix master..dev > 0001-master-dev.patch
 
-
+// 比较从 某个提交到某个提交中的所有差异，写入到master.patch
+git  diff [commitId] [commitId] > master.patch
+// 检查是否可以进行应用
+git apply --check master.patch
+// 应用
+git apply master.patch
 
 ```
 
