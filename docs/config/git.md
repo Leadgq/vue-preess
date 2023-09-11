@@ -193,3 +193,28 @@ Another git process seems to be running in this repository, e.g.
   注意： 一定要考虑清楚   git rest 的代价，因为这个命令会抹掉你之前的提交记录，什么都没有了，删除就是删除了
   git revert  不会因为上次提交的代码还存在,你完全还有机会，在提取出来  
 ```
+
+
+## git remote
+
+```
+git remote 命令用于用于管理 Git 仓库中的远程仓库。
+
+git remote 命令提供了一些用于查看、添加、重命名和删除远程仓库的功能
+```
+
+
+```
+git remote -v 查看远端仓库
+origin  https://github.com/Leadgq/vue-preess.git (fetch)  // fetch 代表拉取
+origin  https://github.com/Leadgq/vue-preess.git (push)   // push 代表推送
+本地创建的仓库是没有远端仓库的，所以这里是空的
+git remote add origin    新增远端仓库
+git remote rm origin     删除远端仓库  --> 删除之后，你就不能推送到远端仓库了
+git remote rename origin  <name>  重命名远端仓库
+你现在从别的仓库上clone了代码，那么推送的时候，人家做了保护，
+你就不能推送到别人的仓库上，你需要先删除远端仓库，然后再添加远端仓库、或者采用
+git remote set-url origin  --> 重新设置远端仓库
+git remote remove origin  --> 删除远端仓库
+rm 和 remove 是一样的
+```
