@@ -254,3 +254,28 @@ git remote set-url origin  --> 重新设置远端仓库
 git remote remove origin  --> 删除远端仓库
 rm 和 remove 是一样的
 ```
+## .git中的HEAD
+
+```
+git中的HEAD指向的是当前所在的分支
+它记录分支的地方在.git HEAD文件中    ref: refs/heads/dev
+切换分支的时候 会改变HEAD的指向
+```
+
+
+## .git分支中的HEAD
+```
+在.git配置文件夹中会存在一个 logs的文件夹，这个文件夹中会记录你的每一次操作
+每当你新建立一个分支 会在logs文件夹中生成一个文件  refs--> heads--->  dev
+上一次头部： 7f85239a70b4c766184f0233071e16d0e6a41ac3
+本次头部： 537920012bf4a09be0a86ce3020d116a1ec4db57
+作者： gaoqiang <gaoqiang@yundun119.com> 1694418648 +0800	
+commit的信息 commit: [git][新增][git log 从某个id开始到头]
+```
+
+## .git中的config
+
+```
+  你所有的配置都在这里面 包括远端仓库的地址，全部在这里
+```
+
