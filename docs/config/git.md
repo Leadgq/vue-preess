@@ -10,6 +10,30 @@
     git log
 ```
 
+## 命令退出
+
+```
+   控制台: 输入q
+```
+
+## 查看具体某次提交的修改
+
+```
+    git show commitHash
+```
+
+## 查看具体提交范围(包含修改)
+
+```
+    git show commitHash1^..commitHash2
+```
+
+## 查看具体提交范围(不包含修改)
+
+```
+    git log commitHash1^..commitHash2
+```
+
 ## 查看当前分支
 
 ```
