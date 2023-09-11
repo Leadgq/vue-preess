@@ -237,3 +237,81 @@ function  openBrowser(url){
 openBrowser('http://www.baidu.com');
 ```
 
+```js
+  // 获取当前电脑的 address 192.168.1.1
+  os.networkInterfaces().en0[1].address
+```
+
+```js
+  os.arch() // 返回当前cpu的架构   
+  os.type() // 返回当前操作系统的类型  windows linux darwin
+  os.platform()  //返回操作系统的平台  win32 linux darwin
+```
+
+
+## process 
+
+```
+   进程模块
+```
+
+```js
+  process.arch() // 返回当前cpu的架构 
+  process.cwd() // 返回当前工作目录 可替换__dirname 
+  process.env() // 返回当前系统环境变量 比如NODE_ENV
+  process.argv() // 返回当前进程的命令行参数 例如 node index.js --port 3000
+  process.exit() // 退出当前进程
+  process.nextTick() // 用于异步回调
+  process.kill() // 杀死进程
+```
+
+## child_process
+
+```
+ 在node中只要是涉及到异步的操作都需要回调函数、 在每个异步操作的都对于一个同步的api
+```
+
+```js
+  const {exec} = require('child_process')
+  // exec 用于执行shell命令
+  exec('ls -al',function(err,stdout,stderr){
+    console.log(err,stdout,stderr)
+  })
+  exec('node -v',(err,stdout)=>{
+    if(err) return;
+    const nodeVersion = stdout.slice(1).toString().trim()
+  })
+ // exec 只适合执行小的shell 
+```
+
+```js
+  const {spawn} = require('child_process')
+  // spawn 用于执行大的shell命令 
+  const child = spawn('netstat',['-an'])
+  child.stdout.on('data',function(data){
+    console.log(data.toString())
+  })
+  child.stderr.on('data',function(data){
+    console.log(data.toString())
+  })
+  child.on('close',function(code){
+    console.log(code)
+  })
+```
+
+```js
+  const {fork} = require('child_process')
+  // fork 用于执行js文件 相当于开启一个新的进程
+  // 因为node 不适合cpu密集型的操作，所以一般用于开启一个新的进程
+  // 处理一些cpu密集型的操作
+  const child = fork('./child.js')
+  child.on('message',function(data){
+    console.log(data)
+  })
+  child.send('hello')
+```
+
+```js
+    process.send();
+    process.on('event',callBack)
+```
