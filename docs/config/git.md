@@ -175,3 +175,13 @@ Another git process seems to be running in this repository, e.g.
     <li>你在命令行中运行了另一个 Git 命令，但尚未完成</li>
     <li>你的计算机上有多个 Git 进程正在运行</li>
 </ul>
+
+## git 回滚
+
+```
+  git rest --hard commitHash
+  git revert commitHash
+  这两个命令都能让你回到代码库中之前的指定状态，但后果不同。
+  git rest --hard commitHash 会让你回到指定的状态，但是会丢弃掉你之前的提交记录，也就是说你之前的提交记录会被抹掉。
+  git revert commitHash 会让你回到指定的状态，但是会保留你之前的提交记录，也就是说你之前的提交记录不会被抹掉。
+```
