@@ -175,6 +175,3 @@ Another git process seems to be running in this repository, e.g.
     <li>你在命令行中运行了另一个 Git 命令，但尚未完成</li>
     <li>你的计算机上有多个 Git 进程正在运行</li>
 </ul>
-
-
-## git 远端回滚测试
