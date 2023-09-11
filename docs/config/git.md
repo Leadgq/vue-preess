@@ -4,6 +4,11 @@
  记录目前自己学到的一些git命令
 ```
 
+```
+ git的所有挑选都是左开右闭
+
+```
+
 ## 查看日志
 
 ```
@@ -33,6 +38,13 @@
 ```
     git log commitHash1^..commitHash2
 ```
+
+## 查看某个commitId到头
+    
+```
+    git log commitHash..HEAD
+```
+
 
 ## 查看当前分支
 
