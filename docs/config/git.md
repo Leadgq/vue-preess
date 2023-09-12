@@ -4,6 +4,12 @@
  记录目前自己学到的一些git命令
 ```
 
+```
+ git的所有挑选都是左开右闭
+ 在每次commit或者push,cherry-pick,patch 之前都要先pull，保证本地与远端的一致性，也就说保证HEAD的一致性
+ 避免冲突
+```
+
 ## 查看日志
 
 ```
@@ -34,6 +40,13 @@
     git log commitHash1^..commitHash2
 ```
 
+## 查看某个commitId到头
+    
+```
+    git log commitHash..HEAD
+```
+
+
 ## 查看当前分支
 
 ```
@@ -58,6 +71,13 @@
 ```
     git branch -a
 ```
+
+```
+git checkout 不仅仅可以切换分支，还可以进行回滚某个文件
+git checkout  --  docs\config\git.md 
+git checkout  --  commitHash   fileName
+```
+
 
 ## 切换分支
 
@@ -204,6 +224,7 @@ Another git process seems to be running in this repository, e.g.
 
 ```
   git rest --hard commitHash
+  git push origin HEAD --force
   git revert commitHash
   这两个命令都能让你回到代码库中之前的指定状态，但后果不同。
   git rest --hard commitHash 会让你回到指定的状态，但是会丢弃掉你之前的提交记录，也就是说你之前的提交记录会被抹掉。
@@ -213,7 +234,6 @@ Another git process seems to be running in this repository, e.g.
 ## git 回滚远端代价
 
 ```
-  git push origin HEAD --force
   注意： 一定要考虑清楚   git rest 的代价，因为这个命令会抹掉你之前的提交记录，什么都没有了，删除就是删除了
   git revert  不会因为上次提交的代码还存在,你完全还有机会，在提取出来  
 ```
@@ -242,3 +262,28 @@ git remote set-url origin  --> 重新设置远端仓库
 git remote remove origin  --> 删除远端仓库
 rm 和 remove 是一样的
 ```
+## .git中的HEAD
+
+```
+git中的HEAD指向的是当前所在的分支
+它记录分支的地方在.git HEAD文件中    ref: refs/heads/dev
+切换分支的时候 会改变HEAD的指向
+```
+
+
+## .git分支中的HEAD
+```
+在.git配置文件夹中会存在一个 logs的文件夹，这个文件夹中会记录你的每一次操作
+每当你新建立一个分支 会在logs文件夹中生成一个文件  refs--> heads--->  dev
+上一次头部： 7f85239a70b4c766184f0233071e16d0e6a41ac3
+本次头部： 537920012bf4a09be0a86ce3020d116a1ec4db57
+作者： gaoqiang <gaoqiang@yundun119.com> 1694418648 +0800	
+commit的信息 commit: [git][新增][git log 从某个id开始到头]
+```
+
+## .git中的config
+
+```
+  你所有的配置都在这里面 包括远端仓库的地址，全部在这里
+```
+
