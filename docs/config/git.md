@@ -72,6 +72,13 @@
     git branch -a
 ```
 
+```
+git checkout 不仅仅可以切换分支，还可以进行回滚某个文件
+git checkout  --  docs\config\git.md 
+git checkout  --  commitHash   fileName
+```
+
+
 ## 切换分支
 
 ```
