@@ -287,3 +287,5 @@ commit的信息 commit: [git][新增][git log 从某个id开始到头]
   你所有的配置都在这里面 包括远端仓库的地址，全部在这里
 ```
 
+
+### git-revert测试
