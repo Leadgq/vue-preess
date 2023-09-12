@@ -6,7 +6,8 @@
 
 ```
  git的所有挑选都是左开右闭
-
+ 在每次commit或者push,cherry-pick,patch 之前都要先pull，保证本地与远端的一致性，也就说保证HEAD的一致性
+ 避免冲突
 ```
 
 ## 查看日志
