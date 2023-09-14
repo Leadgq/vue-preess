@@ -241,6 +241,11 @@ Another git process seems to be running in this repository, e.g.
   注意： 一定要考虑清楚   git rest 的代价，因为这个命令会抹掉你之前的提交记录，什么都没有了，删除就是删除了
   git revert  不会因为上次提交的代码还存在,你完全还有机会，在提取出来  
 ```
+## 回滚时机
+
+```
+    revert的时候是当前条， 而reset的时候是之前的条
+```
 
 
 ## git remote
