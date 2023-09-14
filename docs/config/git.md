@@ -76,13 +76,17 @@
 git checkout 不仅仅可以切换分支，还可以进行回滚某个文件
 git checkout  --  docs\config\git.md 
 git checkout  --  commitHash   fileName
+注意： 这个文件不能是commit的状态
 ```
 
 
 ## 切换分支
 
 ```
-    git checkout 分支名
+    git checkout 分支名  不推荐
+    git switch 分支名  推荐
+    理由:  git checkout 不仅仅可以切换分支，还可以进行回滚某个文件
+    作为一个容易混淆的命令，不推荐在切换分支的时候使用
 ```
 
 ## 迁出远端分支
