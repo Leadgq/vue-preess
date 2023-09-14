@@ -287,3 +287,29 @@ commit的信息 commit: [git][新增][git log 从某个id开始到头]
   你所有的配置都在这里面 包括远端仓库的地址，全部在这里
 ```
 
+## .git中的index
+
+```
+  index文件是暂存区的索引文件，它记录了暂存区的文件信息，包括文件名、文件的状态（新增、修改、删除）和文件的SHA-1值。
+  当你执行git add命令时，Git就会根据index文件中的记录将文件内容添加到暂存区。
+  当你执行git commit命令时，Git就会根据index文件中的记录将暂存区的文件提交到本地仓库。
+  当你执行git reset命令时，Git就会根据index文件中的记录将暂存区的文件恢复到工作区。
+  当你执行git checkout命令时，Git就会根据index文件中的记录将工作区的文件恢复到暂存区。
+```
+
+
+## 拉取代码区别
+```
+1、功能不同
+git pull 和 git pull --rebase 的区别
+git pull = git fetch + git merge FETCH_HEAD；
+git pull –rebase = git fetch + git rebase FETCH_HEAD。
+相当于git pull -rebase和git pull的不同转变为了git fetch和git merge的不同。
+
+2、效果不同
+git pull：merge操作会生成一个新的节点，之前的提交分开显示；
+
+git pull –rebase ：rebase操作不会生成新的节点，是将两个分支融合成一个线性的提交。
+
+如果你使用 --rebase 本地有未提交的代码是无法使用的，因为rebase会把本地的提交放到最后面，这样会导致冲突，所以在使用rebase之前一定要先提交本地的代码。
+```
