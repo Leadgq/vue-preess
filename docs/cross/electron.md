@@ -132,3 +132,31 @@ dialog.showMessageBox();
 // 报错
 dialog.showErrorBox();
 ```
+
+## 开发
+
+```
+   开发框架使用： electron-vite 
+```
+
+## pnpm 参数必须修改
+
+```
+pnpm config set electron_mirror=https://npm.taobao.org/mirrors/electron/
+pnpm config set electron_builder_binaries_mirror=https://npm.taobao.org/mirrors/electron-builder-binaries/
+
+
+pnpm config set electron_mirror https://mirrors.huaweicloud.com/electron/
+pnpm config set electron_builder_binaries_mirror https://mirrors.huaweicloud.com/electron-builder-binaries/
+
+否则打包会出现错误
+```
+
+## 打包
+
+```
+   插件使用: electron-builder
+   pnpm build:win
+   pnpm build:mac
+   打包的时候图标是有要求的： 大小控制 
+```
