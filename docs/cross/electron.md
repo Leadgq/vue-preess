@@ -131,6 +131,16 @@ dialog.showSaveDialog();
 dialog.showMessageBox();
 // 报错
 dialog.showErrorBox();
+// 通知
+BrowserWindow.fromWebContents(event.sender)
+// 获取当前窗口位置 
+wind.getPosition();
+// 设置窗口大小
+wind.setSize();
+// 设置窗口最大化
+wind.maximize();
+// 设置窗口最小化
+wind.minimize();
 ```
 
 ## 开发
@@ -159,4 +169,37 @@ pnpm config set electron_builder_binaries_mirror https://mirrors.huaweicloud.com
    pnpm build:win
    pnpm build:mac
    打包的时候图标是有要求的： 大小控制 
+```
+
+## YML 
+
+```
+   什么是YML:
+   YAML (YAML Aint Markup Language)是一种标记语言，
+   通常以.yml或者.yaml为后缀的文件，是一种直观的能够被电脑识别的数据序列化格式，
+   并且容易被人类阅读，容易和脚本语言交互的，可以被支持YAML库的不同的编程语言程序导入，
+   一种专门用来写配置文件的语言。可用于如： Java，C/C++, Ruby, Python, Perl, C#, PHP等
+   在electron中，我们使用YML来配置打包的一些参数，例如：appId、productName、artifactName等等 
+   底层是给c++
+
+   YML语法: 
+    不可以使用tab键，只能使用空格键
+    以空格的缩进来控制层级关系
+    对于大小写敏感
+    例子  appId: com.electron.myApp 
+```
+
+## electron-builder.YML 说明
+``` yml
+  appId: 你的应用程序的标识符，通常是反向DNS表示法（例如，com.electron.myApp）。
+    productName: 你的应用程序的名称，例如MyApp。
+    win:
+    executableName: 你的在windows上的应用程序的名称，例如myApp
+    nsis:
+    artifactName:  安装包的名称，例如${productName} Setup ${version}.${ext}
+    shortcutName:  在桌面快捷方式的名称，例如myApp
+    uninstallDisplayName: 卸载程序的名称，例如myApp
+    createDesktopShortcut: 是否创建桌面快捷方式  true
+    nsis: 是用于windows的安装程序生成器，它可以创建一个安装程序，该安装程序将安装你的应用程序并将其添加到用户的PATH环境变量中。
+    没有这个，你的应用程序将无法在命令行中运行，在你进行build的时候，会自动下载这个安装程序生成器
 ```
