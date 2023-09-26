@@ -118,6 +118,8 @@ Array.prototype.fill();
 ```js
 Array.prototype.reduce();
 Array.prototype.reduceRight();
+pass: 这里叫做数据降解更好 
+why: 因为这个方法可以将数组降解为任意类型, 就是将数组降解为一个值
 ```
 
 ## 数组转换为字符串

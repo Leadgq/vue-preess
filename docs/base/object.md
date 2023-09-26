@@ -90,3 +90,10 @@ Object.defineProperty(obj, null, {
 let  anyTypeData = {a:1,b:2};
 let  result = StructuredClone(anyTypeData);
 ```
+
+
+## 对象分组
+
+```js
+Object.groupBy() // 分组实验性语法
+```
