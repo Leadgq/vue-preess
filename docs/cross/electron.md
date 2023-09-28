@@ -141,6 +141,10 @@ wind.setSize();
 wind.maximize();
 // 设置窗口最小化
 wind.minimize();
+// 嵌入式窗口
+ win.loadURL('http://220.202.55.167:25000')
+// 获取屏幕的宽度
+const { width ,height } = screen.getPrimaryDisplay().workAreaSize
 ```
 
 ## 开发
