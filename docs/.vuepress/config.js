@@ -2,6 +2,7 @@ const base = require('./base');
 const sidebar = require("./sidebar")
 
 module.exports = {
+  plugins:["@vuepress/back-to-top"],
   title: '我的文档地址',
   description: '在线文档地址',
   themeConfig: {
