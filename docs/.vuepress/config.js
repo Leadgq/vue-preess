@@ -21,13 +21,6 @@ module.exports = {
           {text: 'electron', link: '/cross/electron'},
         ]
       },
-      {
-        text: '题库',
-        items: [
-          {text: '高难度', link: '/question/height'},
-          {text: '中难度', link: '/question/middle'},
-        ]
-      },
       {text: '常用插件', link: '/plugin/plugin'},
       {
         text: '常用配置',
