@@ -5,6 +5,7 @@ module.exports = {
   plugins:["@vuepress/back-to-top"],
   title: '我的文档地址',
   description: '在线文档地址',
+  base: '/vue-preess/',
   themeConfig: {
     sidebarDepth: 2,
     smoothScroll: true,
