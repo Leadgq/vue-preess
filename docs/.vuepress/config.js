@@ -2,7 +2,7 @@ const base = require('./base');
 const sidebar = require("./sidebar")
 
 module.exports = {
-  plugins:["@vuepress/back-to-top"],
+  plugins: ["@vuepress/back-to-top"],
   title: '我的文档地址',
   description: '在线文档地址',
   base: '/vue-preess/',
@@ -10,7 +10,7 @@ module.exports = {
     sidebarDepth: 2,
     smoothScroll: true,
     nav: [
-      {text: '主页', link: '/'},
+      { text: '主页', link: '/' },
       {
         text: '基础知识',
         items: base.items
@@ -18,25 +18,31 @@ module.exports = {
       {
         text: '跨端',
         items: [
-          {text: 'uniApp', link: '/cross/uniApp'},
-          {text: 'electron', link: '/cross/electron'},
+          { text: 'uniApp', link: '/cross/uniApp' },
+          { text: 'electron', link: '/cross/electron' },
         ]
       },
-      {text: '常用插件', link: '/plugin/plugin'},
+      { text: '常用插件', link: '/plugin/plugin' },
       {
         text: '常用配置',
         items: [
-          {text: 'vite常用配置', link: '/config/vite-config'},
-          {text: 'tailwindcss的配置', link: '/config/tailwindcss'},
-          {text: 'nodemon配置', link: '/config/nodemon'},
-          {text: 'git', link: '/config/git' },
-          {text:'vscode',link:'/config/vscode'}
+          { text: 'vite常用配置', link: '/config/vite-config' },
+          { text: 'tailwindcss的配置', link: '/config/tailwindcss' },
+          { text: 'nodemon配置', link: '/config/nodemon' },
+          { text: 'git', link: '/config/git' },
+          { text: 'vscode', link: '/config/vscode' }
         ],
       },
       {
         text: 'node',
         items: [
-            {text: 'node知识', link: '/node/node'}
+          { text: 'node知识', link: '/node/node' }
+        ]
+      },
+      {
+        text: '题库',
+        items: [
+          { text: '基础问题', link: '/question/base' }
         ]
       }
     ],
