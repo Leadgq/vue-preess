@@ -52,7 +52,7 @@ jobs:
     - name: pnpm install, build, and test
       run: |
         pnpm install
-        pnpm run docs:build --if-present
+        pnpm run docs:build
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v3
