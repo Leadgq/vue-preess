@@ -42,11 +42,18 @@ jobs:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
 
-    - name: npm install, build, and test
+    - name: Setup pnpm
+      # You may pin to the exact commit or the version.
+      # uses: pnpm/action-setup@d882d12c64e032187b2edb46d3a0d003b7a43598
+      uses: pnpm/action-setup@v2.4.0
+      with:
+        # Version of pnpm to install
+        version: 8.6.11
+
+    - name: pnpm install, build, and test
       run: |
-        npm install
-        npm run build --if-present
-        npm run test --if-present
+        pnpm install
+        pnpm run docs:build --if-present
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v3
