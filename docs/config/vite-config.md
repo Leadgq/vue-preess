@@ -104,3 +104,67 @@ resolve: {
         format: 'es'
     },
 ```
+
+## 开发npm包
+
+```json
+// 来到package.json文件中
+{
+  "name": "tree-esm-lib",  //包名
+  "description": "树方法",
+  "private": false,
+  "version": "0.1.0",
+  "type": "module",
+  "files": [   // 那些文件需要打包
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "license": "ISC",
+  "main": "./dist/tree-lib.umd.cjs",  // umd格式入口
+  "module": "./dist/tree-lib.js",  // esm格式入口
+  "devDependencies": {
+    "vite": "^4.4.5"
+  },
+  "dependencies": {
+    "rollup-plugin-terser": "^7.0.2"
+  }
+}
+```
+
+```js
+ // 来vite.config.js文件中
+import { resolve } from 'path'
+import { defineConfig } from 'vite'
+import { createVuePlugin}  from  "vite-plugin-vue2"
+import libCss from 'vite-plugin-libcss';
+/** @type {import('vite').UserConfig} */
+
+export default defineConfig({
+  build: {
+    minify: 'terser',
+    lib: {
+      entry: resolve(__dirname, 'main.js'),
+      name: 'treeLib',     
+      fileName: 'tree-lib', 
+    },
+    plugins: [
+      createVuePlugin(), // vue2.0的插件.识别vue2.0的语法
+      libCss()   // 能帮助你打包之后，把css文件引入到js文件中
+    ],
+    rollupOptions: {
+      // 确保外部化处理那些你不想打包进库的依赖
+      external: ['vue'],
+      output: {
+        // 在 UMD 构建模式下为这些外部化的依赖提供一个全局变量
+        globals: {
+          vue: 'Vue',
+        },
+      },
+    },
+  },
+})
+```
