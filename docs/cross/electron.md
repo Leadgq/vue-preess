@@ -131,4 +131,158 @@ dialog.showSaveDialog();
 dialog.showMessageBox();
 // 报错
 dialog.showErrorBox();
+// 通知
+BrowserWindow.fromWebContents(event.sender)
+// 获取当前窗口位置 
+wind.getPosition();
+// 设置窗口大小
+wind.setSize();
+// 设置窗口最大化
+wind.maximize();
+// 设置窗口最小化
+wind.minimize();
+// 嵌入式窗口
+ win.loadURL('http://220.202.55.167:25000')
+// 获取屏幕的宽度
+const { width ,height } = screen.getPrimaryDisplay().workAreaSize
+```
+
+## 开发
+
+```
+   开发框架使用： electron-vite 
+```
+
+## pnpm 参数必须修改
+
+```
+pnpm config set electron_mirror=https://npm.taobao.org/mirrors/electron/
+pnpm config set electron_builder_binaries_mirror=https://npm.taobao.org/mirrors/electron-builder-binaries/
+
+
+pnpm config set electron_mirror https://mirrors.huaweicloud.com/electron/
+pnpm config set electron_builder_binaries_mirror https://mirrors.huaweicloud.com/electron-builder-binaries/
+
+否则打包会出现错误
+```
+
+## 打包
+
+```
+   插件使用: electron-builder
+   pnpm build:win
+   pnpm build:mac
+   打包的时候图标是有要求的： 大小控制 
+```
+
+## YML 
+
+```
+   什么是YML:
+   YAML (YAML Aint Markup Language)是一种标记语言，
+   通常以.yml或者.yaml为后缀的文件，是一种直观的能够被电脑识别的数据序列化格式，
+   并且容易被人类阅读，容易和脚本语言交互的，可以被支持YAML库的不同的编程语言程序导入，
+   一种专门用来写配置文件的语言。可用于如： Java，C/C++, Ruby, Python, Perl, C#, PHP等
+   在electron中，我们使用YML来配置打包的一些参数，例如：appId、productName、artifactName等等 
+   底层是给c++
+
+   YML语法: 
+    不可以使用tab键，只能使用空格键
+    以空格的缩进来控制层级关系
+    对于大小写敏感
+    例子  appId: com.electron.myApp 
+```
+
+## electron-builder.YML 说明
+``` yml
+  appId: 你的应用程序的标识符，通常是反向DNS表示法（例如，com.electron.myApp）。
+    productName: 你的应用程序的名称，例如MyApp。
+    win:
+    executableName: 你的在windows上的应用程序的名称，例如myApp
+    nsis:
+    artifactName:  安装包的名称，例如${productName} Setup ${version}.${ext}
+    shortcutName:  在桌面快捷方式的名称，例如myApp
+    uninstallDisplayName: 卸载程序的名称，例如myApp
+    createDesktopShortcut: 是否创建桌面快捷方式  true
+    nsis: 是用于windows的安装程序生成器，它可以创建一个安装程序，该安装程序将安装你的应用程序并将其添加到用户的PATH环境变量中。
+    没有这个，你的应用程序将无法在命令行中运行，在你进行build的时候，会自动下载这个安装程序生成器
+```
+
+## gitHub 自动构建YML
+
+```
+  1. 在项目中创建一个.github文件夹
+  2. 在.github文件夹中创建一个workflows文件夹
+  3. 在workflows文件夹中创建一个yml文件
+  4. 在yml文件中编写自动构建的脚本，例子如下
+```
+
+```
+  GITHUB_TOKEN 是一个特殊的 token,需要申请，
+  点击你的头像 
+  -> Settings
+  -> Developer settings 
+  -> Personal access tokens 
+  -> Generate new token(选第二个)
+  -> 保存好你的token
+  -> 点击你的项目
+  -> Settings
+  -> Secrets 下面的 actions
+  -> New repository secret
+  -> Name: ACCESS_TOKEN
+  -> Value: 你的token 
+```
+
+```yml
+name: docs
+
+on:
+  # 每当 push 到 main 分支时触发部署
+  push:
+    branches: [master]
+  # 手动触发部署
+  workflow_dispatch:
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # “最近更新时间” 等 git 日志相关信息，需要拉取全部提交记录
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          # 选择要使用的 pnpm 版本
+          version: 8
+          # 使用 pnpm 安装依赖
+          run_install: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          # 选择要使用的 node 版本
+          node-version: 16
+          # 缓存 pnpm 依赖
+          cache: pnpm
+
+      # 运行构建脚本
+      - name: Build VuePress site
+        run: pnpm docs:build
+
+      # 查看 workflow 的文档来获取更多信息
+      # @see https://github.com/crazy-max/ghaction-github-pages
+      - name: Deploy to GitHub Pages
+        uses: crazy-max/ghaction-github-pages@v4
+        with:
+          # 部署到 gh-pages 分支
+          target_branch: gh-pages
+          # 部署目录为 VuePress 的默认输出目录
+          build_dir: docs/.vuepress/dist
+        env:
+          # @see https://docs.github.com/cn/actions/reference/authentication-in-a-workflow#about-the-github_token-secret
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 ```
