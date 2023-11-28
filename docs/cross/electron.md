@@ -207,3 +207,82 @@ pnpm config set electron_builder_binaries_mirror https://mirrors.huaweicloud.com
     nsis: 是用于windows的安装程序生成器，它可以创建一个安装程序，该安装程序将安装你的应用程序并将其添加到用户的PATH环境变量中。
     没有这个，你的应用程序将无法在命令行中运行，在你进行build的时候，会自动下载这个安装程序生成器
 ```
+
+## gitHub 自动构建YML
+
+```
+  1. 在项目中创建一个.github文件夹
+  2. 在.github文件夹中创建一个workflows文件夹
+  3. 在workflows文件夹中创建一个yml文件
+  4. 在yml文件中编写自动构建的脚本，例子如下
+```
+
+```
+  GITHUB_TOKEN 是一个特殊的 token,需要申请，
+  点击你的头像 
+  -> Settings
+  -> Developer settings 
+  -> Personal access tokens 
+  -> Generate new token(选第二个)
+  -> 保存好你的token
+  -> 点击你的项目
+  -> Settings
+  -> Secrets 下面的 actions
+  -> New repository secret
+  -> Name: ACCESS_TOKEN
+  -> Value: 你的token 
+```
+
+```yml
+name: docs
+
+on:
+  # 每当 push 到 main 分支时触发部署
+  push:
+    branches: [master]
+  # 手动触发部署
+  workflow_dispatch:
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # “最近更新时间” 等 git 日志相关信息，需要拉取全部提交记录
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          # 选择要使用的 pnpm 版本
+          version: 8
+          # 使用 pnpm 安装依赖
+          run_install: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          # 选择要使用的 node 版本
+          node-version: 16
+          # 缓存 pnpm 依赖
+          cache: pnpm
+
+      # 运行构建脚本
+      - name: Build VuePress site
+        run: pnpm docs:build
+
+      # 查看 workflow 的文档来获取更多信息
+      # @see https://github.com/crazy-max/ghaction-github-pages
+      - name: Deploy to GitHub Pages
+        uses: crazy-max/ghaction-github-pages@v4
+        with:
+          # 部署到 gh-pages 分支
+          target_branch: gh-pages
+          # 部署目录为 VuePress 的默认输出目录
+          build_dir: docs/.vuepress/dist
+        env:
+          # @see https://docs.github.com/cn/actions/reference/authentication-in-a-workflow#about-the-github_token-secret
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+```
