@@ -193,4 +193,4 @@ Array.prototype.width(index, value);
 ```shell
 npm install swc-lib
 ```
-[gitHub中文地址](https://www.npmjs.com/package/swc-lib)
+[gitHub中文地址](https://www.npmjs.com/package/tree-esm-lib)
