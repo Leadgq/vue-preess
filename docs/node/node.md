@@ -315,3 +315,110 @@ openBrowser('http://www.baidu.com');
     process.send();
     process.on('event',callBack)
 ```
+
+
+
+## cli 创建
+
+```
+  你需要4个包 commander inquirer download-git-repo ora
+  commander 用于创建命令
+  inquirer 用于创建交互式命令
+  download-git-repo 用于下载git仓库
+  ora 用于创建loading
+```
+
+```json
+"bin":{
+  "my-cli":"src/index.js"
+}
+```
+
+```
+上面的代码是用于创建命令的，my-cli是你的命令名字，src/index.js是你的入口文件
+```
+
+```
+在执行npm link 之后，你就可以在全局使用my-cli命令了
+```
+
+```js
+#!/usr/bin/env node
+
+const program = require('commander');
+const inquirer = require('inquirer');
+const download = require('download-git-repo');
+const ora = require('ora');
+// 如果type是module的话使用import
+```
+
+
+```js
+// index.js
+
+#!/usr/bin/env node
+
+import { program } from "commander"
+import fs from "node:fs";
+import inquirer from "inquirer";
+import { checkPath, downloadTemp } from "./util.js";
+let packageJson = JSON.parse(fs.readFileSync("./package.json"))
+program.version(packageJson.version)
+
+
+program.command("create  <projectName>").description("创建项目").action((projectName) => {
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'projectName',
+            message: '请输入项目名称',
+        },
+        {
+            type: 'confirm',
+            name: 'isTs',
+            message: '是否使用ts',
+        }
+    ]).then((answers) => {
+        if (checkPath(answers.projectName)) {
+            console.log("项目已存在")
+            return;
+        }
+        if (answers.isTs) {
+            downloadTemp('ts', answers.projectName)
+        } else {
+            downloadTemp('js', answers.projectName)
+        }
+    })
+})
+
+program.parse(process.argv)
+
+```
+
+
+```js
+// util.js
+
+import fs from "node:fs"
+import download from 'download-git-repo'
+import ora from 'ora'
+const spinner = ora('下载中...')
+
+export const checkPath = (path) => {
+    return fs.existsSync(path)
+}
+
+export const downloadTemp = (branch, projectName) => {
+    spinner.start();
+    return new Promise((resolve, reject) => {
+        download(`direct:https://gitee.com/chinafaker/vue-template.git#${branch}`, projectName, { clone: true }, (err) => {
+            if (err) {
+                reject(err)
+            }
+            resolve()
+            spinner.succeed('下载成功');
+        })
+    })
+}
+  
+ ```
