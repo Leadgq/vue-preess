@@ -422,3 +422,96 @@ export const downloadTemp = (branch, projectName) => {
 }
   
  ```
+
+## makeDown文档转换
+
+```
+  需要marked、ejs、browserSync
+  marked 用于将markdown转换成html
+  esj 创建模板
+  browserSync 用于创建本地服务
+```
+
+```sh
+  npm install marked ejs browser-sync -D
+```
+<ul>
+    <li>1.创建ejs模板</li>
+    <li>2.更改模版内容</li>
+    <li>3.内容引入css</li>
+</ul>
+
+
+```html 
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+    <link rel="stylesheet" href="./index.css">
+</head>
+
+<body>
+  我是模板
+    <%- content %>
+</body>
+
+</html>
+```
+
+
+```js
+const marked = require('marked');
+const ejs = require('ejs');
+const fs = require("node:fs")
+const browserSync = require('browser-sync')
+let browser = null;
+
+const init = () => {
+    const readme = fs.readFileSync('README.md', "utf-8");
+    const makerDown = marked.parse(readme);
+    ejs.renderFile('./template.ejs', {
+        content: makerDown,
+        title: 'makerDown 转换测试'
+    }, (err, html) => {
+        if (err) {
+            throw new Error(err);
+        } else {
+          // 可使用流的方式写入
+            fs.writeFileSync('index.html', html);
+            openBrowser();
+            // 流方式写入
+            // const writeStream = fs.createWriteStream('index.html');
+            // writeStream.write(html);
+            // writeStream.close();
+            // writeStream.on('finish', () => { openBrowser() })
+        }
+    });
+}
+const openBrowser = () => {
+    if (browser) {
+        browser.reload();
+        return;
+    }
+    browser = browserSync.create();
+    browser.init({
+        server: {
+            baseDir: "./",
+            index: "index.html"
+        }
+    });
+}
+
+fs.watchFile('README.md', (curr, prev) => {
+    if (curr.mtime !== prev.mtime) {
+        init();
+    }
+})
+
+init();
+
+```
