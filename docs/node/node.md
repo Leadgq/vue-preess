@@ -515,3 +515,80 @@ fs.watchFile('README.md', (curr, prev) => {
 init();
 
 ```
+
+##  node反向代理
+
+```
+  用于解决跨域问题
+  需要http-proxy-middleware
+```
+
+```sh
+  npm install http-proxy-middleware -D
+```
+
+```js
+const fs = require('node:fs');
+const url = require('node:url');
+const http = require('node:http');
+const html = fs.readFileSync('./index.html');
+//代理配置，例如vue.config.js中的proxy
+const proxyConfig = require("./file.config.js")
+//代理中间件
+const { createProxyMiddleware } = require("http-proxy-middleware")
+
+http.createServer((req, res) => {
+  // 所有的请求都会走这里
+    const { pathname } = url.parse(req.url, true);
+    // 获取所有代理的key
+    const proxyList = Object.keys(proxyConfig.server.proxy);
+    // 如果是代理的请求就走代理
+    if (proxyList.includes(pathname)) {
+        const proxy = createProxyMiddleware(proxyConfig.server.proxy[pathname])
+        proxy(req, res);
+        return;
+    }
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.end(html);
+
+}).listen(8080);
+```
+
+
+```
+ 开发环境,例如vue-cli vite 都会开一个本地服务器,代理的源码就是上面所写,
+ 但是生产环境就不一样了，因为vue打包之后只有一个index.html文件,js，和css,
+ 不能进行代码，所以前端的反向代理就是通过nginx来实现的
+```
+
+
+```ts
+  //vite实现的反向代理
+  const { proxy } = serverConfig
+  if (proxy) {
+    middlewares.use(proxyMiddleware(httpServer, proxy, config))
+  }
+
+export function proxyMiddleware(
+   httpServer: http.Server | null,
+  options: NonNullable<CommonServerOptions['proxy']>,
+  config: ResolvedConfig,
+
+) {
+   Object.keys(options).forEach((context) => {
+  let opts = options[context]
+    if (!opts) {
+      return
+    }
+    if (typeof opts === 'string') {
+      opts = { target: opts, changeOrigin: true } as ProxyOptions
+    }
+    const proxy = httpProxy.createProxyServer(opts) as HttpProxy.Server
+   })
+}
+```
+
+```bash
+  vite 采用的是http-proxy作为反向代理 
+```
+[gitHub地址](https://github.com/http-party/node-http-proxy?tab=readme-ov-file)
