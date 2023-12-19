@@ -592,3 +592,59 @@ export function proxyMiddleware(
   vite 采用的是http-proxy作为反向代理 
 ```
 [gitHub地址](https://github.com/http-party/node-http-proxy?tab=readme-ov-file)
+
+
+## 邮件服务
+
+```
+ 例子采用qq
+ 需要的包 nodemailer js-yaml
+ nodemailer: 用于发送邮件
+ js-yaml: 用于解析yaml文件
+```
+
+```sh
+  npm install nodemailer js-yaml
+```
+
+
+```js
+import nodemailer from "nodemailer";
+import yaml from "js-yaml";
+import http from "node:http";
+import url from "node:url"
+import fs from "node:fs";
+const mailConfig = yaml.load(fs.readFileSync("./main.yaml", "utf8"));
+const transporter = nodemailer.createTransport({
+    service: "qq",
+    port: 587,
+    host: 'smtp.qq.com',
+    secure: true,
+    auth: {
+        user: mailConfig.user,
+        pass: mailConfig.pass,
+    }
+});
+
+http.createServer((req, res) => {
+    const { pathname } = url.parse(req.url);
+    if (pathname === '/send/mail' && req.method === 'POST') {
+        let mainInfo = '';
+        req.on('data', chunk => {
+            mainInfo += chunk;
+        });
+        req.on('end', () => {
+            const { to, subject, text } = JSON.parse(mainInfo);
+            transporter.sendMail({
+                from: mailConfig.user,
+                to,
+                subject,
+                text,
+            });
+            res.end('success');
+        });
+    }
+}).listen(3000, () => {
+    console.log("Server running on port 3000");
+});
+```
