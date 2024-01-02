@@ -175,6 +175,46 @@ pnpm config set electron_builder_binaries_mirror https://mirrors.huaweicloud.com
    打包的时候图标是有要求的： 大小控制 
 ```
 
+## 打包出错
+
+```
+ 构建工具不能选择pnpm，你以前build过一个项目，pnpm会自动选择其作为新项目的构建工具，
+ 如果上次build缺少本项目的依赖,那么就会报错，所以你需要删除上次build的缓存
+ 所以不适合使用pnpm，使用npm或者yarn、这里包括下载工具的使用（全程不使用pnpm就可以）
+ Cannot find module 'archiver' 是我没转换构建工具后出现的错误
+```
+
+## 打包只有一个
+```
+ 每个electron的appId都是唯一的，如果你的appId和别人的appId一样，那么本次安装会覆盖上次安装
+ 就只有一个的意思
+```
+
+```yml
+  // 来到electron-builder.YML文件中
+  appId: com.electron.myApp  // 这个appId是唯一的，不能和别人的一样
+```
+
+```js
+ // 主应用中
+app.whenReady().then(() => {
+    // 设置appId
+  electronApp.setAppUserModelId('project-to-doc')
+
+  app.on('browser-window-created', (_, window) => {
+    optimizer.watchWindowShortcuts(window)
+  })
+
+  createWindow()
+
+  app.on('activate', function () {
+  
+    if (BrowserWindow.getAllWindows().length === 0) createWindow()
+  })
+})
+
+```
+
 ## YML 
 
 ```
