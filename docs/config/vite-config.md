@@ -118,6 +118,10 @@ resolve: {
   "files": [   // 那些文件需要打包
     "dist"
   ],
+  // 脚手架命令
+  "bin":{
+    "tree-cli":"./src/index.js"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
