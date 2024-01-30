@@ -100,3 +100,35 @@ export default {
 };
 </script>
 ```
+
+
+## 资源提示符
+
+```html
+async:  <script async src="xxx.js"></script>  
+  1. 正常解析dom树
+  2. 遇到async的script标签，开始下载，不阻塞dom树的解析
+  3. 下载完毕，立即执行，执行完毕
+  4. 暂停dom树的解析
+  5. 执行完毕，恢复dom树的解析
+  6. 所以无法确认当前解析dom树的dom节点
+  
+defer:  <script defer src="xxx.js"></script>
+  1. 正常解析dom树
+  2. 遇到defer的script标签，开始下载，不阻塞dom树的解析
+  3. 下载完毕，等待dom树解析完毕，再执行
+  4. 执行完毕，恢复dom树的解析
+  5. 所以可以确认当前解析dom树的dom节点
+  6. 在执行完毕之后DOMContentLoaded事件触发
+  tips： <script type='module' ></script> 会自动添加defer属性
+
+ 上述都是作用于 script 标签,都是需要执行的
+
+preload: <link rel="preload" href="xxx.js" as="script">
+  1.不会停止dom的解析
+  2.会提前下载资源（优先级高）当我看到这个标签立刻去拿资源,但不执行
+
+prefetch: <link rel="prefetch" href="xxx.css">
+  1.不会停止dom的解析
+  2.会提前下载资源（优先级低）当浏览器空闲的时候去拿资源,但不执行
+```
