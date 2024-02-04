@@ -74,7 +74,7 @@ npm会检查该依赖的版本号是否符合依赖树中其他依赖的版本�
 ## npm install 后序过程
 
 ```
- npm instll 之后 会执行npm config list
+ npm install 之后 会执行npm config list
  先去项目级别找寻.npmrc文件，如果没有找到，就去用户级别找寻.npmrc文件，
  如果还是没有找到，就去全局级别找寻.npmrc文件，
  如果还是没有找到，就去内置的npmrc文件中找寻，如果还是没有找到，就使用默认的配置。
@@ -166,7 +166,7 @@ scripts中提供、其他平台的所有跨端命令都会被制作好
 ```
     common.js 是同步的 esm是异步的
     common.js 的值可以修改的 esm的值是只读的
-    comon.js的this 是当前模块的exports对象 esm的this是undefined
+    common.js的this 是当前模块的exports对象 esm的this是undefined
     common.js 是可以tree-shaking的 esm是不可以的
     common.js 是运行时加载 esm是编译时加载（也就说当你引入的时候我就知道你要用那个模块的内容）
 ```
@@ -174,8 +174,8 @@ scripts中提供、其他平台的所有跨端命令都会被制作好
 ## node全局变量
     
 ```
-    __dirname 当前文件所在的目录
-    __filename 当前文件的绝对路径
+    __dirname 当前文件所在的目录,当前运行的文件在那个目录下
+    __filename 当前文件的绝对路径,E:\project\node测试\fs\test\index2.js
     process 进程对象
     module 当前模块对象
     exports 导出对象
@@ -209,6 +209,16 @@ scripts中提供、其他平台的所有跨端命令都会被制作好
   path.join() 用于拼接路径使用
   path.basename('c://a.html') 返回路径的最后一部分   返回 a.html
   path.extname('a.html')  返回扩展名   返回.html
+  path.dirname() 返回路径的目录部分 
+```
+
+```js
+  path.dirname(url.fileURLToPath(import.meta.url))  ==> 模块在哪个目录下（E:\project\node测试\fs\test）
+  import.meta.url  ==> 模块的绝对路径（file:///E:/project/node%E6%B5%8B%E8%AF%95/fs/test/index.js）
+  url.fileURLToPath(import.meta.url)  ==> 模块的绝对路径（E:\project\node测试\fs\test\index.js）
+  这种方式多用于esm模块 
+  const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
+  // 因为node不支持esm模块，所以需要使用这种方式，如果直接是用__dirname会报错
 ```
 
 ## os
@@ -257,7 +267,7 @@ openBrowser('http://www.baidu.com');
 
 ```js
   process.arch() // 返回当前cpu的架构 
-  process.cwd() // 返回当前工作目录 可替换__dirname 
+  process.cwd() // 返回当前工作目录 
   process.env() // 返回当前系统环境变量 比如NODE_ENV
   process.argv() // 返回当前进程的命令行参数 例如 node index.js --port 3000
   process.exit() // 退出当前进程
@@ -558,7 +568,7 @@ http.createServer((req, res) => {
 ```
  开发环境,例如vue-cli vite 都会开一个本地服务器,代理的源码就是上面所写,
  但是生产环境就不一样了，因为vue打包之后只有一个index.html文件,js，和css,
- 不能进行代码，所以前端的反向代理就是通过nginx来实现的
+ 不能进行代理，所以生产的情况下前端的代理方式采用nginx来实现的
 ```
 
 

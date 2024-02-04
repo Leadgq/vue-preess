@@ -443,3 +443,13 @@ export default {
 </script>
 ```
 [gitHub中文地址](https://github.com/501351981/vue-office)
+
+## 流程图
+
+```
+
+  npm install @antv/x6 --save
+  import { Graph } from '@antv/x6';
+```
+
+[gitHub中文地址](https://x6.antv.vision/en/docs/tutorial/getting-started)
