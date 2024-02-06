@@ -221,6 +221,59 @@ scripts中提供、其他平台的所有跨端命令都会被制作好
   // 因为node不支持esm模块，所以需要使用这种方式，如果直接是用__dirname会报错
 ```
 
+## fs模块
+
+```
+  fs模块主要是用于文件操作
+```
+
+```js
+  // 异步读取文件
+  fs.readFile('index.js','utf-8',function(err,data){
+    console.log(data)
+  })
+  // 同步读取文件
+  fs.writeFile('index.js','hello world',function(err){
+    console.log('写入成功')
+  })
+  // 异步写入文件
+  fs.appendFile('index.js','hello world',function(err){
+    console.log('追加成功')
+  })
+  // 删除文件
+  fs.unlink('index.js',function(err){
+    console.log('删除成功')
+  })
+  // 重命名文件
+  fs.rename('index.js','index2.js',function(err){
+    console.log('重命名成功')
+  })
+  // 复制文件
+  fs.copyFile('index.js','index2.js',function(err){
+    console.log('复制成功')
+  })
+  // 创建文件夹
+  fs.mkdir('test',function(err){
+    console.log('创建成功')
+  })
+  // 删除文件夹
+  fs.rmdir('test',function(err){
+    console.log('删除成功')
+  })
+  // 读取文件夹
+  fs.readdir('test',function(err,files){
+    console.log(files)
+  })
+  // 监听文件变化
+  fs.watch('index.js',function(event,filename){
+    console.log(event,filename)
+  })
+  // 文件是否存在
+  fs.statSync();
+  // 是否是文件夹
+  fs.statSync(filePath).isDirectory()
+```
+
 ## os
 
 ```
