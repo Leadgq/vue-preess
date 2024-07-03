@@ -42,7 +42,8 @@ module.exports = {
       {
         text: '题库',
         items: [
-          { text: '基础问题', link: '/question/base' }
+          { text: '基础问题', link: '/question/base' },
+          { text: 'AI', link: '/question/AI' },
         ]
       }
     ],
