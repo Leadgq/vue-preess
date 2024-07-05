@@ -101,6 +101,124 @@ SSD (Single Shot MultiBox Detector)
 Transformers 语言模型
 ```
 
+## 检测模型标注集
+
+- PASCAL VOC 格式:
+ PASCAL VOC（Visual Object Classes）数据集使用一种XML格式来存储物体检测的标注信息。每个XML文件描述一个图像及其检测到的物体的位置和类别。
+
+- COCO 格式:
+  COCO（Common Objects in Context）数据集也使用JSON格式来存储物体检测的标注信息。每个JSON文件包含了图像、物体边界框、类别标签等详细信息。
+
+- ImageNet 格式:
+  ImageNet数据集通常使用一种简单的文本文件格式来存储物体检测的标注信息，包括物体类别和边界框坐标。
+
+- YOLO 格式:
+
+YOLO算法的输出格式，如前文所述，是一种特定的文本文件格式，每行表示一个检测到的物体实例的类别、中心点坐标和边界框尺寸。
+`
+- YOLOv5 格式:
+  YOLOv5算法的输出格式，与YOLO格式类似，但使用了一种更紧凑的表示方法，每行表示一个检测到的物体实例的类别、中心点坐标和边界框尺寸。
+
+
+## YOLOv5模型训练
+
+  yolov5的标注集采用的 YOLO 格式 也就是文本格式
+
+
+``` python
+# 导入必要的库和模块
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from torchvision import transforms
+from torch.utils.data import DataLoader
+import matplotlib.pyplot as plt
+from your_dataset_module import CustomDataset  # 替换成你自己的数据集加载模块
+from yolo_model import YOLOModel  # 替换成你的YOLO模型定义
+
+# 定义一些超参数和设置
+batch_size = 16
+num_epochs = 20
+learning_rate = 0.001
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+# 加载训练集和验证集
+train_dataset = CustomDataset(train=True, transform=transforms.ToTensor())  # 替换成你的数据集加载方式和预处理方法
+train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+
+val_dataset = CustomDataset(train=False, transform=transforms.ToTensor())  # 替换成你的数据集加载方式和预处理方法
+val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
+
+# 初始化YOLO模型
+model = YOLOModel(num_classes=...).to(device)  # 替换成你的YOLO模型定义，并设置合适的类别数
+
+# 定义损失函数和优化器
+criterion = nn.MSELoss()  # 举例使用均方误差损失函数，可以根据需要选择适合的损失函数
+optimizer = optim.Adam(model.parameters(), lr=learning_rate)
+
+# 定义记录训练和验证损失的列表
+train_losses = []
+val_losses = []
+
+# 训练模型和记录损失
+for epoch in range(num_epochs):
+    model.train()
+    total_train_loss = 0.0
+    for batch_idx, (images, targets) in enumerate(train_loader):
+        images = images.to(device)
+        targets = targets.to(device)
+        
+        # 前向传播
+        outputs = model(images)
+        
+        # 计算损失
+        loss = criterion(outputs, targets)
+        
+        # 反向传播和优化
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+        
+        # 记录训练损失
+        train_losses.append(loss.item())
+        
+        # 输出训练信息
+        if (batch_idx + 1) % 10 == 0:
+            print(f'Epoch [{epoch+1}/{num_epochs}], Step [{batch_idx+1}/{len(train_loader)}], Loss: {loss.item():.4f}')
+    
+    # 在验证集上评估模型，计算验证损失
+    model.eval()
+    with torch.no_grad():
+        total_val_loss = 0.0
+        for images, targets in val_loader:
+            images = images.to(device)
+            targets = targets.to(device)
+            
+            outputs = model(images)
+            val_loss = criterion(outputs, targets)
+            
+            # 记录验证损失
+            val_losses.append(val_loss.item())
+        
+        print(f'Epoch [{epoch+1}/{num_epochs}], Validation Loss: {val_loss.item():.4f}')
+
+# 绘制训练和验证损失曲线
+plt.figure(figsize=(10, 6))
+plt.plot(train_losses, label='Training Loss')
+plt.plot(val_losses, label='Validation Loss')
+plt.xlabel('Iterations')
+plt.ylabel('Loss')
+plt.title('Training and Validation Loss')
+plt.legend()
+plt.show()
+
+# 保存模型
+torch.save(model.state_dict(), 'yolo_finetuned.pth')
+print('Model saved!')
+
+````
+
+
 ## YOLOv5视频案例
 
 [b站地址](https://www.bilibili.com/video/BV1u24y1t7xo/?vd_source=cbcacd12141ce77a317fb7dd415c8607)
