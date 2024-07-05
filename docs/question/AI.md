@@ -68,9 +68,9 @@ AI学习通常指的是机器学习（Machine Learning）或者深度学习（De
 ## 模型的类型
 
 - 自然语言处理（nlp）大模型：
-  这类模型主要用于处理<span style="color:red">自然语言文本，如文本分类</span>、命名实体识别等 著名的自然语言处理大模型有 gpt-3、BERT<span style="color:red">这是模型非神经网络</span> 等。
+  这类模型主要用于处理<span style="color:red">自然语言文本，如文本分类</span>、命名实体识别等 著名的自然语言处理大模型有 gpt-3、BER 等。
 - 计算机视觉（CV）大模型：
-  类模型主要用于处理图像和视频，如目标检测、语义分割、图像生成等。著名的计算机视觉大模型有 Google 的 Inception、Facebook 的 ResNet、DenseNet<span style="color:red">这是神经网络</span> 等。
+  类模型主要用于处理图像和视频，如目标检测、语义分割、图像生成等。著名的计算机视觉大模型有 Google 的 Inception、Facebook 的 ResNet、DenseNet 等。
 - 语音识别（ASR）大模型：
   这类模型主要用于语音信号的处理，如语音识别、语音合成等。著名的语音识别大模型有 WaveNet、Transformer 等。
 - 推荐系统（RecSys）大模型：
@@ -87,6 +87,43 @@ AI学习通常指的是机器学习（Machine Learning）或者深度学习（De
   这类模型主要用于构建和管理知识图谱，如搜索引擎、问答系统等。著名的知识图谱大模型有 Google 的 Knowledge Graph、Facebook 的 Graph API 等。
 - 自然语言生成（NLG）大模型：
   这类模型主要用于生成自然语言文本，如自动摘要、自动生成文章等。著名的自然语言生成大模型有 GPT-2、BART 等。
+
+
+## 检测模型
+
+``` 检测模型
+Faster R-CNN    
+YOLOv5 (You Only Look Once)  
+SSD (Single Shot MultiBox Detector)
+```
+
+```
+Transformers 语言模型
+```
+
+## YOLOv5视频案例
+
+[b站地址](https://www.bilibili.com/video/BV1u24y1t7xo/?vd_source=cbcacd12141ce77a317fb7dd415c8607)
+[csdn地址](https://blog.csdn.net/qq_32892383/article/details/129333386)
+
+
+## YOLOv5配置解析
+[csdn地址](https://blog.csdn.net/weixin_43694096/article/details/124378167)
+
+## 项目准备
+
+```
+ 工具:pycharm 
+ python版本:3.8.0 以上
+ pip: 下载依赖
+ conda: 用于创建虚拟环境
+ conda创建虚拟环境: conda create -n yolov5 python=3.8
+ conda激活虚拟环境: conda activate yolov5
+ 切换镜像下载labelimg: : pip   install  labelimg -i https://pypi.tsinghua.edu.cn/simple/
+ 切换镜像下载labelme: pip install labelme -i https://pypi.tuna.tsinghua.edu.cn/simple/
+ labelimg: 用于标注数据集
+ labelme: 用于标注数据集
+```
 
 ## 神经网络
 
