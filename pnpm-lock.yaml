@@ -12,8 +12,8 @@ importers:
         specifier: ^1.9.10
         version: 1.9.10
       vuepress:
-        specifier: ^1.9.8
-        version: 1.9.10
+        specifier: ^1.9.10
+        version: 1.9.10(hogan.js@3.0.2)(lodash@4.17.21)
 
 packages:
 
@@ -5658,9 +5658,10 @@ snapshots:
       '@vue/babel-plugin-jsx': 1.1.5(@babel/core@7.22.11)
       '@vue/babel-preset-jsx': 1.4.0(@babel/core@7.22.11)(vue@2.7.14)
       babel-plugin-dynamic-import-node: 2.3.3
-      core-js: 3.32.1
       core-js-compat: 3.32.1
       semver: 6.3.1
+    optionalDependencies:
+      core-js: 3.32.1
       vue: 2.7.14
     transitivePeerDependencies:
       - supports-color
@@ -5676,6 +5677,7 @@ snapshots:
       '@vue/babel-sugar-inject-h': 1.4.0(@babel/core@7.22.11)
       '@vue/babel-sugar-v-model': 1.4.0(@babel/core@7.22.11)
       '@vue/babel-sugar-v-on': 1.4.0(@babel/core@7.22.11)
+    optionalDependencies:
       vue: 2.7.14
 
   '@vue/babel-sugar-composition-api-inject-h@1.4.0(@babel/core@7.22.11)':
@@ -5721,9 +5723,9 @@ snapshots:
       postcss: 8.4.28
       source-map: 0.6.1
 
-  '@vue/component-compiler-utils@3.3.0':
+  '@vue/component-compiler-utils@3.3.0(hogan.js@3.0.2)(lodash@4.17.21)':
     dependencies:
-      consolidate: 0.15.1
+      consolidate: 0.15.1(hogan.js@3.0.2)(lodash@4.17.21)
       hash-sum: 1.0.2
       lru-cache: 4.1.5
       merge-source-map: 1.1.0
@@ -5788,7 +5790,7 @@ snapshots:
       - walrus
       - whiskers
 
-  '@vuepress/core@1.9.10':
+  '@vuepress/core@1.9.10(hogan.js@3.0.2)(lodash@4.17.21)':
     dependencies:
       '@babel/core': 7.22.11
       '@vue/babel-preset-app': 4.5.19(@babel/core@7.22.11)(core-js@3.32.1)(vue@2.7.14)
@@ -5820,7 +5822,7 @@ snapshots:
       toml: 3.0.0
       url-loader: 1.1.2(webpack@4.46.0)
       vue: 2.7.14
-      vue-loader: 15.10.2(cache-loader@3.0.1)(css-loader@2.1.1)(vue-template-compiler@2.7.14)(webpack@4.46.0)
+      vue-loader: 15.10.2(cache-loader@3.0.1(webpack@4.46.0))(css-loader@2.1.1(webpack@4.46.0))(hogan.js@3.0.2)(lodash@4.17.21)(vue-template-compiler@2.7.14)(webpack@4.46.0)
       vue-router: 3.6.5(vue@2.7.14)
       vue-server-renderer: 2.7.14
       vue-template-compiler: 2.7.14
@@ -6750,9 +6752,12 @@ snapshots:
 
   console-browserify@1.2.0: {}
 
-  consolidate@0.15.1:
+  consolidate@0.15.1(hogan.js@3.0.2)(lodash@4.17.21):
     dependencies:
       bluebird: 3.7.2
+    optionalDependencies:
+      hogan.js: 3.0.2
+      lodash: 4.17.21
 
   constants-browserify@1.0.0: {}
 
@@ -6991,6 +6996,7 @@ snapshots:
   debug@2.6.9(supports-color@6.1.0):
     dependencies:
       ms: 2.0.0
+    optionalDependencies:
       supports-color: 6.1.0
 
   debug@3.1.0:
@@ -7000,11 +7006,13 @@ snapshots:
   debug@3.2.7(supports-color@6.1.0):
     dependencies:
       ms: 2.1.3
+    optionalDependencies:
       supports-color: 6.1.0
 
   debug@4.3.4(supports-color@6.1.0):
     dependencies:
       ms: 2.1.2
+    optionalDependencies:
       supports-color: 6.1.0
 
   decamelize@1.2.0: {}
@@ -7558,8 +7566,8 @@ snapshots:
       inherits: 2.0.4
       readable-stream: 2.3.8
 
-  follow-redirects@1.15.2(debug@4.3.4):
-    dependencies:
+  follow-redirects@1.15.2(debug@4.3.4(supports-color@6.1.0)):
+    optionalDependencies:
       debug: 4.3.4(supports-color@6.1.0)
 
   for-each@0.3.3:
@@ -7890,9 +7898,9 @@ snapshots:
 
   http-parser-js@0.5.8: {}
 
-  http-proxy-middleware@0.19.1(debug@4.3.4)(supports-color@6.1.0):
+  http-proxy-middleware@0.19.1(debug@4.3.4(supports-color@6.1.0))(supports-color@6.1.0):
     dependencies:
-      http-proxy: 1.18.1(debug@4.3.4)
+      http-proxy: 1.18.1(debug@4.3.4(supports-color@6.1.0))
       is-glob: 4.0.3
       lodash: 4.17.21
       micromatch: 3.1.10(supports-color@6.1.0)
@@ -7903,17 +7911,17 @@ snapshots:
   http-proxy-middleware@1.3.1:
     dependencies:
       '@types/http-proxy': 1.17.11
-      http-proxy: 1.18.1(debug@4.3.4)
+      http-proxy: 1.18.1(debug@4.3.4(supports-color@6.1.0))
       is-glob: 4.0.3
       is-plain-obj: 3.0.0
       micromatch: 4.0.5
     transitivePeerDependencies:
       - debug
 
-  http-proxy@1.18.1(debug@4.3.4):
+  http-proxy@1.18.1(debug@4.3.4(supports-color@6.1.0)):
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.2(debug@4.3.4)
+      follow-redirects: 1.15.2(debug@4.3.4(supports-color@6.1.0))
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -9086,7 +9094,7 @@ snapshots:
   process@0.11.10: {}
 
   promise-inflight@1.0.1(bluebird@3.7.2):
-    dependencies:
+    optionalDependencies:
       bluebird: 3.7.2
 
   proxy-addr@2.0.7:
@@ -10044,17 +10052,18 @@ snapshots:
 
   vue-hot-reload-api@2.3.4: {}
 
-  vue-loader@15.10.2(cache-loader@3.0.1)(css-loader@2.1.1)(vue-template-compiler@2.7.14)(webpack@4.46.0):
+  vue-loader@15.10.2(cache-loader@3.0.1(webpack@4.46.0))(css-loader@2.1.1(webpack@4.46.0))(hogan.js@3.0.2)(lodash@4.17.21)(vue-template-compiler@2.7.14)(webpack@4.46.0):
     dependencies:
-      '@vue/component-compiler-utils': 3.3.0
-      cache-loader: 3.0.1(webpack@4.46.0)
+      '@vue/component-compiler-utils': 3.3.0(hogan.js@3.0.2)(lodash@4.17.21)
       css-loader: 2.1.1(webpack@4.46.0)
       hash-sum: 1.0.2
       loader-utils: 1.4.2
       vue-hot-reload-api: 2.3.4
       vue-style-loader: 4.1.3
-      vue-template-compiler: 2.7.14
       webpack: 4.46.0
+    optionalDependencies:
+      cache-loader: 3.0.1(webpack@4.46.0)
+      vue-template-compiler: 2.7.14
     transitivePeerDependencies:
       - arc-templates
       - atpl
@@ -10164,9 +10173,9 @@ snapshots:
     dependencies:
       smoothscroll-polyfill: 0.4.4
 
-  vuepress@1.9.10:
+  vuepress@1.9.10(hogan.js@3.0.2)(lodash@4.17.21):
     dependencies:
-      '@vuepress/core': 1.9.10
+      '@vuepress/core': 1.9.10(hogan.js@3.0.2)(lodash@4.17.21)
       '@vuepress/theme-default': 1.9.10
       '@vuepress/types': 1.9.10
       cac: 6.7.14
@@ -10287,7 +10296,7 @@ snapshots:
       del: 4.1.1
       express: 4.18.2(supports-color@6.1.0)
       html-entities: 1.4.0
-      http-proxy-middleware: 0.19.1(debug@4.3.4)(supports-color@6.1.0)
+      http-proxy-middleware: 0.19.1(debug@4.3.4(supports-color@6.1.0))(supports-color@6.1.0)
       import-local: 2.0.0
       internal-ip: 4.3.0
       ip: 1.1.8
