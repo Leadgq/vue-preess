@@ -167,3 +167,16 @@ prefetch: <link rel="prefetch" href="xxx.css">
     const loseContext = gl.getExtension('WEBGL_lose_context');
     loseContext && loseContext.restoreContext();
 ```
+
+
+## vue2 vs vue3
+
+### question: what is the different between vue2 and vue3?
+
+- At the writing level, vue2 is configuration, vue3 is option.
+vue2 requires that user data be written in the data function.
+But in vue3, yuo can write anywhere you want,you just need to import ref or reactive that proxy your responsive data.
+it is a good design, we can create a function that it is own "hook" state by itself. for example, in js, in vue, in ts.
+
+- In the Underling design, Object.defineProperty was used data Proxy in the vue2. vue3 uses Proxy to proxy data.
+This results in it being faster than vue2.
