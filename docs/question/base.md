@@ -180,3 +180,15 @@ it is a good design, we can create a function that it is own "hook" state by its
 
 - In the Underling design, Object.defineProperty was used data Proxy in the vue2. vue3 uses Proxy to proxy data.
 This results in it being faster than vue2.
+
+## css question
+
+### question: what is grid layout?
+
+
+- The grid layout can provide a two-dimensional layout for the web page,
+for example, If you have a container and you wanna arrange it in four rows and four columns.
+You can use "display: grid; grid-template-columns: repeat(4, 1fr); 
+grid-template-rows: repeat(4, 1fr);".
+The above code means that the container has four rows and four columns,and each row and column are equally divided.
+Now you can put your content in it.
