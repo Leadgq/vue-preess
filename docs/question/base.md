@@ -185,10 +185,10 @@ This results in it being faster than vue2.
 
 ### question: what is grid layout?
 
-
 - The grid layout can provide a two-dimensional layout for the web page,
 for example, If you have a container and you wanna arrange it in four rows and four columns.
 You can use "display: grid; grid-template-columns: repeat(4, 1fr); 
 grid-template-rows: repeat(4, 1fr);".
 The above code means that the container has four rows and four columns,and each row and column are equally divided.
-Now you can put your content in it.
+Grid items get bigger as the pages gets bigger and smaller as the pages gets smaller,
+Now you can put your content in it. 
