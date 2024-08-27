@@ -191,4 +191,5 @@ You can use "display: grid; grid-template-columns: repeat(4, 1fr);
 grid-template-rows: repeat(4, 1fr);".
 The above code means that the container has four rows and four columns,and each row and column are equally divided.
 Grid items get bigger as the pages gets bigger and smaller as the pages gets smaller,
-Now you can put your content in it. 
+Now you can put your content in it. But now they did not have any gaps, so you can use "gap: 10px;" to add gaps.
+In this way, a easy grid layout is created.
