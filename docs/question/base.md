@@ -193,3 +193,11 @@ The above code means that the container has four rows and four columns,and each 
 Grid items get bigger as the pages gets bigger and smaller as the pages gets smaller,
 Now you can put your content in it. But now they did not have any gaps, so you can use "gap: 10px;" to add gaps.
 In this way, a easy grid layout is created.
+
+### question: what is flex layout?
+
+- For elements , there are two types of elements , one is inline, the other is block.
+For block elements. By default they are arranged downward. we have to use "float" to arrange them horizontally.
+But it is not a good way to do it. Because we must consider use  "clear" to clear the float. It is a terrible experience.
+
+- The flex layout is used to resolve the issue. we only use "display:flex". then elements will be arranged horizontally.
