@@ -453,3 +453,67 @@ export default {
 ```
 
 [gitHub中文地址](https://x6.antv.vision/en/docs/tutorial/getting-started)
+
+
+## 讯飞插件
+
+```
+npm i @muguilin/xf-voice-dictation
+```
+
+```js
+import { XfVoiceDictation } from '@muguilin/xf-voice-dictation';
+
+let times = null;
+const xfVoice = new XfVoiceDictation({
+    APPID: 'xxx',
+    APISecret: 'xxx',
+    APIKey: 'xxx',
+
+    // webSocket请求地址 非必传参数，默认为：wss://iat-api.xfyun.cn/v2/iat
+    // url: '',
+
+    // 监听录音状态变化回调
+    onWillStatusChange: function (oldStatus, newStatus) {
+        // 可以在这里进行页面中一些交互逻辑处理：注：倒计时（语音听写只有60s）,录音的动画，按钮交互等！
+        console.log('识别状态：', oldStatus, newStatus);
+    },
+
+    // 监听识别结果的变化回调
+    onTextChange: function (text) {
+        // 可以在这里进行页面中一些交互逻辑处理：如将文本显示在页面中
+        console.log('识别内容：',text)
+
+        // 如果3秒钟内没有说话，就自动关闭（60s后也会自动关闭）
+        if (text) {
+            clearTimeout(times);
+            times = setTimeout(() => {
+                this.stop();
+            }, 3000);
+        };
+    },
+
+    // 监听识别错误回调
+    onError: function(error){
+        console.log('错误信息：', error)
+    }
+});
+
+// 给Dom元素加添事件，来调用开始语音识别！
+// xfVoice.start();
+
+// 给Dom元素加添事件，来调用关闭语音识别！
+// xfVoice.stop();
+```
+
+
+## Connect Camera
+
+[gitHub中文地址](https://github.com/648540858/wvp-GB28181-pro)
+
+- This is open-source project for GB28181.
+For front-end, You may need to play a video for your project.
+This open-source provide a plugin and you can use it directly to meet your requirements. 
+For back-end, It provide so many abilities that  you can move the position of the  Camera,
+Pushing stream and pulling stream.Also, If you would like to get the project code.
+you should browse the above address.

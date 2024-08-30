@@ -101,6 +101,31 @@ SSD (Single Shot MultiBox Detector)
 Transformers 语言模型
 ```
 
+## 检测模型标注集
+
+- PASCAL VOC 格式:
+ PASCAL VOC（Visual Object Classes）数据集使用一种XML格式来存储物体检测的标注信息。每个XML文件描述一个图像及其检测到的物体的位置和类别。
+
+- COCO 格式:
+  COCO（Common Objects in Context）数据集也使用JSON格式来存储物体检测的标注信息。每个JSON文件包含了图像、物体边界框、类别标签等详细信息。
+
+- ImageNet 格式:
+  ImageNet数据集通常使用一种简单的文本文件格式来存储物体检测的标注信息，包括物体类别和边界框坐标。
+
+- YOLO 格式:
+
+YOLO算法的输出格式，如前文所述，是一种特定的文本文件格式，每行表示一个检测到的物体实例的类别、中心点坐标和边界框尺寸。
+`
+- YOLOv5 格式:
+  YOLOv5算法的输出格式，与YOLO格式类似，但使用了一种更紧凑的表示方法，每行表示一个检测到的物体实例的类别、中心点坐标和边界框尺寸。
+
+
+## YOLOv5模型训练
+
+  yolov5的标注集采用的 YOLO 格式 也就是文本格式
+
+
+
 ## YOLOv5视频案例
 
 [b站地址](https://www.bilibili.com/video/BV1u24y1t7xo/?vd_source=cbcacd12141ce77a317fb7dd415c8607)
@@ -123,6 +148,7 @@ Transformers 语言模型
  切换镜像下载labelme: pip install labelme -i https://pypi.tuna.tsinghua.edu.cn/simple/
  labelimg: 用于标注数据集
  labelme: 用于标注数据集
+ 在线网站:https://www.makesense.ai/
 ```
 
 ## 神经网络

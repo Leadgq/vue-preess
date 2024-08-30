@@ -167,3 +167,37 @@ prefetch: <link rel="prefetch" href="xxx.css">
     const loseContext = gl.getExtension('WEBGL_lose_context');
     loseContext && loseContext.restoreContext();
 ```
+
+
+## vue2 vs vue3
+
+### question: what is the different between vue2 and vue3?
+
+- At the writing level, vue2 is configuration, vue3 is option.
+vue2 requires that user data be written in the data function.
+But in vue3, yuo can write anywhere you want,you just need to import ref or reactive that proxy your responsive data.
+it is a good design, we can create a function that it is own "hook" state by itself. for example, in js, in vue, in ts.
+
+- In the Underling design, Object.defineProperty was used data Proxy in the vue2. vue3 uses Proxy to proxy data.
+This results in it being faster than vue2.
+
+## css question
+
+### question: what is grid layout?
+
+- The grid layout can provide a two-dimensional layout for the web page,
+for example, If you have a container and you wanna arrange it in four rows and four columns.
+You can use "display: grid; grid-template-columns: repeat(4, 1fr); 
+grid-template-rows: repeat(4, 1fr);".
+The above code means that the container has four rows and four columns,and each row and column are equally divided.
+Grid items get bigger as the pages gets bigger and smaller as the pages gets smaller,
+Now you can put your content in it. But now they did not have any gaps, so you can use "gap: 10px;" to add gaps.
+In this way, a easy grid layout is created.
+
+### question: what is flex layout?
+
+- For elements , there are two types of elements , one is inline, the other is block.
+For block elements. By default they are arranged downward. we have to use "float" to arrange them horizontally.
+But it is not a good way to do it. Because we must consider use  "clear" to clear the float. It is a terrible experience.
+
+- The flex layout is used to resolve the issue. we only use "display:flex". then elements will be arranged horizontally.
