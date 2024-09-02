@@ -1,6 +1,6 @@
 # 题库
 
-## vue父子组件的生命周期
+## vue 父子组件的生命周期
 
 ```vue
 <!-- 父组件 -->
@@ -11,13 +11,13 @@
 </template>
 
 <script>
-  import child from './child.vue'
+import child from "./child.vue";
 
-  export default {
-    components: {
-      child
-    }
-  }
+export default {
+  components: {
+    child,
+  },
+};
 </script>
 
 <!-- 子组件 -->
@@ -28,7 +28,7 @@
 </template>
 ```
 
-``` 
+```
  只要你懂的render函数的运行时机那么上面的问题就很简单
      1.运行父 beforeCreate 我得先创建父亲
      2.运行父 created 父亲创建好了
@@ -44,8 +44,7 @@
     8.运行父 mounted 父亲挂载完毕
 ```
 
-
-## webView嵌入模式，生产发布时，代码缓存
+## webView 嵌入模式，生产发布时，代码缓存
 
 ```
 发生问题：生产发布时，代码缓存，导致页面不更新
@@ -61,15 +60,14 @@ no-store ===  etag off; last_modified off;
 
 ## webView 预加载
 
-```vue 
-发生问题：嵌入的时候，当访问子应用的时候，白屏时间过长
-    h5 uniApp 的解决方法 : 创建一个空白的webView 用来预加载
-    <web-view :src="url" :style="width:0,height:0"></web-view>
-    url 就是子应用的地址, 宽高为0,这样就不会显示出来
+```vue
+发生问题：嵌入的时候，当访问子应用的时候，白屏时间过长 h5 uniApp 的解决方法 :
+创建一个空白的webView 用来预加载
+<web-view :src="url" :style="width:0,height:0"></web-view>
+url 就是子应用的地址, 宽高为0,这样就不会显示出来
 ```
 
-
-## 如何唤起app
+## 如何唤起 app
 
 ```vue
 <template>
@@ -78,62 +76,45 @@ no-store ===  etag off; last_modified off;
   </div>
 </template>
 <script>
-
 export default {
-  components: {
-
-  },
+  components: {},
   data() {
     return {};
   },
-  mounted() {
-
-  },
-  computed: {
-  },
+  mounted() {},
+  computed: {},
   methods: {
     openApp() {
       // window.location.href = 'snssdk1128://';
-      window.location.href = 'weixin://scanqrcode';
-    }
+      window.location.href = "weixin://scanqrcode";
+    },
   },
 };
 </script>
 ```
 
-
 ## 资源提示符
 
 ```html
-async:  <script async src="xxx.js"></script>  
-  1. 正常解析dom树
-  2. 遇到async的script标签，开始下载，不阻塞dom树的解析
-  3. 下载完毕，立即执行，执行完毕
-  4. 暂停dom树的解析
-  5. 执行完毕，恢复dom树的解析
-  6. 所以无法确认当前解析dom树的dom节点
-  
-defer:  <script defer src="xxx.js"></script>
-  1. 正常解析dom树
-  2. 遇到defer的script标签，开始下载，不阻塞dom树的解析
-  3. 下载完毕，等待dom树解析完毕，再执行
-  4. 执行完毕，恢复dom树的解析
-  5. 所以可以确认当前解析dom树的dom节点
-  6. 在执行完毕之后DOMContentLoaded事件触发
-  tips： <script type='module' ></script> 会自动添加defer属性
-
- 上述都是作用于 script 标签,都是需要执行的
-
-preload: <link rel="preload" href="xxx.js" as="script">
-  1.不会停止dom的解析
-  2.会提前下载资源（优先级高）当我看到这个标签立刻去拿资源,但不执行
-
-prefetch: <link rel="prefetch" href="xxx.css">
-  1.不会停止dom的解析
-  2.会提前下载资源（优先级低）当浏览器空闲的时候去拿资源,但不执行
+async:
+<script async src="xxx.js"></script>
+1. 正常解析dom树 2. 遇到async的script标签，开始下载，不阻塞dom树的解析 3.
+下载完毕，立即执行，执行完毕 4. 暂停dom树的解析 5. 执行完毕，恢复dom树的解析 6.
+所以无法确认当前解析dom树的dom节点 defer:
+<script defer src="xxx.js"></script>
+1. 正常解析dom树 2. 遇到defer的script标签，开始下载，不阻塞dom树的解析 3.
+下载完毕，等待dom树解析完毕，再执行 4. 执行完毕，恢复dom树的解析 5.
+所以可以确认当前解析dom树的dom节点 6. 在执行完毕之后DOMContentLoaded事件触发
+tips：
+<script type="module"></script>
+会自动添加defer属性 上述都是作用于 script 标签,都是需要执行的 preload:
+<link rel="preload" href="xxx.js" as="script" /> 1.不会停止dom的解析
+2.会提前下载资源（优先级高）当我看到这个标签立刻去拿资源,但不执行 prefetch:
+<link rel="prefetch" href="xxx.css" /> 1.不会停止dom的解析
+2.会提前下载资源（优先级低）当浏览器空闲的时候去拿资源,但不执行
 ```
 
-## 多个gl导致地图崩溃的原因
+## 多个 gl 导致地图崩溃的原因
 
 ```js
   注意点:
@@ -153,7 +134,8 @@ prefetch: <link rel="prefetch" href="xxx.css">
         map && map.destroy();
       };
 ```
-## gl的恢复和丢失使用的方法?
+
+## gl 的恢复和丢失使用的方法?
 
 ```js
  1.上下文丢失
@@ -163,41 +145,54 @@ prefetch: <link rel="prefetch" href="xxx.css">
     loseContext && loseContext.loseContext();
  2.上下文恢复
     var canvas = document.getElementById("canvas");
-    var gl = canvas.getContext("webgl");   
+    var gl = canvas.getContext("webgl");
     const loseContext = gl.getExtension('WEBGL_lose_context');
     loseContext && loseContext.restoreContext();
 ```
-
 
 ## vue2 vs vue3
 
 ### question: what is the different between vue2 and vue3?
 
 - At the writing level, vue2 is configuration, vue3 is option.
-vue2 requires that user data be written in the data function.
-But in vue3, yuo can write anywhere you want,you just need to import ref or reactive that proxy your responsive data.
-it is a good design, we can create a function that it is own "hook" state by itself. for example, in js, in vue, in ts.
+  vue2 requires that user data be written in the data function.
+  But in vue3, yuo can write anywhere you want,you just need to import ref or reactive that proxy your responsive data.
+  it is a good design, we can create a function that it is own "hook" state by itself. for example, in js, in vue, in ts.
 
 - In the Underling design, Object.defineProperty was used data Proxy in the vue2. vue3 uses Proxy to proxy data.
-This results in it being faster than vue2.
+  This results in it being faster than vue2.
 
 ## css question
 
 ### question: what is grid layout?
 
 - The grid layout can provide a two-dimensional layout for the web page,
-for example, If you have a container and you wanna arrange it in four rows and four columns.
-You can use "display: grid; grid-template-columns: repeat(4, 1fr); 
-grid-template-rows: repeat(4, 1fr);".
-The above code means that the container has four rows and four columns,and each row and column are equally divided.
-Grid items get bigger as the pages gets bigger and smaller as the pages gets smaller,
-Now you can put your content in it. But now they did not have any gaps, so you can use "gap: 10px;" to add gaps.
-In this way, a easy grid layout is created.
+  for example, If you have a container and you wanna arrange it in four rows and four columns.
+  You can use "display: grid; grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);".
+  The above code means that the container has four rows and four columns,and each row and column are equally divided.
+  Grid items get bigger as the pages gets bigger and smaller as the pages gets smaller,
+  Now you can put your content in it. But now they did not have any gaps, so you can use "gap: 10px;" to add gaps.
+  In this way, a easy grid layout is created.
 
 ### question: what is flex layout?
 
 - For elements , there are two types of elements , one is inline, the other is block.
-For block elements. By default they are arranged downward. we have to use "float" to arrange them horizontally.
-But it is not a good way to do it. Because we must consider use  "clear" to clear the float. It is a terrible experience.
+  For block elements. By default they are arranged downward. we have to use "float" to arrange them horizontally.
+  But it is not a good way to do it. Because we must consider use "clear" to clear the float. It is a terrible experience.
 
 - The flex layout is used to resolve the issue. we only use "display:flex". then elements will be arranged horizontally.
+
+### question: new Features for ES6?
+
+```
+ what have new Features for ES6? And take about your understanding for them.
+```
+
+- ES6 is new standard for JavaScript. This new Version provides many ways
+  to standardize our code. such as:
+
+1. use let and const to define variable.
+2. arrow function to define function.
+3. we can insert dynamic variables into string template by using ${}.
+4. Add "includes" method to String.
