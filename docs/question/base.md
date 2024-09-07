@@ -198,7 +198,7 @@ loseContext && loseContext.restoreContext();
 ### question: what is flex layout?
 
 - For elements , there are two types of elements , one is inline, the other is block.
-  For block elements. By default they are arranged downward. we have to use "float" to arrange them horizontally.
+  For block elements. By default, they are arranged downward. we have to use "float" to arrange them horizontally.
   But it is not a good way to do it. Because we must consider use "clear" to clear the float. It is a terrible
   experience.
 
@@ -232,4 +232,6 @@ loseContext && loseContext.restoreContext();
 - Second, "useTemplateRef" is a new method to replace ref when you need to get a document instance.
   The author said "The ref should be used to define reactive data,rather than get a document instance or a component
   instance ".
-- Third, The Version add a 
+- Third, The Version add a new method called "useId". But so far, I do not know what is it used for.
+- Four, The new Version improved watch method. The Watch method has the ability to observe whether the data has changed.
+  
