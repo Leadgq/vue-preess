@@ -236,4 +236,4 @@ loseContext && loseContext.restoreContext();
 - Four, The new Version improved the watch method. The watch method has the ability to observe whether the data has
   changed.
   But, If you do not want to observe data which has a particularly deep level. Because the watch method only receives a
-  Boolean configuration. so, Now you can provide a number type to control the depth of observation.
+  Boolean configuration. so, Now you can provide a number type to dynamically control the depth of observation.
