@@ -176,7 +176,7 @@ loseContext && loseContext.restoreContext();
 - At the writing level, vue2 is configuration, vue3 is option.
   vue2 requires that user data be written in the data function.
   But in vue3, yuo can write anywhere you want,you just need to import ref or reactive that proxy your responsive data.
-  it is a good design, we can create a function that it is own "hook" state by itself. for example, in js, in vue, in
+  it is a good design, we can create a function that it its own "hook" state by itself. for example, in js, in vue, in
   ts.
 
 - In the Underling design, Object.defineProperty was used data Proxy in the vue2. vue3 uses Proxy to proxy data.
@@ -187,7 +187,7 @@ loseContext && loseContext.restoreContext();
 ### question: what is grid layout?
 
 - The grid layout can provide a two-dimensional layout for the web page,
-  for example, If you have a container and you wanna arrange it in four rows and four columns.
+  for example, If you have a container And you want to arrange it in four rows and four columns.
   You can use "display: grid; grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(4, 1fr);".
   The above code means that the container has four rows and four columns,and each row and column are equally divided.
@@ -233,5 +233,7 @@ loseContext && loseContext.restoreContext();
   The author said "The ref should be used to define reactive data,rather than get a document instance or a component
   instance ".
 - Third, The Version add a new method called "useId". But so far, I do not know what is it used for.
-- Four, The new Version improved watch method. The Watch method has the ability to observe whether the data has changed.
-  
+- Four, The new Version improved the watch method. The watch method has the ability to observe whether the data has
+  changed.
+  But, If you do not want to observe data which has a particularly deep level. Because the watch method only receives a
+  Boolean configuration. so, Now you can provide a number type to control the depth of observation.
