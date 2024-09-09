@@ -118,39 +118,24 @@ tips：
 
 ## 多个 gl 导致地图崩溃的原因
 
-```js
   注意点:
     webGl的创建是有个数限制的一般来说是16个
-创建过多的实例对象会出现， Too
-many
-active
-WebGL
-contexts.Oldest
-context
-will
-be
-lost错误
-例如在大屏项目，存在地图，和多个echart - 3
-D模式的图标
-###
+创建过多的实例对象会出现, Too many active WebGL contexts.Oldest  context will be lost错误
+例如在大屏项目，存在地图，和多个echart - 3D模式的图表
 解决方案:
-    1.
-获取echarts的canvas实例并
+- 获取echarts的canvas实例并
 调用
 canvas.getContext('webgl')?.getExtension('WEBGL_lose_context')?.loseContext();
 来模拟上下文丢失, 这样就会释放webgl的实例对象，我们还需要使用
-2.
-let chartInstance = echarts.getInstanceByDom(dom);
+- let chartInstance = echarts.getInstanceByDom(dom);
 if (chartInstance) {
     chartInstance.dispose();
 }
--- > 如果不这么做随着页面过多，会出现卡顿
-3.
-地图内部进行对地图的销毁
+如果不这么做随着页面过多，会出现卡顿
+- 3.地图内部进行对地图的销毁
 const destroyMapInstance = () => {
     map && map.destroy();
 };
-```
 
 ## gl 的恢复和丢失使用的方法?
 
