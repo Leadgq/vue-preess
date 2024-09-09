@@ -218,7 +218,7 @@ loseContext && loseContext.restoreContext();
 3. we can insert dynamic variables into string template by using ${}.
 4. Add "includes" method to String.
 
-### question: what new Features for Vue3.5?
+### question: what is new Features for Vue3.5?
 
 ```
    You would like to take about your understanding for them ?
