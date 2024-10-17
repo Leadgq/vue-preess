@@ -15,6 +15,7 @@ module.exports = {
         text: 'WebApi',
          items: [
           {text: 'api记录', link: '/base/WebApi/window'},
+          {text: 'css新特性', link: '/base/WebApi/css'},
         ]
     },
   ]
