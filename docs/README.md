@@ -10,5 +10,5 @@ features:
   details: 能生成多个html,不必由本人进行控制进行spa
 ---
 ::: slot footer
-作者 : leaderGq  时间: 2023-2023  gitHub地址:[leaderGq](https://github.com/Leadgq)
+作者 : leaderGq  时间: 2023-2025  gitHub地址:[leaderGq](https://github.com/Leadgq)
 :::

@@ -30,7 +30,8 @@ module.exports = {
           { text: 'tailwindcss的配置', link: '/config/tailwindcss' },
           { text: 'nodemon配置', link: '/config/nodemon' },
           { text: 'git', link: '/config/git' },
-          { text: 'vscode', link: '/config/vscode' }
+          { text: 'vscode', link: '/config/vscode' },
+          { text: 'monorepo', link: '/config/monorepo' }
         ],
       },
       {
