@@ -151,8 +151,246 @@ export default {
 
 ### vue3使用富文本
 
-```
-大同小异
+```vue
+<script setup lang="ts">
+import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+import { useAuthStore } from '@/store'
+import { fileDownloadUrl } from '@/api'
+
+const props = defineProps({
+  htmlContent: {
+    type: String,
+    default: '',
+    required: false,
+  },
+  projectId: {
+    type: String,
+    default: '',
+    required: true,
+  },
+  isDisabled: {
+    type: Boolean,
+    default: false,
+    required: false,
+  },
+  width: {
+    type: String,
+    default: '100%',
+    required: false,
+  },
+})
+const authStore = useAuthStore()
+// 编辑器实例，必须用 shallowRef，重要！
+const editorRef = shallowRef()
+
+const insertImage = ref([])
+
+// 内容 HTML
+const valueHtml = ref('')
+
+// 添加一个提取图片 src 的函数
+function extractImageSrcs(htmlContent: string): string[] {
+  const imgRegex = /<img[^>]+src="([^">]+)"/g
+  const srcs: string[] = []
+
+  const matches = Array.from(htmlContent.matchAll(imgRegex))
+
+  for (const match of matches) {
+    // match[1] 包含 src 的值
+    const src = match[1]
+    // 只获取文件名部分 (download/ 后面的部分)
+    const fileName = src.split('download/')[1]
+    if (fileName) {
+      srcs.push(fileName)
+    }
+  }
+
+  return srcs
+}
+
+watch(
+  () => props.htmlContent,
+  (newVal) => {
+    if (newVal) {
+      valueHtml.value = newVal
+      if (props.isDisabled) {
+        return
+      }
+      // 获取所有图片的 src
+      const imageSrcs = extractImageSrcs(newVal)
+      // 更新已插入图片列表
+      insertImage.value = imageSrcs.map(src => ({
+        src: fileDownloadUrl.replace('{fileName}', src),
+      }))
+    }
+  },
+  {
+    immediate: true,
+    deep: true,
+  },
+)
+
+watch(
+  () => props.isDisabled,
+  (newDisabled) => {
+    setDisabled(newDisabled)
+  },
+  {
+    flush: 'post',
+    deep: true,
+  },
+)
+
+// 编辑器配置
+const editorConfig = ref({
+  placeholder: '请输入内容...',
+  scroll: false,
+  MENU_CONF: {
+    uploadImage: {
+      server: '', // 初始为空
+      fieldName: 'file',
+      maxFileSize: 10 * 1024 * 1024,
+      headers: {
+        Authorization: `Bearer ${authStore.accessToken}`,
+      },
+      customInsert,
+    },
+    insertImage: {
+      onInsertedImage(imageNode) {
+        if (!imageNode) {
+          return
+        }
+        insertImage.value.push(imageNode)
+      },
+    },
+  },
+})
+
+// 监听 projectId 变化
+watch(
+  () => props.projectId,
+  (newProjectId) => {
+    if (newProjectId) {
+      editorConfig.value.MENU_CONF.uploadImage.server = `/api/file/project/${newProjectId}/upload`
+    }
+  },
+  { immediate: true },
+)
+
+function handleCreated(editor) {
+  editorRef.value = editor // 记录 editor 实例，重要！
+  setDisabled(props.isDisabled)
+}
+
+function setDisabled(disabled) {
+  if (disabled) {
+    editorRef.value?.disable()
+  }
+  else {
+    editorRef.value?.enable()
+  }
+}
+
+const toolbarConfig = {
+  excludeKeys: ['fullScreen'],
+}
+
+function customInsert(responseBody, insertFn) {
+  const saveName = responseBody.data.saveName
+  const url = fileDownloadUrl.replace('{fileName}', `${saveName}`)
+  insertFn(url)
+}
+
+function destroyEditor() {
+  const editor = editorRef.value
+  if (editor == null)
+    return
+  editor.destroy()
+}
+
+function getHtmlContent() {
+  // 获取当前编辑器中的所有剩下图片
+  const currentImages = editorRef.value.getElemsByType('image')
+  // 找出在 insertImage 中但不在当前编辑器中的图片，这些就是被删除的图片
+  const deleteImages = insertImage.value.filter(
+    insertedImg =>
+      !currentImages.some(currentImg => currentImg.src === insertedImg.src),
+  )
+  // 得到最终的src 并只要download/后面的地址
+  const finalSrc = deleteImages.map(item => item.src.split('download/')[1])
+  return {
+    html: valueHtml.value,
+    deleteImages: finalSrc,
+  }
+}
+
+defineExpose({
+  destroyEditor,
+  getHtmlContent,
+})
+
+// 组件销毁时，及时销毁编辑器
+onBeforeUnmount(() => {
+  destroyEditor()
+})
+</script>
+
+<template>
+  <div class="h-full w-full flex flex-col" :style="{ width: props.width }">
+    <div class="h-full w-full flex flex-col" style="border: 1px solid #ccc">
+      <!-- 工具栏 -->
+      <Toolbar
+        :editor="editorRef"
+        :default-config="toolbarConfig"
+        style="border-bottom: 1px solid #ccc"
+        mode="default"
+      />
+      <!-- 编辑器 -->
+      <Editor
+        v-model="valueHtml"
+        :default-config="editorConfig"
+        mode="default"
+        class="flex-1 overflow-y-auto"
+        @on-created="handleCreated"
+      />
+    </div>
+  </div>
+</template>
+
+<!-- 别忘了引入样式 -->
+<style src="@wangeditor/editor/dist/css/style.css"></style>
+
+<style>
+.w-e-text-container {
+  overflow: auto;
+}
+html.dark {
+  /* 工具栏背景色 */
+  --w-e-toolbar-bg-color: #1a202c;
+
+  /* 工具栏文字颜色 */
+  --w-e-toolbar-color: #e2e8f0;
+
+  /* 工具栏激活状态的颜色 */
+  --w-e-toolbar-active-color: #60a5fa;
+
+  /* 工具栏激活状态的背景色 */
+  --w-e-toolbar-active-bg-color: #2d3748;
+
+  /* 工具栏禁用状态的颜色 */
+  --w-e-toolbar-disabled-color: #6b7280;
+
+  /* 工具栏边框颜色 */
+  --w-e-toolbar-border-color: #4a5568;
+
+  /* 编辑区域背景色 */
+  --w-e-textarea-bg-color: #1a202c;
+
+  /* 编辑区域文字颜色 */
+  --w-e-textarea-color: #e2e8f0;
+}
+</style>
+
 ```
 
 ## vueUse
