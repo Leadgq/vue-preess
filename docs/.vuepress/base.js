@@ -9,6 +9,7 @@ module.exports = {
         { text: '字符串', link: '/base/EcmaScript/str' },
         {text: 'promise',link: '/base/EcmaScript/promise'},
         {text: 'this指向',link: '/base/EcmaScript/this'},
+        {text: '原型链',link: '/base/EcmaScript/prototype'},
       ]
     },
     {
