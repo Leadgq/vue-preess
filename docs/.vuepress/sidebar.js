@@ -7,6 +7,7 @@ module.exports = {
     'EcmaScript/str',
     'EcmaScript/promise',
     'EcmaScript/this',
+    'EcmaScript/prototype',
     'WebApi/window'
   ],
   '/plugin/': ['plugin'],
