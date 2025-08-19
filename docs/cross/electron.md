@@ -246,6 +246,9 @@ app.whenReady().then(() => {
     createDesktopShortcut: 是否创建桌面快捷方式  true
     nsis: 是用于windows的安装程序生成器，它可以创建一个安装程序，该安装程序将安装你的应用程序并将其添加到用户的PATH环境变量中。
     没有这个，你的应用程序将无法在命令行中运行，在你进行build的时候，会自动下载这个安装程序生成器
+    allowToChangeInstallationDirectory: true  # 允许用户改变安装目录
+    oneClick: true  # 一键安装  
+    -- allowToChangeInstallationDirectory 和 oneClick 必须同时存在
 ```
 
 ## gitHub 自动构建YML
