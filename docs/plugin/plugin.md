@@ -751,7 +751,7 @@ const xfVoice = new XfVoiceDictation({
 
 - This is open-source project for GB28181.
 For front-end, You may need to play a video for your project.
-This open-source provide a plugin and you can use it directly to meet your requirements. 
-For back-end, It provide so many abilities that  you can move the position of the  Camera,
+This open-source provide a plugin, and you can use it directly to meet your requirements. 
+For back-end, It provides so many abilities that  you can move the position of the  Camera,
 Pushing stream and pulling stream.Also, If you would like to get the project code.
 you should browse the above address.
