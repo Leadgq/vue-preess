@@ -14,5 +14,5 @@ module.exports = {
   '/question/': ['height', 'middle'],
   '/cross/': ['uniApp', 'electron'],
   '/node/': ['node'],
-  '/question/': ['base','AI']
+  '/question/': ['base','AI', 'langchain']
 }

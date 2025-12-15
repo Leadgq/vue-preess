@@ -45,6 +45,7 @@ module.exports = {
         items: [
           { text: '基础问题', link: '/question/base' },
           { text: 'AI', link: '/question/AI' },
+          { text: 'langchain', link: '/question/langchain' },
         ]
       }
     ],
