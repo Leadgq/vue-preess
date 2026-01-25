@@ -1,5 +1,5 @@
 module.exports = {
-  '/config/': ['vite-config', 'tailwindcss', 'nodemon', 'git', 'vscode', 'monorepo'],
+  '/config/': ['vite-config', 'tailwindcss', 'nodemon', 'git', 'vscode', 'monorepo', 'prisma'],
   '/base/': [
     'EcmaScript/reg',
     'EcmaScript/arr',
