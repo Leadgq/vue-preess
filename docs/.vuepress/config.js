@@ -31,7 +31,8 @@ module.exports = {
           { text: 'nodemon配置', link: '/config/nodemon' },
           { text: 'git', link: '/config/git' },
           { text: 'vscode', link: '/config/vscode' },
-          { text: 'monorepo', link: '/config/monorepo' }
+          { text: 'monorepo', link: '/config/monorepo' },
+          { text: 'prisma', link: '/config/prisma' },
         ],
       },
       {
@@ -45,6 +46,7 @@ module.exports = {
         items: [
           { text: '基础问题', link: '/question/base' },
           { text: 'AI', link: '/question/AI' },
+          { text: 'langchain', link: '/question/langchain' },
         ]
       }
     ],
