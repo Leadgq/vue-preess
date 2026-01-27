@@ -91,5 +91,104 @@ npx prisma migrate dev --name
 ## 生成 prisma 客户端
 
 ```bash
-npx prisma generate   
+npx prisma generate
+```
+
+## 使用
+
+```ts
+import "dotenv/config";
+import { PrismaPg } from "@prisma/adapter-pg";
+import { PrismaClient } from "./generated/prisma/client.ts";
+
+const connectionString = `${process.env.DATABASE_URL}`;
+
+const adapter = new PrismaPg({ connectionString });
+const prisma = new PrismaClient({ adapter });
+
+async function main() {
+  // 连接数据库
+  await prisma.$connect();
+
+  // 创建用户
+  await prisma.user.create({
+    data: {
+      email: "@qq.com",
+      password: "123456",
+      posts: {
+        create: {
+          title: "第一篇文章",
+          content: "这是第一篇文章的内容",
+        },
+      },
+    },
+  });
+
+  // 查询用户 并包含关联的帖子
+  const users = await prisma.user.findMany({
+    include: {
+      posts: true,
+    },
+  });
+
+  // 更新用户
+  const updateUser = await prisma.user.update({
+    where: {
+      id: "cmktmvb470000xougod9rr0rn",
+    },
+    data: {
+      email: "newss@qq.com",
+    },
+    include: {
+      posts: true,
+    },
+  });
+
+  // 删除用户
+  const deletePost = await prisma.user.delete({
+    where: {
+      id: "cmktmvb470000xougod9rr0rn",
+    },
+  });
+
+  const where = {
+    email: {
+      contains: "test",
+    },
+  };
+  // 查询用户
+  const users = await prisma.user.findMany({
+    where: where,
+  });
+  //   console.log(users);
+
+  // 实务==> 满足所谓的一致性
+  //   prisma.$transaction(async (tx) => {
+  //     // 比如说 A 转账给 B
+  //     // 1. 从 A 中减去金额
+  //     // 2. 向 B 中加上金额
+  //     // 你要么都成功，要么都失败
+  //     console.log("转账开始",tx);
+  //   });
+
+  // 分页
+  const page = 1;
+  const pageSize = 10;
+  const skip = (page - 1) * pageSize;
+
+  // 查询用户 分页
+  const usersPage = await prisma.user.findMany({
+    skip,
+    take: pageSize,
+    orderBy: {
+      email: "desc",
+    },
+  });
+  console.log(usersPage);
+
+  prisma.$disconnect();
+}
+
+main();
+
 ```
