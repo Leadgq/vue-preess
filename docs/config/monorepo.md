@@ -47,6 +47,11 @@ pnpm --filter 的意思是指定包名启动命令
  前提: 你已经更改了 @en/config 包中的 name 字段为 @en/config
 ```
 
+## 如何在外部直接创建nest的模块
+
+```
+  nest g  res 模块是什么  --project 你的项目名
+```
 
 - 添加 .npmrc
 
