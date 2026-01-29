@@ -33,6 +33,7 @@ module.exports = {
           { text: 'vscode', link: '/config/vscode' },
           { text: 'monorepo', link: '/config/monorepo' },
           { text: 'prisma', link: '/config/prisma' },
+          { text: 'three', link: '/config/three' },
         ],
       },
       {
