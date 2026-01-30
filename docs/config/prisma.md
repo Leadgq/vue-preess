@@ -35,6 +35,7 @@ npx prisma init
 generator client {
   provider = "prisma-client"
   output   = "../generated/prisma"
+  moduleFormat = "cjs" // 模块格式必须，否则报错
 }
 
 datasource db {
