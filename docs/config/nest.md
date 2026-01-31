@@ -125,3 +125,104 @@ export class AuthGuard implements CanActivate {
   }
 }
 ```
+
+## 前端配合
+
+```ts
+import axios from "axios";
+import type { Token } from "@en/common/user";
+import type { Response } from "../index.ts";
+
+const refreshServer = axios.create({
+  baseURL: "/api/v1",
+  timeout: 50000,
+});
+
+refreshServer.interceptors.response.use(
+  (config) => {
+    return config.data;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
+
+export const refreshTokenApi = (data: Omit<Token, "accessToken">) => {
+  return refreshServer.post("/user/refresh-token", data) as Promise<
+    Response<Token>
+  >;
+};
+
+```
+
+
+```ts
+
+export const serverApi = axios.create({
+  baseURL: "/api/v1",
+  timeout: TIMEOUT,
+});
+
+// 创建锁
+let isRefreshing = false;
+// 创建失败的队列
+let requestQueue: ((newAccessToken: string) => void)[] = [];
+// 请求拦截
+serverApi.interceptors.request.use((config) => {
+  const user = userStore();
+  if (user.getAccessToken) {
+    config.headers.Authorization = `Bearer ${user.getAccessToken}`;
+  }
+  return config;
+});
+
+// 响应拦截
+serverApi.interceptors.response.use(
+  (config) => {
+    return config.data;
+  },
+  async (error) => {
+    if (error.response.status !== 401) {
+      return Promise.reject(error);
+    } else {
+      const user = userStore();
+      const accessToken = user.getAccessToken;
+      const refreshToken = user.getRefreshToken;
+      const originalRequest = error.config;
+      if (!accessToken || !refreshToken) {
+        ElMessage.error("没有任何token,无法刷新，请重新登录  ");
+        user.loginOut();
+        router.replace("/");
+        return Promise.reject(error);
+      }
+      if (isRefreshing) {
+        return new Promise((resolve) => {
+          // 加入队列
+          requestQueue.push((newAccessToken: string) => {
+            originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+            resolve(serverApi(originalRequest));
+          });
+        });
+      }
+      isRefreshing = true;
+      try {
+        const newToken = await refreshTokenApi({ refreshToken });
+        if (newToken.success) {
+          user.updateToken(newToken.data);
+        } else {
+          user.loginOut();
+          router.replace("/");
+          return Promise.reject(error);
+        }
+        requestQueue.forEach((callback) => callback(newToken.data.accessToken));
+        return serverApi(originalRequest);
+      } catch (error) {
+        return Promise.reject(error);
+      } finally {
+        requestQueue = [];
+        isRefreshing = false;
+      }
+    }
+  },
+);
+```
