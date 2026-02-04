@@ -90,6 +90,7 @@ export class AuthService {
 ```
 
 ```ts
+这是全局守卫;
 import {
   CanActivate,
   ExecutionContext,
@@ -126,6 +127,72 @@ export class AuthGuard implements CanActivate {
 }
 ```
 
+## 局部守卫
+
+```ts
+在app.module.ts 中引入守卫模块;
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+@Module({
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
+  ],
+  controllers: [],
+  providers: [],
+})
+export class AppModule {}
+
+```
+
+```ts
+import { Strategy } from "passport-jwt";
+import { ExtractJwt } from "passport-jwt";
+import { PassportStrategy } from "@nestjs/passport";
+import { ConfigService } from "@nestjs/config";
+import { PrismaService } from "../prisma-util/prisma-util.service";
+import { Injectable } from "@nestjs/common";
+
+@Injectable()
+export class JwtStrategy extends PassportStrategy(Strategy, "jwt") {
+  constructor(configService: ConfigService, private prisma: PrismaService) {
+    super({
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      secretOrKey: configService.get("SECRET_KEY")!,
+    });
+  }
+
+  async validate({ userId }) {
+    return this.prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+  }
+}
+```
+
+```ts
+import { Controller, Post, Body, Req, Get, UseGuards } from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { RegisterDto } from './dto/auto-register.dot';
+import { LoginDto } from './dto/auth-login.dot';
+import { AuthGuard } from '@nestjs/passport';
+import type { Request } from 'express';
+
+@Controller('auth')
+export class AuthController {
+  constructor(private readonly authService: AuthService) {}
+  @Get('all')
+  @UseGuards(AuthGuard('jwt'))
+  getAll(@Req() req: Request) {
+    return this.authService.getAll();
+  }
+}
+```
+
 ## 前端配合
 
 ```ts
@@ -152,12 +219,9 @@ export const refreshTokenApi = (data: Omit<Token, "accessToken">) => {
     Response<Token>
   >;
 };
-
 ```
 
-
 ```ts
-
 export const serverApi = axios.create({
   baseURL: "/api/v1",
   timeout: TIMEOUT,
@@ -225,4 +289,38 @@ serverApi.interceptors.response.use(
     }
   },
 );
+```
+
+## 表单验证
+
+```bash
+ pnpm add class-validator class-transformer
+```
+
+### dto
+
+```ts
+import { IsNotEmpty } from "class-validator";
+
+// 这是dto
+export class LoginDto {
+  @IsNotEmpty({ message: "用户名不能为空" })
+  username: string;
+
+  @IsNotEmpty({ message: "密码不能为空" })
+  password: string;
+}
+
+ // 这是controller的代码
+  @Post('login')
+  login(@Body() loginDto: LoginDto) {
+    return this.authService.login(loginDto);
+  }
+
+  在去main.ts中写全局过滤器
+
+   app.useGlobalPipes(
+    new ValidationPipe(),
+  );
+
 ```
