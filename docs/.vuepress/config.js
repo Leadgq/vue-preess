@@ -34,6 +34,7 @@ module.exports = {
           { text: 'monorepo', link: '/config/monorepo' },
           { text: 'prisma', link: '/config/prisma' },
           { text: 'three', link: '/config/three' },
+          { text: 'nest', link: '/config/nest' },
         ],
       },
       {
