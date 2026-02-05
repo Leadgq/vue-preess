@@ -175,18 +175,18 @@ export class JwtStrategy extends PassportStrategy(Strategy, "jwt") {
 ```
 
 ```ts
-import { Controller, Post, Body, Req, Get, UseGuards } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { RegisterDto } from './dto/auto-register.dot';
-import { LoginDto } from './dto/auth-login.dot';
-import { AuthGuard } from '@nestjs/passport';
-import type { Request } from 'express';
+import { Controller, Post, Body, Req, Get, UseGuards } from "@nestjs/common";
+import { AuthService } from "./auth.service";
+import { RegisterDto } from "./dto/auto-register.dot";
+import { LoginDto } from "./dto/auth-login.dot";
+import { AuthGuard } from "@nestjs/passport";
+import type { Request } from "express";
 
-@Controller('auth')
+@Controller("auth")
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-  @Get('all')
-  @UseGuards(AuthGuard('jwt'))
+  @Get("all")
+  @UseGuards(AuthGuard("jwt"))
   getAll(@Req() req: Request) {
     return this.authService.getAll();
   }
@@ -323,4 +323,118 @@ export class LoginDto {
     new ValidationPipe(),
   );
 
+```
+
+## minio
+
+```bash
+ pnpm add  minio
+ pnpm add  @types/multer -D
+```
+
+### 安装 MinIO
+
+打开网址：`https://minio.org.cn/download.shtml#/windows`
+
+1. 下载 server -> minio.exe
+2. 下载 client -> mc.exe
+
+两个都要下载，下载完成之后放入文件夹即可,在文件夹里面新建两个文件名字可以随便取，我这儿叫`minio-data` `minio-data2`。进行集群存储，方便数据备份。
+
+windows CMD 命令行启动
+
+新建一个文件`start.cmd`
+
+```cmd
+set MINIO_ROOT_USER=admin
+set MINIO_ROOT_PASSWORD=12345678
+minio.exe server .\minio-data .\minio-data2 --console-address ":9001"
+```
+
+### 密钥生成
+
+```bash
+前置 mc alias set myminio http://localhost:9000 admin 12345678
+mc admin user svcacct add myminio admin
+```
+
+### 删除Bucket
+
+```
+mc rb --force myminio/avatar
+```
+
+
+### 使用密钥
+
+```json
+
+# minio access秘钥
+MINIO_ACCESS_KEY="OZ0Q833E5RPMFALGKKXT"
+# minio secret秘钥
+MINIO_SECRET_KEY="deW1+xXBiCI6ep6BvUpUJQxfxbJjhCLoWiPPBgWd"
+# minio 地址
+MINIO_URL="192.168.101.32"
+# minio 端口
+MINIO_PORT=9000
+# 是否使用SSL
+MINIO_USE_SSL=0
+# minio 桶名
+MINIO_BUCKET="avatar"
+
+```
+
+```ts
+//  自己创建service和module
+import { Injectable, OnModuleInit } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
+import * as Minio from "minio";
+@Injectable()
+export class MinioService implements OnModuleInit {
+  private readonly minioClient: Minio.Client;
+  constructor(private configService: ConfigService) {
+    this.minioClient = new Minio.Client({
+      endPoint: this.configService.get("MINIO_URL")!,
+      port: this.configService.get("MINIO_PORT"),
+      useSSL: !!Number(this.configService.get("MINIO_USE_SSL")),
+      accessKey: this.configService.get("MINIO_ACCESS_KEY"),
+      secretKey: this.configService.get("MINIO_SECRET_KEY"),
+    });
+  }
+
+  async onModuleInit() {
+    // 读取桶命
+    const bucket = this.getBucket();
+    // 是否存在
+    const bucketExists = await this.minioClient.bucketExists(bucket);
+    if (!bucketExists) {
+      // 创建桶
+      await this.minioClient.makeBucket(bucket);
+      // 设置桶策略
+      await this.minioClient.setBucketPolicy(
+        bucket,
+        JSON.stringify({
+          Version: "2012-10-17",
+          Statement: [
+            {
+              Sid: "PublicReadObjects", //给这个规则起一个名字
+              Effect: "Allow", //允许打开这个规则 Allow 允许 Deny 拒绝
+              Principal: "*", //所有人
+              Action: ["s3:GetObject"], //允许浏览器获取对象
+              Resource: ["arn:aws:s3:::avatar/*"], //允许读取 avatar桶内的所有资源
+            },
+          ],
+        }),
+      );
+    }
+  }
+
+  getClient() {
+    return this.minioClient;
+  }
+
+  getBucket() {
+    return this.configService.get("MINIO_BUCKET")!;
+  }
+}
 ```
