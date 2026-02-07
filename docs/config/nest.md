@@ -324,6 +324,43 @@ export class LoginDto {
   );
 
 ```
+### 验证数据唯一性
+
+```ts
+import { PrismaService } from '../prisma-util/prisma-util.service';
+
+import {
+  registerDecorator,
+  ValidationArguments,
+  ValidationOptions,
+} from 'class-validator';
+
+// 表单字段是否唯一
+export function isNotExistsRule(
+  table: string,
+  validationOptions: ValidationOptions,
+) {
+  return function (object: Record<string, any>, propertyName: string) {
+    registerDecorator({
+      name: 'isNotExistsRule',
+      target: object.constructor,
+      propertyName,
+      options: validationOptions,
+      validator: {
+        validate: async (value: any, args: ValidationArguments) => {
+          const prismaService = new PrismaService();
+          const res = await prismaService[table].findFirst({
+            where: {
+              [args.property]: value,
+            },
+          });
+          return !Boolean(res);
+        },
+      },
+    });
+  };
+}
+```
 
 ## minio
 
