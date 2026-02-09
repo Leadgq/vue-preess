@@ -476,9 +476,9 @@ export class MinioService implements OnModuleInit {
 }
 ```
 
-# ai
+## ai
 
-## 安装包下载
+### 安装包下载
 
 ```bash
  pnpm add  @langchain/core  @langchain/deepseek @langchain/langgraph @langchain/langgraph-checkpoint-postgres langchain
@@ -513,7 +513,7 @@ export const createCheckPoint = async () => {
 };
 ```
 
-## 在服务中使用
+### 在服务中使用
 
 ```ts
 export const chatMode = [
@@ -608,7 +608,7 @@ export class ChatService implements OnModuleInit {
 }
 ```
 
-## 在控制层
+### 在控制层
 
 ```ts
 import { Controller, Get, Post, Body, Res, Query } from '@nestjs/common';
@@ -641,7 +641,7 @@ export class ChatController {
   }
 ```
 
-## 前端配合
+### 前端配合
 
 ```ts
 function sendMessage(message: string) {
