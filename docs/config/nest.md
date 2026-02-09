@@ -324,16 +324,17 @@ export class LoginDto {
   );
 
 ```
+
 ### 验证数据唯一性
 
 ```ts
-import { PrismaService } from '../prisma-util/prisma-util.service';
+import { PrismaService } from "../prisma-util/prisma-util.service";
 
 import {
   registerDecorator,
   ValidationArguments,
   ValidationOptions,
-} from 'class-validator';
+} from "class-validator";
 
 // 表单字段是否唯一
 export function isNotExistsRule(
@@ -342,7 +343,7 @@ export function isNotExistsRule(
 ) {
   return function (object: Record<string, any>, propertyName: string) {
     registerDecorator({
-      name: 'isNotExistsRule',
+      name: "isNotExistsRule",
       target: object.constructor,
       propertyName,
       options: validationOptions,
@@ -395,12 +396,11 @@ minio.exe server .\minio-data .\minio-data2 --console-address ":9001"
 mc admin user svcacct add myminio admin
 ```
 
-### 删除Bucket
+### 删除 Bucket
 
 ```
 mc rb --force myminio/avatar
 ```
-
 
 ### 使用密钥
 
@@ -474,4 +474,226 @@ export class MinioService implements OnModuleInit {
     return this.configService.get("MINIO_BUCKET")!;
   }
 }
+```
+
+# ai
+
+## 安装包下载
+
+```bash
+ pnpm add  @langchain/core  @langchain/deepseek @langchain/langgraph @langchain/langgraph-checkpoint-postgres langchain
+```
+
+## 初始化
+
+```ts
+// 初始化deepSeek模型
+import { ChatDeepSeek } from "@langchain/deepseek";
+import { ConfigService } from "@nestjs/config";
+import { PostgresSaver } from "@langchain/langgraph-checkpoint-postgres";
+export const createDeepSeek = () => {
+  const configService = new ConfigService();
+  const apiKey = configService.get("DEEPSEEK_API_KEY");
+  const model = configService.get("DEEPSEEK_API_MODEL");
+  return ChatDeepSeek({
+    apiKey,
+    model,
+    maxTokens: 4399,
+    streaming: true, // 开启流式输出
+  });
+};
+
+// 初始化存储
+export const createCheckPoint = async () => {
+  const configService = new ConfigService();
+  const dbUrl = configService.get("POSTGRES_URL");
+  const checkpointer = PostgresSaver.fromConnString(dbUrl);
+  await checkpointer.setup();
+  return checkpointer;
+};
+```
+
+## 在服务中使用
+
+```ts
+export const chatMode = [
+  {
+    role: "normal", //角色
+    prompt:
+      "你是一个智能助手，这是一个学英语的对话，根据用户的对话内容，给出相应的回答(使用简单易懂的表达)，请用中文回答",
+    label: "💬 智能助手", //标签
+    id: "1", //id
+  },
+  {
+    role: "master",
+    prompt:
+      "你是一个英语大师，这是一个英语学习的对话，根据用户的对话内容，给出相应的回答(使用专业术语)，请用英文回答",
+    label: "🎓 英语大师",
+    id: "2",
+  },
+  {
+    role: "business",
+    prompt:
+      "你是一个商务英语专家，这是一个商务英语的对话，根据用户的对话内容，给出相应的回答(使用商务英语专业术语)，请用中文回答",
+    label: "💼 商务英语",
+    id: "3",
+  },
+] as const;
+```
+
+```ts
+// chatMode 这个是模型列表
+import { chatMode } from "./../prompt/prompt.model";
+import { Injectable, OnModuleInit } from "@nestjs/common";
+import { createDeepSeek, createCheckpoint } from "../llm/llm.config";
+import { PostgresSaver } from "@langchain/langgraph-checkpoint-postgres";
+import type { ChatDto, ChatRoleType } from "@en/common/chat";
+import type { AIMessageChunk, ReactAgent } from "langchain";
+import { createAgent } from "langchain";
+import { ResponseService } from "@libs/shared";
+@Injectable()
+export class ChatService implements OnModuleInit {
+  private checkpointer: PostgresSaver;
+  private agents: Map<ChatRoleType, ReactAgent> = new Map();
+  constructor(private readonly responseService: ResponseService) {}
+
+  async onModuleInit() {
+    // 初始话
+    this.checkpointer = await createCheckpoint();
+    //初始化多个agent
+    for (const mode of chatMode) {
+      const agent = createAgent({
+        model: createDeepSeek(),
+        systemPrompt: mode.prompt,
+        checkpointer: this.checkpointer,
+      });
+      this.agents.set(mode.role, agent);
+    }
+  }
+
+  streamCompletion(createChatDto: ChatDto) {
+    const agent = this.agents.get(createChatDto.role);
+    if (!agent) {
+      throw new Error(`Agent for role ${createChatDto.role} not found`);
+    }
+    const threadId = `${createChatDto.userId}-${createChatDto.role}`;
+    const stream = agent.stream(
+      {
+        messages: [{ role: "human", content: createChatDto.content }],
+      },
+      {
+        configurable: {
+          thread_id: threadId,
+        },
+        streamMode: "messages",
+      },
+    );
+    return stream; // 这是个迭代器，需要在controller中处理
+  }
+
+  // 获取历史记录
+  async getHistory(userId: string, role: ChatRoleType) {
+    const messages = await this.checkpointer.get({
+      configurable: { thread_id: `${userId}-${role}` },
+    });
+    const list = messages?.channel_values?.messages as AIMessageChunk[];
+    if (!list) return this.responseService.success([]);
+    return this.responseService.success(
+      list.map((item) => ({
+        content: item.content,
+        role: item.type,
+      })),
+    );
+  }
+}
+```
+
+## 在控制层
+
+```ts
+import { Controller, Get, Post, Body, Res, Query } from '@nestjs/common';
+import { ChatService } from './chat.service';
+import type { ChatDto, ChatRoleType } from '@en/common/chat';
+import type { Response } from 'express';
+
+@Controller('chat')
+export class ChatController {
+  constructor(private readonly chatService: ChatService) {}
+
+  @Post()
+  async create(@Body() createChatDto: ChatDto, @Res() res: Response) {
+    res.setHeader('Content-Type', 'text/event-stream'); // 流式传输的MIME类型
+    res.setHeader('Cache-Control', 'no-cache'); // 禁用缓存
+    res.setHeader('Connection', 'keep-alive'); // 保持连接
+    const stream = await this.chatService.streamCompletion(createChatDto);
+    for await (const chunk of stream) {
+      const [msg] = chunk;
+      res.write(
+        `data: ${JSON.stringify({ content: msg.content, role: 'ai' })}\n\n`,
+      );
+    }
+    res.end();
+  }
+
+  @Get('history')
+  getHistory(@Query('userId') userId: string, @Query('role') role: ChatRoleType) {
+    return this.chatService.getHistory(userId, role);
+  }
+```
+
+## 前端配合
+
+```ts
+function sendMessage(message: string) {
+    loading.value = true
+    list.value.push({
+        role: "human",
+        content: message,
+    })
+    list.value.push({
+        role: "ai",
+        content: "",
+    })
+    sse<ChatMessage, ChatDto>(CHAT_URL, "POST", {
+        role: active.value,
+        content: message,
+        userId: userInstance.user!.id,
+    }, (data) => {
+        const last = list.value[list.value.length - 1]
+        if (last) {
+            last.content += data.content
+        }
+        loading.value = false
+    }, () => {
+        loading.value = false
+    })
+}
+```
+
+```ts
+import type { Method } from "axios";
+export const CHAT_URL = "/ai/v1/chat";
+import { fetchEventSource } from "@microsoft/fetch-event-source";
+
+export const sse = <T, V>(
+  url: string,
+  method: Method,
+  body: V,
+  callback?: (data: T) => void,
+  errorCallback?: (error: Error) => void,
+) => {
+  fetchEventSource(url, {
+    method: method.toLocaleLowerCase(),
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+    onmessage: (event) => {
+      callback?.(JSON.parse(event.data) as T );
+    },
+    onerror: (error) => {
+      errorCallback?.(error);
+    },
+  });
+};
 ```
