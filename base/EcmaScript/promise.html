@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Promise简介 | 我的文档地址</title>
+    <meta name="generator" content="VuePress 1.9.10">
+    
+    <meta name="description" content="在线文档地址">
+    
+    <link rel="preload" href="/vue-preess/assets/css/0.styles.a7b65f9e.css" as="style"><link rel="preload" href="/vue-preess/assets/js/app.19476c11.js" as="script"><link rel="preload" href="/vue-preess/assets/js/2.f3b333de.js" as="script"><link rel="preload" href="/vue-preess/assets/js/1.f574d6f5.js" as="script"><link rel="preload" href="/vue-preess/assets/js/25.1697aa0f.js" as="script"><link rel="prefetch" href="/vue-preess/assets/js/10.1f88676b.js"><link rel="prefetch" href="/vue-preess/assets/js/11.55ba53f7.js"><link rel="prefetch" href="/vue-preess/assets/js/12.ce5c7d6f.js"><link rel="prefetch" href="/vue-preess/assets/js/13.1ee92742.js"><link rel="prefetch" href="/vue-preess/assets/js/14.ccf0f713.js"><link rel="prefetch" href="/vue-preess/assets/js/15.b9ea491a.js"><link rel="prefetch" href="/vue-preess/assets/js/16.4ad6e081.js"><link rel="prefetch" href="/vue-preess/assets/js/17.a554319d.js"><link rel="prefetch" href="/vue-preess/assets/js/18.f5513c91.js"><link rel="prefetch" href="/vue-preess/assets/js/19.17eb6035.js"><link rel="prefetch" href="/vue-preess/assets/js/20.2f27fd7b.js"><link rel="prefetch" href="/vue-preess/assets/js/21.bc813914.js"><link rel="prefetch" href="/vue-preess/assets/js/22.960cb455.js"><link rel="prefetch" href="/vue-preess/assets/js/23.033014fe.js"><link rel="prefetch" href="/vue-preess/assets/js/24.9926cf9a.js"><link rel="prefetch" href="/vue-preess/assets/js/26.c4b1dabd.js"><link rel="prefetch" href="/vue-preess/assets/js/27.a545f9cb.js"><link rel="prefetch" href="/vue-preess/assets/js/28.8504d86f.js"><link rel="prefetch" href="/vue-preess/assets/js/29.e9e58762.js"><link rel="prefetch" href="/vue-preess/assets/js/3.024324e3.js"><link rel="prefetch" href="/vue-preess/assets/js/30.63ef17be.js"><link rel="prefetch" href="/vue-preess/assets/js/31.510bf205.js"><link rel="prefetch" href="/vue-preess/assets/js/32.dc0d5f0b.js"><link rel="prefetch" href="/vue-preess/assets/js/33.5bbba8e8.js"><link rel="prefetch" href="/vue-preess/assets/js/34.c2d25fb7.js"><link rel="prefetch" href="/vue-preess/assets/js/35.f999ee97.js"><link rel="prefetch" href="/vue-preess/assets/js/36.227d6bcd.js"><link rel="prefetch" href="/vue-preess/assets/js/37.75f2b4fe.js"><link rel="prefetch" href="/vue-preess/assets/js/38.1b42442b.js"><link rel="prefetch" href="/vue-preess/assets/js/39.25bccaaf.js"><link rel="prefetch" href="/vue-preess/assets/js/4.4a252247.js"><link rel="prefetch" href="/vue-preess/assets/js/40.159143f5.js"><link rel="prefetch" href="/vue-preess/assets/js/41.d603584d.js"><link rel="prefetch" href="/vue-preess/assets/js/42.ef442d3a.js"><link rel="prefetch" href="/vue-preess/assets/js/43.f7130bae.js"><link rel="prefetch" href="/vue-preess/assets/js/44.24cbf576.js"><link rel="prefetch" href="/vue-preess/assets/js/45.bc0671c8.js"><link rel="prefetch" href="/vue-preess/assets/js/46.b8e4cd12.js"><link rel="prefetch" href="/vue-preess/assets/js/47.4b2b7cb1.js"><link rel="prefetch" href="/vue-preess/assets/js/5.0aba521d.js"><link rel="prefetch" href="/vue-preess/assets/js/6.ef6a8bc7.js"><link rel="prefetch" href="/vue-preess/assets/js/7.d99d4d7f.js"><link rel="prefetch" href="/vue-preess/assets/js/vendors~docsearch.bdc2fb18.js">
+    <link rel="stylesheet" href="/vue-preess/assets/css/0.styles.a7b65f9e.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/vue-preess/" class="home-link router-link-active"><!----> <span class="site-name">我的文档地址</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/vue-preess/" class="nav-link">
+  主页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="基础知识" class="dropdown-title"><span class="title">基础知识</span> <span class="arrow down"></span></button> <button type="button" aria-label="基础知识" class="mobile-dropdown-title"><span class="title">基础知识</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          EcmaScript标准语法
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/vue-preess/base/EcmaScript/reg.html" class="nav-link">
+  正则
+</a></li><li class="dropdown-subitem"><a href="/vue-preess/base/EcmaScript/arr.html" class="nav-link">
+  数组
+</a></li><li class="dropdown-subitem"><a href="/vue-preess/base/EcmaScript/object.html" class="nav-link">
+  对象
+</a></li><li class="dropdown-subitem"><a href="/vue-preess/base/EcmaScript/str.html" class="nav-link">
+  字符串
+</a></li><li class="dropdown-subitem"><a href="/vue-preess/base/EcmaScript/promise.html" aria-current="page" class="nav-link router-link-exact-active router-link-active">
+  promise
+</a></li><li class="dropdown-subitem"><a href="/vue-preess/base/EcmaScript/this.html" class="nav-link">
+  this指向
+</a></li><li class="dropdown-subitem"><a href="/vue-preess/base/EcmaScript/prototype.html" class="nav-link">
+  原型链
+</a></li></ul></li><li class="dropdown-item"><h4>
+          WebApi
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/vue-preess/base/WebApi/window.html" class="nav-link">
+  api记录
+</a></li><li class="dropdown-subitem"><a href="/vue-preess/base/WebApi/css.html" class="nav-link">
+  css新特性
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="跨端" class="dropdown-title"><span class="title">跨端</span> <span class="arrow down"></span></button> <button type="button" aria-label="跨端" class="mobile-dropdown-title"><span class="title">跨端</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/vue-preess/cross/uniApp.html" class="nav-link">
+  uniApp
+</a></li><li class="dropdown-item"><!----> <a href="/vue-preess/cross/electron.html" class="nav-link">
+  electron
+</a></li></ul></div></div><div class="nav-item"><a href="/vue-preess/plugin/plugin.html" class="nav-link">
+  常用插件
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="常用配置" class="dropdown-title"><span class="title">常用配置</span> <span class="arrow down"></span></button> <button type="button" aria-label="常用配置" class="mobile-dropdown-title"><span class="title">常用配置</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/vue-preess/config/vite-config.html" class="nav-link">
+  vite常用配置
+</a></li><li class="dropdown-item"><!----> <a href="/vue-preess/config/tailwindcss.html" class="nav-link">
+  tailwindcss的配置
+</a></li><li class="dropdown-item"><!----> <a href="/vue-preess/config/nodemon.html" class="nav-link">
+  nodemon配置
+</a></li><li class="dropdown-item"><!----> <a href="/vue-preess/config/git.html" class="nav-link">
+  git
+</a></li><li class="dropdown-item"><!----> <a href="/vue-preess/config/vscode.html" class="nav-link">
+  vscode
+</a></li><li class="dropdown-item"><!----> <a href="/vue-preess/config/monorepo.html" class="nav-link">
+  monorepo
+</a></li><li class="dropdown-item"><!----> <a href="/vue-preess/config/prisma.html" class="nav-link">
+  prisma
+</a></li><li class="dropdown-item"><!----> <a href="/vue-preess/config/three.html" class="nav-link">
+  three
+</a></li><li class="dropdown-item"><!----> <a href="/vue-preess/config/nest.html" class="nav-link">
+  nest
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="node" class="dropdown-title"><span class="title">node</span> <span class="arrow down"></span></button> <button type="button" aria-label="node" class="mobile-dropdown-title"><span class="title">node</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/vue-preess/node/node.html" class="nav-link">
+  node知识
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="题库" class="dropdown-title"><span class="title">题库</span> <span class="arrow down"></span></button> <button type="button" aria-label="题库" class="mobile-dropdown-title"><span class="title">题库</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/vue-preess/question/base.html" class="nav-link">
+  基础问题
+</a></li><li class="dropdown-item"><!----> <a href="/vue-preess/question/AI.html" class="nav-link">
+  AI
+</a></li><li class="dropdown-item"><!----> <a href="/vue-preess/question/langchain.html" class="nav-link">
+  langchain
+</a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/vue-preess/" class="nav-link">
+  主页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="基础知识" class="dropdown-title"><span class="title">基础知识</span> <span class="arrow down"></span></button> <button type="button" aria-label="基础知识" class="mobile-dropdown-title"><span class="title">基础知识</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          EcmaScript标准语法
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/vue-preess/base/EcmaScript/reg.html" class="nav-link">
+  正则
+</a></li><li class="dropdown-subitem"><a href="/vue-preess/base/EcmaScript/arr.html" class="nav-link">
+  数组
+</a></li><li class="dropdown-subitem"><a href="/vue-preess/base/EcmaScript/object.html" class="nav-link">
+  对象
+</a></li><li class="dropdown-subitem"><a href="/vue-preess/base/EcmaScript/str.html" class="nav-link">
+  字符串
+</a></li><li class="dropdown-subitem"><a href="/vue-preess/base/EcmaScript/promise.html" aria-current="page" class="nav-link router-link-exact-active router-link-active">
+  promise
+</a></li><li class="dropdown-subitem"><a href="/vue-preess/base/EcmaScript/this.html" class="nav-link">
+  this指向
+</a></li><li class="dropdown-subitem"><a href="/vue-preess/base/EcmaScript/prototype.html" class="nav-link">
+  原型链
+</a></li></ul></li><li class="dropdown-item"><h4>
+          WebApi
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/vue-preess/base/WebApi/window.html" class="nav-link">
+  api记录
+</a></li><li class="dropdown-subitem"><a href="/vue-preess/base/WebApi/css.html" class="nav-link">
+  css新特性
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="跨端" class="dropdown-title"><span class="title">跨端</span> <span class="arrow down"></span></button> <button type="button" aria-label="跨端" class="mobile-dropdown-title"><span class="title">跨端</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/vue-preess/cross/uniApp.html" class="nav-link">
+  uniApp
+</a></li><li class="dropdown-item"><!----> <a href="/vue-preess/cross/electron.html" class="nav-link">
+  electron
+</a></li></ul></div></div><div class="nav-item"><a href="/vue-preess/plugin/plugin.html" class="nav-link">
+  常用插件
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="常用配置" class="dropdown-title"><span class="title">常用配置</span> <span class="arrow down"></span></button> <button type="button" aria-label="常用配置" class="mobile-dropdown-title"><span class="title">常用配置</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/vue-preess/config/vite-config.html" class="nav-link">
+  vite常用配置
+</a></li><li class="dropdown-item"><!----> <a href="/vue-preess/config/tailwindcss.html" class="nav-link">
+  tailwindcss的配置
+</a></li><li class="dropdown-item"><!----> <a href="/vue-preess/config/nodemon.html" class="nav-link">
+  nodemon配置
+</a></li><li class="dropdown-item"><!----> <a href="/vue-preess/config/git.html" class="nav-link">
+  git
+</a></li><li class="dropdown-item"><!----> <a href="/vue-preess/config/vscode.html" class="nav-link">
+  vscode
+</a></li><li class="dropdown-item"><!----> <a href="/vue-preess/config/monorepo.html" class="nav-link">
+  monorepo
+</a></li><li class="dropdown-item"><!----> <a href="/vue-preess/config/prisma.html" class="nav-link">
+  prisma
+</a></li><li class="dropdown-item"><!----> <a href="/vue-preess/config/three.html" class="nav-link">
+  three
+</a></li><li class="dropdown-item"><!----> <a href="/vue-preess/config/nest.html" class="nav-link">
+  nest
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="node" class="dropdown-title"><span class="title">node</span> <span class="arrow down"></span></button> <button type="button" aria-label="node" class="mobile-dropdown-title"><span class="title">node</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/vue-preess/node/node.html" class="nav-link">
+  node知识
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="题库" class="dropdown-title"><span class="title">题库</span> <span class="arrow down"></span></button> <button type="button" aria-label="题库" class="mobile-dropdown-title"><span class="title">题库</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/vue-preess/question/base.html" class="nav-link">
+  基础问题
+</a></li><li class="dropdown-item"><!----> <a href="/vue-preess/question/AI.html" class="nav-link">
+  AI
+</a></li><li class="dropdown-item"><!----> <a href="/vue-preess/question/langchain.html" class="nav-link">
+  langchain
+</a></li></ul></div></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/vue-preess/base/EcmaScript/reg.html" class="sidebar-link">正则表达式</a></li><li><a href="/vue-preess/base/EcmaScript/arr.html" class="sidebar-link">数组定义</a></li><li><a href="/vue-preess/base/EcmaScript/object.html" class="sidebar-link">对象定义</a></li><li><a href="/vue-preess/base/EcmaScript/str.html" class="sidebar-link">字符串</a></li><li><a href="/vue-preess/base/EcmaScript/promise.html" aria-current="page" class="active sidebar-link">Promise简介</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/vue-preess/base/EcmaScript/promise.html#promise-all" class="sidebar-link">promise.all</a></li><li class="sidebar-sub-header"><a href="/vue-preess/base/EcmaScript/promise.html#promise-allsettled" class="sidebar-link">promise.allSettled</a></li><li class="sidebar-sub-header"><a href="/vue-preess/base/EcmaScript/promise.html#promise-any" class="sidebar-link">promise.any</a></li><li class="sidebar-sub-header"><a href="/vue-preess/base/EcmaScript/promise.html#promise-race" class="sidebar-link">promise.race</a></li><li class="sidebar-sub-header"><a href="/vue-preess/base/EcmaScript/promise.html#promise-withresolvers" class="sidebar-link">promise.withResolvers</a></li></ul></li><li><a href="/vue-preess/base/EcmaScript/this.html" class="sidebar-link">this指向问题</a></li><li><a href="/vue-preess/base/EcmaScript/prototype.html" class="sidebar-link">原型链</a></li><li><a href="/vue-preess/base/WebApi/window.html" class="sidebar-link">新增api记录</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="promise简介"><a href="#promise简介" class="header-anchor">#</a> Promise简介</h1> <div class="language- extra-class"><pre class="language-text"><code>  promise是一个异步操作的容器，它代表了某个未来才会知道结果的事件
+  从语法上说，promise是一个对象，从它可以获取异步操作的消息
+  promise提供统一的API，各种异步操作都可以用同样的方法进行处理
+</code></pre></div><ul><li><strong>pending</strong>：初始状态，既不是成功，也不是失败状态</li> <li><strong>fulfilled</strong>：意味着操作成功完成</li> <li><strong>rejected</strong>：意味着操作失败</li></ul> <div class="language- extra-class"><pre class="language-text"><code>  promise对象的状态改变，只有两种可能：
+  从pending变为fulfilled
+  从pending变为rejected
+  状态改变只能发生一次
+</code></pre></div><h2 id="promise-all"><a href="#promise-all" class="header-anchor">#</a> promise.all</h2> <div class="language- extra-class"><pre class="language-text"><code>  promise.all接收一个promise对象的数组作为参数
+  如果其中一个 Promise 对象的状态为拒绝（即状态为 rejected）
+  那么该 Promise 对象会传递给 Promise.all() 方法的 reject() 方法，
+  该方法会拒绝该 Promise 对象。此时，Promise.all() 方法的解决状态也会被设置为拒绝。
+  因此，如果一个 Promise 对象的状态为拒绝，那么 Promise.all() 方法仍然会进行
+  并且最终解决状态也会被设置为拒绝。
+</code></pre></div><div class="language-js extra-class"><pre class="language-js"><code>   <span class="token comment">// 一个promise对象的状态为拒绝会进入catch</span>
+    Promise<span class="token punctuation">.</span><span class="token function">all</span><span class="token punctuation">(</span><span class="token punctuation">[</span>promise1<span class="token punctuation">,</span> promise2<span class="token punctuation">,</span> promise3 <span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">values</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>values<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">reason</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>reason<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre></div><h2 id="promise-allsettled"><a href="#promise-allsettled" class="header-anchor">#</a> promise.allSettled</h2> <div class="language- extra-class"><pre class="language-text"><code>  promise.allSettled接收一个promise对象的数组作为参数
+  该方法返回一个在所有给定的promise已被决议或被拒绝后决议的promise，
+  并带有一个对象数组，每个对象表示对应的promise结果。
+  它不会因为promise被拒绝而失败，所以不需要使用try/catch来捕获错误。
+  它会返回一个数组，数组中每个对象对应每个promise的结果,每个结果中
+  都会包含status状态，fulfilled表示成功，rejected表示失败，
+  value表示成功的值，reason表示失败的原因
+</code></pre></div><div class="language-js extra-class"><pre class="language-js"><code>   <span class="token comment">// 不会出现catch，因为不管成功还是失败都会进入then</span>
+    Promise<span class="token punctuation">.</span><span class="token function">allSettled</span><span class="token punctuation">(</span><span class="token punctuation">[</span>promise1<span class="token punctuation">,</span> promise2<span class="token punctuation">,</span> promise3 <span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">values</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>values<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre></div><h2 id="promise-any"><a href="#promise-any" class="header-anchor">#</a> promise.any</h2> <div class="language- extra-class"><pre class="language-text"><code>    promise.any接收一个promise对象的数组作为参数
+    当输入的任何一个 Promise 兑现时，这个返回的 Promise 将会兑现，并返回第一个兑现的值。
+    当所有输入 Promise 都被拒绝（包括传递了空的可迭代对象）时，
+    它会以一个包含拒绝原因数组的 AggregateError 拒绝。
+</code></pre></div><div class="language-js extra-class"><pre class="language-js"><code>    <span class="token comment">// 只要有一个成功就会进入then，如果都失败了就会进入catch</span>
+   <span class="token comment">// 只要成功的最快的那个promise对象的值</span>
+   Promise<span class="token punctuation">.</span><span class="token function">any</span><span class="token punctuation">(</span><span class="token punctuation">[</span>promise1<span class="token punctuation">,</span> promise2<span class="token punctuation">,</span> promise3 <span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">values</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>values<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">reason</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>reason<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre></div><h2 id="promise-race"><a href="#promise-race" class="header-anchor">#</a> promise.race</h2> <div class="language-js extra-class"><pre class="language-js"><code>    <span class="token comment">// 只要最快的那个promise对象的值，</span>
+    <span class="token comment">// 如果最快的那个promise对象的状态为拒绝会进入catch</span>
+    <span class="token comment">// 如果最快的那个promise对象的状态为成功会进入then</span>
+  Promise<span class="token punctuation">.</span><span class="token function">race</span><span class="token punctuation">(</span><span class="token punctuation">[</span>promise1<span class="token punctuation">,</span> promise2<span class="token punctuation">,</span> promise3 <span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">values</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>values<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">reason</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>reason<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre></div><h2 id="promise-withresolvers"><a href="#promise-withresolvers" class="header-anchor">#</a> promise.withResolvers</h2> <div class="language- extra-class"><pre class="language-text"><code>    Promise.withResolvers 是 ES2023 中的一种新方法，
+    它允许您创建使用自定义值resolve或reject的Promise。
+    这对于各种任务都很有用，例如创建使用异步操作结果解决的Promise或因自定义错误而被拒绝的Promise
+</code></pre></div><div class="language- extra-class"><pre class="language-text"><code>    就是说如果我有一个函数，内部是异步或者希望返回一个promise对象和其他方法，当
+    内部函数执行完毕，外界还可以继续调用这个promise对象进行下一步操作
+</code></pre></div><div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// 以前的做法</span>
+<span class="token keyword">function</span> <span class="token function">cancelableTimeout</span><span class="token punctuation">(</span><span class="token parameter">ms</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> res<span class="token punctuation">;</span>
+    <span class="token keyword">let</span> rej<span class="token punctuation">;</span>
+    <span class="token keyword">const</span> promise <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">resolve<span class="token punctuation">,</span> reject</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        res <span class="token operator">=</span> resolve<span class="token punctuation">;</span>
+        rej <span class="token operator">=</span> reject<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> timeId <span class="token operator">=</span> <span class="token function">setTimeout</span><span class="token punctuation">(</span>res<span class="token punctuation">,</span> ms<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> <span class="token function-variable function">cancel</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        <span class="token function">clearTimeout</span><span class="token punctuation">(</span>timeId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">rej</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Error</span><span class="token punctuation">(</span><span class="token string">'cancel'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>promise<span class="token punctuation">,</span> cancel<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment">// 现在的做法</span>
+<span class="token keyword">function</span> <span class="token function">cancelableTimeout</span><span class="token punctuation">(</span><span class="token parameter">ms</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> <span class="token punctuation">{</span>promise<span class="token punctuation">,</span> resolve<span class="token punctuation">,</span> reject<span class="token punctuation">}</span> <span class="token operator">=</span> Promise<span class="token punctuation">.</span><span class="token function">withResolvers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> timeId <span class="token operator">=</span> <span class="token function">setTimeout</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> ms<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> <span class="token function-variable function">cancel</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        <span class="token function">clearTimeout</span><span class="token punctuation">(</span>timeId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">reject</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Error</span><span class="token punctuation">(</span><span class="token string">'cancel'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>promise<span class="token punctuation">,</span> cancel<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">const</span> <span class="token punctuation">{</span>promise<span class="token punctuation">,</span> cancel<span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">cancelableTimeout</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+promise<span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'timeout'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">err</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/vue-preess/base/EcmaScript/str.html" class="prev">
+        字符串
+      </a></span> <span class="next"><a href="/vue-preess/base/EcmaScript/this.html">
+        this指向问题
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"><!----></div></div>
+    <script src="/vue-preess/assets/js/app.19476c11.js" defer></script><script src="/vue-preess/assets/js/2.f3b333de.js" defer></script><script src="/vue-preess/assets/js/1.f574d6f5.js" defer></script><script src="/vue-preess/assets/js/25.1697aa0f.js" defer></script>
+  </body>
+</html>
