@@ -476,9 +476,9 @@ export class MinioService implements OnModuleInit {
 }
 ```
 
-# ai
+## ai
 
-## 安装包下载
+### 安装包下载
 
 ```bash
  pnpm add  @langchain/core  @langchain/deepseek @langchain/langgraph @langchain/langgraph-checkpoint-postgres langchain
@@ -513,7 +513,7 @@ export const createCheckPoint = async () => {
 };
 ```
 
-## 在服务中使用
+### 在服务中使用
 
 ```ts
 export const chatMode = [
@@ -608,7 +608,7 @@ export class ChatService implements OnModuleInit {
 }
 ```
 
-## 在控制层
+### 在控制层
 
 ```ts
 import { Controller, Get, Post, Body, Res, Query } from '@nestjs/common';
@@ -641,27 +641,36 @@ export class ChatController {
   }
 ```
 
-## 前端配合
+### 前端配合
 
 ```ts
-function sendMessage(message: string) {
+function sendMessage(message: string, deepThink: boolean, webSearch: boolean) {
     loading.value = true
     list.value.push({
         role: "human",
         content: message,
+        type: "chat",
     })
     list.value.push({
         role: "ai",
         content: "",
+        reasoning: '',
+        type: "chat",
     })
     sse<ChatMessage, ChatDto>(CHAT_URL, "POST", {
         role: active.value,
         content: message,
         userId: userInstance.user!.id,
+        deepThink,
+        webSearch,
     }, (data) => {
         const last = list.value[list.value.length - 1]
         if (last) {
-            last.content += data.content
+            if (data.type === 'reasoning') {
+                last.reasoning += data.content
+            } else if (data.type === 'chat') {
+                last.content += data.content
+            }
         }
         loading.value = false
     }, () => {
@@ -689,11 +698,181 @@ export const sse = <T, V>(
     },
     body: JSON.stringify(body),
     onmessage: (event) => {
-      callback?.(JSON.parse(event.data) as T );
+      callback?.(JSON.parse(event.data) as T);
     },
     onerror: (error) => {
       errorCallback?.(error);
     },
   });
 };
+```
+
+### 深度思考
+
+```ts
+export const createDeepSeekReasoner = () => {
+  const configService = new ConfigService();
+  const apiKey = configService.get("DEEPSEEK_API_KEY");
+  // 将模型更换
+  //DEEPSEEK_REASONER_API_MODEL="deepseek-reasoner"
+  const model = configService.get("DEEPSEEK_REASONER_API_MODEL");
+  return new ChatDeepSeek({
+    apiKey,
+    model,
+    temperature: 1.3,
+    maxTokens: 18000,
+    streaming: true, // 开启流式输出
+  });
+};
+```
+
+
+### 联网
+
+```ts
+
+## 博查服务地址
+BOCHA_SEARCH_URL="https://api.bochaai.com/v1/web-search"
+## 博查api key
+BOCHA_API_KEY="sk-abce35bd3d5141c9804adbd27c674aba"
+
+export const createBoChaSearch = async (query: string, count: number = 10) => {
+  const configService = new ConfigService();
+  const boChaUrl = configService.get('BOCHA_SEARCH_URL')!;
+  const result = await fetch(boChaUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${configService.get('BOCHA_API_KEY')}`,
+    },
+    body: JSON.stringify({
+      query,
+      count,
+      summary: true, // 是否返回长文本摘要
+      freshness: 'noLimit', // 是否返回结果 freshness 字段
+    }),
+  });
+  const { data } = await result.json();
+  const values = data.webPages.value;
+  const prompt = values.map((item) => (
+    `
+    标题: ${item.name}
+    链接: ${item.url}
+    摘要: ${item?.summary?.replace(/\n/g, '') ?? ''}
+    网站名称: ${item.siteName}
+    网站logo: ${item.siteIcon}
+    发布时间: ${item.dateLastCrawled}
+    `
+  )).join('\n');
+  return prompt;
+};
+
+```
+
+### 使用深度思考和联网之后服务代码的更改
+
+```ts
+import { chatMode } from './../prompt/prompt.model';
+import { Injectable, OnModuleInit } from '@nestjs/common';
+import {
+  createDeepSeek,
+  createCheckpoint,
+  createBoChaSearch,
+  createDeepSeekReasoner,
+} from '../llm/llm.config';
+import { PostgresSaver } from '@langchain/langgraph-checkpoint-postgres';
+import type { ChatDto, ChatRoleType } from '@en/common/chat';
+import type { AIMessageChunk, ReactAgent } from 'langchain';
+import { createAgent } from 'langchain';
+import { ResponseService } from '@libs/shared';
+@Injectable()
+export class ChatService implements OnModuleInit {
+  private checkpointer: PostgresSaver;
+  constructor(private readonly responseService: ResponseService) {}
+
+  async onModuleInit() {
+    // 初始话
+    this.checkpointer = await createCheckpoint();
+  }
+
+  async streamCompletion(createChatDto: ChatDto) {
+    let prompt = chatMode.find(
+      (item) => item.role === createChatDto.role,
+    )?.prompt;
+    if (!prompt) {
+      throw new Error(`Prompt for role ${createChatDto.role} not found`);
+    }
+    if (createChatDto.webSearch) {
+      const webSearchPrompt = await createBoChaSearch(createChatDto.content);
+      prompt += `请根据以下搜索结果回答问题：${webSearchPrompt}(并且返回你参考的网站名称)，用户问题：${createChatDto.content}`;
+    }
+    let model = createDeepSeek();
+    if (createChatDto.deepThink) {
+      model = createDeepSeekReasoner();
+    }
+    const agent = createAgent({
+      model,
+      systemPrompt: prompt,
+      checkpointer: this.checkpointer,
+    });
+    const threadId = `${createChatDto.userId}-${createChatDto.role}`;
+    const stream = agent.stream(
+      {
+        messages: [{ role: 'human', content: createChatDto.content }],
+      },
+      {
+        configurable: {
+          thread_id: threadId,
+        },
+        streamMode: 'messages',
+      },
+    );
+    return stream;
+  }
+
+  async getHistory(userId: string, role: ChatRoleType) {
+    const messages = await this.checkpointer.get({
+      configurable: { thread_id: `${userId}-${role}` },
+    });
+    const list = messages?.channel_values?.messages as AIMessageChunk[];
+    if (!list) return this.responseService.success([]);
+    return this.responseService.success(
+      list.map((item) => ({
+        content: item.content,
+        role: item.type,
+        reasoning: item.additional_kwargs?.reasoning_content,
+      })),
+    );
+  }
+}
+
+```
+
+### 更改之后控制层的修改
+
+```ts
+
+  @Post()
+  async create(@Body() createChatDto: ChatDto, @Res() res: Response) {
+    res.setHeader('Content-Type', 'text/event-stream'); // 流式传输的MIME类型
+    res.setHeader('Cache-Control', 'no-cache'); // 禁用缓存
+    res.setHeader('Connection', 'keep-alive'); // 保持连接
+    const stream = await this.chatService.streamCompletion(createChatDto);
+    for await (const chunk of stream) {
+      const [msg] = chunk;
+      const thinkMsg = msg.additional_kwargs?.reasoning_content ?? '';
+      if (thinkMsg) {
+        res.write(
+          `data: ${JSON.stringify({ content: thinkMsg, role: 'ai', type: 'reasoning' })}\n\n`,
+        );
+      }
+      const content = msg.content;
+      if (content) {
+        res.write(
+          `data: ${JSON.stringify({ content: content, role: 'ai', type: 'chat' })}\n\n`,
+        );
+      }
+    }
+    res.end();
+  }
 ```
