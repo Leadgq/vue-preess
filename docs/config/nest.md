@@ -726,7 +726,6 @@ export const createDeepSeekReasoner = () => {
 };
 ```
 
-
 ### 联网
 
 ```ts
@@ -875,4 +874,184 @@ export class ChatService implements OnModuleInit {
     }
     res.end();
   }
+```
+
+## 支付相关
+
+### 支付宝
+
+```bash
+ npm i  alipay-sdk nanoid
+```
+
+支付宝API文档：<a href="https://opendocs.alipay.com/open/59da99d0_alipay.trade.page.pay">https://opendocs.alipay.com/open/59da99d0\_alipay.trade.page.pay</a>
+
+支付宝沙箱地址：<a href="https://open.alipay.com/develop/sandbox/app">https://open.alipay.com/develop/sandbox/app</a>
+
+支付宝SDK-npm地址：<a href="https://www.npmjs.com/package/alipay-sdk">https://www.npmjs.com/package/alipay-sdk</a>
+
+ngrok地址：<a href="https://www.ngrok.cc/">https://www.ngrok.cc/</a>
+
+socket.io-client地址：<a href="https://www.npmjs.com/package/socket.io-client">https://www.npmjs.com/package/socket.io-client</a>
+
+nanoid地址：<a href="https://www.npmjs.com/package/nanoid">https://www.npmjs.com/package/nanoid</a>
+
+```bash
+#支付宝appId
+ALIPAY_APP_ID="XXXXXXXXX"
+#支付宝沙箱网关地址
+ALIPAY_GATEWAY="https://openapi-sandbox.dl.alipaydev.com/gateway.do"
+#支付宝公钥
+ALIPAY_PUBLIC_KEY="XXXXXX"
+#支付宝应用私钥
+ALIPAY_PRIVATE_KEY="XXXXXXX"
+#支付宝异步回调地址
+ALIPAY_NOTIFY_URL="http://xiaoman.vs4.tunnelfrp.com"
+```
+
+## 支付服务代码
+
+```ts
+import { Injectable, OnModuleInit } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { AlipaySdk } from 'alipay-sdk';
+
+@Injectable()
+export class PayService implements OnModuleInit {
+    public alipaySdk: AlipaySdk;
+    constructor(private readonly configService: ConfigService) { }
+    onModuleInit() {
+        this.alipaySdk = new AlipaySdk({
+            appId: this.configService.get<string>('ALIPAY_APP_ID')!,
+            privateKey: this.configService.get<string>('ALIPAY_PRIVATE_KEY')!,
+            alipayPublicKey: this.configService.get<string>('ALIPAY_PUBLIC_KEY')!,
+            gateway: this.configService.get<string>('ALIPAY_GATEWAY')!,
+        });
+    }
+
+    getAlipaySdk() {
+        return this.alipaySdk;
+    }
+}
+```
+
+### 支付具体代码
+
+```ts
+  private createOutTradeNo() {
+    const prefix = 'EN';
+    return `${prefix}${nanoid.nanoid(12)}`;
+  }
+
+  async create(createPayDto: CreatePayDto, user: TokenPayload) {
+    const courseRecord = await this.prisma.courseRecord.findFirst({
+      where: {
+        userId: user.userId,
+        courseId: createPayDto.courseId,
+      },
+    });
+    if (courseRecord) {
+      return this.responseService.error(null, '课程已购买');
+    }
+    // 创建实务
+    const result = await this.prisma.$transaction(async (tx) => {
+      // 1. create order
+      const outTradeNo = this.createOutTradeNo();
+      await tx.paymentRecord.create({
+        data: {
+          userId: user.userId,
+          outTradeNo,
+          amount: createPayDto.total_amount,
+          subject: createPayDto.subject,
+          body: createPayDto.body,
+        },
+      });
+      // 2. create sdk
+      const alipaySdk = this.sharedPayService.getAlipaySdk();
+      const dateTime = dayjs().add(1, 'minute');
+      const payUrl = alipaySdk.pageExecute('alipay.trade.page.pay', 'GET', {
+        bizContent: {
+          out_trade_no: outTradeNo,
+          total_amount: createPayDto.total_amount,
+          subject: createPayDto.subject,
+          product_code: 'FAST_INSTANT_TRADE_PAY',
+          time_expire: dateTime.format('YYYY-MM-DD HH:mm:ss'),
+          body: JSON.stringify({
+            courseId: createPayDto.courseId,
+            userId: user.userId,
+          }),
+        },
+        notify_url: `${this.configService.get<string>('ALIPAY_NOTIFY_URL')!}/api/v1/pay/notify`,
+      });
+      return {
+        payUrl,
+        // 时间戳
+        timeExpire: dateTime.toDate().getTime(),
+      };
+    });
+    return this.responseService.success(result);
+  }
+
+
+  async notify(req: Request) {
+    const userInfo = JSON.parse(req.body.body) as {
+      userId: string;
+      courseId: string;
+    };
+    await this.prisma.$transaction(async (tx) => {
+      // 更新支付记录
+      const { trade_no, out_trade_no, gmt_payment } = req.body;
+      const paymentRecord = await tx.paymentRecord.update({
+        where: {
+          //out_trade_no 这是自定义的
+          outTradeNo: out_trade_no,
+        },
+        data: {
+          // 支付宝的交易号
+          tradeNo: trade_no,
+          sendPayTime: dayjs(gmt_payment).toDate(),
+          tradeStatus: TradeStatus.TRADE_SUCCESS,
+        },
+      });
+      // 创建一条我的课程记录
+      await tx.courseRecord.create({
+        data: {
+          userId: userInfo.userId,
+          courseId: userInfo.courseId,
+          isPurchased: true,
+          paymentRecordId: paymentRecord.id,
+        },
+      });
+      // 发送支付成功事件
+      this.socketGateway.emitPaymentSuccess(userInfo.userId);
+    });
+    return true;
+  }
+
+```
+
+### getWay
+
+```ts
+import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import { Server, Socket } from 'socket.io';
+@WebSocketGateway({
+  cors: {
+    origin: '*',
+  },
+})
+export class SocketGateway {
+  @WebSocketServer()
+  server: Server;
+
+  handleConnection(client: Socket) {
+    const userId = client.handshake.query.userId;
+    if (userId) {
+      client.join(`user_${userId}`);
+    }
+  }
+  emitPaymentSuccess(userId: string) {
+    this.server.to(`user_${userId}`).emit('paymentSuccess', userId);
+  }
+}
 ```
